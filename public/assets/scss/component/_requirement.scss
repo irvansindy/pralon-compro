@@ -1,0 +1,55 @@
+@use "../abstract" as *;
+
+// requirement style
+
+.df-requirement {
+  &__feature-list {
+    display: flex;
+    justify-content: end;
+    margin-right: 120px;
+    @media #{$md,$sm,$xs} {
+      margin-right: 0;
+    }
+    @media #{$sm,$xs} {
+      justify-content: start;
+    }
+    li {
+      @include flexbox();
+      align-items: center;
+      gap: 12px;
+      border-left: 0;
+      line-height: 1;
+
+      &:not(:last-child) {
+        margin-bottom: 20px;
+        @media #{$xs} {
+          margin-bottom: 15px;
+        }
+      }
+
+      p {
+        font-weight: 400;
+        color: var(--clr-common-body-text);
+        line-height: 1.5;
+        font-size: 20px;
+      }
+
+      i {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 12px;
+        border-radius: 50%;
+        color: var(--clr-theme-3);
+        font-size: 18px;
+        margin-top: 5px;
+      }
+    }
+  }
+  &__button-wrapper {
+    margin-top: 50px;
+    @media #{$sm,$xs} {
+      margin-top: 40px;
+    }
+  }
+}

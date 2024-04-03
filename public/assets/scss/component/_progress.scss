@@ -1,0 +1,138 @@
+@use "../abstract" as *;
+
+// progress style 
+
+.df {
+    &__progress {
+        &-bar {
+            overflow: hidden;
+            & .progress {
+                height: 10px;
+                overflow: visible;
+                & .progress-bar {
+                    background-color: var(--clr-theme-3);
+                    border-radius: 10px;
+                    position: relative;
+                    overflow: visible !important;
+                    &:after {
+                        position: absolute;
+                        content: "";
+                        width: 24px;
+                        height: 24px;
+                        right: 0;
+                        background: var(--clr-theme-3);
+                        border: 2px solid var(--clr-common-white);
+                        border-radius: 50%;
+                    }
+                }
+            }
+            @media #{$md, $sm, $xs} {
+                padding-left: 0 !important;
+            }
+            &.style-2 {
+               & .progress {
+                    height: 15px;
+                   & .progress-bar {
+                        border-radius: 10px;
+                        position: relative;
+                        overflow: visible !important;
+
+                        &:after {
+                            display: none;
+                        }
+                    }
+                }
+            }
+            &.style-3 {
+               & .progress {
+                    height: 5px;
+                   & .progress-bar {
+                        border-radius: 0;
+                        position: relative;
+                        overflow: visible !important;
+                        &:after {
+                            display: none;
+                        }
+                    }
+                }
+            }
+        }
+        &-wrapper {
+            margin-bottom: 20px;
+        }
+        &-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        &-head {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        &-percentage {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--clr-common-black);
+        }
+    }
+}
+
+// circle-progress
+.df-counter {
+    &__wrapper {
+        display: flex;
+        gap: 15px 40px;
+        flex-wrap: wrap;
+        @media #{$md} {
+            gap: 15px 25px;
+        }
+        @media #{$xs} {
+            margin-top: 30px;
+            display: inline;
+        }
+        &.style-2 {
+            & .df-counter__item {
+                background-color: transparent;
+            }
+        }
+    }
+    &__title {
+        font-size: 20px;
+        color: var(--clr-common-black);
+        font-weight: 600;
+        margin-bottom: 0;
+    }
+    &__item {
+        background-color: #f3f6f9;
+        padding: 40px 40px;
+        border-radius: 10px;
+        text-align: center;
+        & .counter {
+            &_canvas {
+                position: relative;
+                margin-bottom: 10px;
+                text-align: center;
+                canvas {
+                    @include transform(rotate(90deg));
+                }
+            }
+            &_percentage {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                font-size: 32px;
+                color: var(--clr-common-black);
+                font-weight: 700;
+                width: 62px;
+                height: 62px;
+                background: transparent;
+                border-radius: 50%;
+                line-height: 62px;
+                @include transform(translate(-50%, -55%));
+                i {
+                    font-size: 20px;
+                }
+            }
+        }
+    }
+}

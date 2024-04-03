@@ -1,0 +1,132 @@
+@use "../abstract" as *;
+
+// page title style
+
+// breadcrumb style
+.page-title-area-2 {
+  display: flex;
+  align-items: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
+  z-index: 2;
+  margin-inline-start: auto;
+
+  @media #{$sm, $xs} {
+    height: 250px;
+  }
+
+  @media #{$xxs} {
+    height: 200px;
+  }
+}
+
+.page__title-2 {
+  font-weight: 600;
+  line-height: 1.1;
+  text-transform: capitalize;
+  color: var(--clr-common-black);
+}
+
+.breadcrumb-menu-2 {
+  li {
+    list-style: none;
+    position: relative;
+
+    span {
+      font-size: 16px;
+      font-weight: 400;
+      text-transform: capitalize;
+
+      &:hover {
+        color: var(--clr-theme-3);
+      }
+    }
+
+    a {
+      @include transition(0.3s);
+
+      &:first-child {
+        color: var(--clr-common-black);
+      }
+    }
+
+    position: relative;
+
+    &:last-child {
+      padding-left: 12px;
+      color: var(--clr-theme-3);
+
+      &::before {
+        display: inline-block;
+        content: "";
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background-color: var(--clr-theme-3);
+        left: -7px;
+        top: 15px;
+      }
+    }
+  }
+
+  ul {
+    display: flex;
+    justify-content: start;
+    gap: 20px;
+  }
+}
+.trail-center {
+  padding-left: 15px;
+  &::before {
+    display: inline-block;
+    content: "";
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--clr-common-black);
+    left: -7px;
+    top: 15px;
+    opacity: 0.7;
+  }
+}
+
+// section title style
+.section {
+  &__subtitle {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.15em;
+    color: var(--clr-theme-1);
+    display: inline-block;
+    margin-bottom: 30px;
+
+    &.bg-lighter {
+      line-height: 28px;
+      letter-spacing: 0em;
+      padding: 0 12px;
+      border-radius: 30px;
+      background: rgba(85, 174, 251, 0.1);
+      color: var(--clr-theme-1);
+    }
+
+    &.bg-filled {
+      line-height: 28px;
+      letter-spacing: 0em;
+      padding: 0 12px;
+      border-radius: 30px;
+      color: var(--clr-common-white);
+      background: var(--clr-theme-1);
+    }
+  }
+
+  &__title {
+    margin-top: -12px;
+    margin-bottom: -8px;
+    font-weight: 700;
+  }
+}

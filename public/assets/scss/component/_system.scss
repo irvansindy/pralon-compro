@@ -1,0 +1,148 @@
+@use "../abstract" as *;
+
+// system style
+
+.df-system {
+  &__wrapper {
+    position: relative;
+    background: var(--clr-theme-4);
+    padding-left: 60px;
+    padding-right: 50px;
+    overflow: hidden;
+    @media #{$xs} {
+      padding-left: 30px;
+      padding-right: 30px;
+    }
+  }
+  &__thumb {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-repeat: no-repeat;
+    background-size: cover;
+    mix-blend-mode: luminosity;
+    background-position: center;
+    z-index: 1;
+    border-radius: 10px;
+    &::before {
+      position: absolute;
+      content: "";
+      width: 100%;
+      height: 100%;
+      background: var(--clr-theme-4);
+      top: 0;
+      inset-inline-start: 0;
+      z-index: -1;
+      opacity: 0.85;
+      border-radius: 10px;
+    }
+  }
+  &__content {
+    position: relative;
+    z-index: 1;
+
+    // margin-right: 80px;
+    p {
+      color: #737373;
+      margin-bottom: 0px;
+    }
+  }
+}
+// new class
+.df-loading-bar {
+  &__wrapper {
+    position: relative;
+    z-index: 2;
+  }
+}
+.line-bar {
+  position: relative;
+
+  &::before {
+    position: absolute;
+    content: "";
+    width: 1290px;
+    height: 1px;
+    background-color: #d4d6d8;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  @media #{$sm,$xs} {
+    &::before {
+      display: none;
+    }
+  }
+}
+.loading-bar-bullet {
+  &::before {
+    content: "";
+    display: block;
+    background: #e3e6e9;
+    height: 40px;
+    width: 40px;
+    border-radius: 100px;
+    z-index: 999;
+    margin-top: 0px;
+    cursor: pointer;
+    border: 10px solid #babcbe;
+  }
+}
+.slick-current {
+  &.loading-bar-bullet {
+    &::before {
+      border: 10px solid var(--clr-theme-3);
+      background: #ebeef0;
+    }
+  }
+}
+.timeline__slider-nav {
+  width: 125px;
+  height: 125px;
+  background-color: var(--clr-theme-3);
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  color: #f0e7e7;
+  font-size: 36px;
+  z-index: 9;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  @media #{$sm,$xs} {
+    width: 80px;
+    height: 80px;
+    font-size: 25px;
+  }
+}
+.df-timeline__slider {
+  position: relative;
+  margin-top: 95px;
+  margin-bottom: 40px;
+  .slick-list {
+    &.draggable {
+      @media #{$sm,$xs} {
+        display: none;
+      }
+    }
+  }
+  @media #{$sm,$xs} {
+    margin-top: 35px;
+    margin-bottom: 20px;
+  }
+
+  .loading-bar {
+    &.loading-bar-bullet {
+      position: relative;
+      z-index: 9;
+    }
+
+    .slick-arrow {
+      display: none !important;
+    }
+  }
+}

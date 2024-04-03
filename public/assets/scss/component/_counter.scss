@@ -1,0 +1,107 @@
+@use "../abstract" as *;
+
+// counter style
+.counter {
+  &__box {
+    text-align: center;
+    padding: 0 20px;
+  }
+
+  &__number-box {
+    width: 160px;
+    height: 160px;
+    // background: #f19b9e20;
+    background: transparent;
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 25px;
+
+    &.bg-1 {
+      background: #f19b9e20;
+
+      .counter__number {
+        color: #ff4917;
+      }
+    }
+
+    &.bg-2 {
+      background: #0cc45c10;
+
+      .counter__number {
+        color: #66c690;
+      }
+    }
+
+    &.bg-3 {
+      background: #89a2fc20;
+
+      .counter__number {
+        color: #557aff;
+      }
+    }
+
+    &.bg-4 {
+      background: #f1bf9b20;
+
+      .counter__number {
+        color: #ff9b26;
+      }
+    }
+
+    &.style-2 {
+      &.bg-1 {
+        background: transparent;
+
+        .counter__number {
+          color: #ff4917;
+        }
+      }
+
+      &.bg-2 {
+        background: transparent;
+
+        .counter__number {
+          color: #66c690;
+        }
+      }
+
+      &.bg-3 {
+        background: transparent;
+
+        .counter__number {
+          color: #557aff;
+        }
+      }
+
+      &.bg-4 {
+        background: transparent;
+
+        .counter__number {
+          color: #ff9b26;
+        }
+      }
+    }
+  }
+
+  &__number {
+    font-size: 48px;
+    font-weight: 700;
+    color: #ff4917;
+    display: flex;
+    align-items: center;
+  }
+
+  &__title {
+    font-size: 22px;
+    font-weight: 600;
+  }
+
+  &__text {
+    font-size: 18px;
+    line-height: 24px;
+    margin-top: 20px;
+  }
+}
+

@@ -1,0 +1,22 @@
+@use "../abstract" as *;
+
+// questions area style
+.df-questions {
+  &__area-inner {
+    display: grid;
+    grid-template-columns: 45% auto;
+    grid-gap: 145px;
+    @media #{$lg} {
+      grid-template-columns: 40% auto;
+      grid-gap: 110px;
+    }
+    @media #{$md} {
+      grid-template-columns: 1fr;
+      grid-gap: 60px;
+    }
+    @media #{$sm,$xs} {
+      grid-template-columns: 1fr;
+      grid-gap: 50px;
+    }
+  }
+}

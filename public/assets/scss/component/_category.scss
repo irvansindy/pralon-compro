@@ -1,0 +1,293 @@
+@use "../abstract" as *;
+
+// shop-category
+.df-shop {
+    &-cat {
+        min-height: 290px;
+        width: 280px;
+        background: #EEF7FF;
+        border-radius: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 25px 0;
+        -webkit-transition: all 0.5s ease-out 0s;
+        -moz-transition: all 0.5s ease-out 0s;
+        -ms-transition: all 0.5s ease-out 0s;
+        -o-transition: all 0.5s ease-out 0s;
+        transition: all 0.5s ease-out 0s;
+        filter: drop-shadow(5px 5px 0px #DDEFFE);
+        transition: all 0.3s linear;
+        @media #{$xl} {
+            min-height: 260px;
+            width: 260px;
+        }
+        @media #{$lg} {
+            min-height: auto;
+        }
+        @media #{$md} {
+            min-height: 260px;
+            width: 300px;
+        }
+        @media #{$sm} {
+            min-height: 245px;
+            width: 230px;
+        }
+        @media #{$xs} {
+            width: 220px;
+        }
+        @media #{$xxs} {
+            width: 95%;
+        }
+        &:hover {
+            filter: drop-shadow(5px 5px 0px var(--clr-theme-1));
+        }
+        &-wrap {
+            @media #{$xs} {
+                display: flex;
+                justify-content: center;
+            }
+            a {
+                @media #{$xs} {
+                    width: 100%;
+                }
+            }
+        }
+        &-wrapper {
+            height: auto;
+            width: 250px;
+            padding: 0px;
+            margin-bottom: 30px;
+            display: inline-block;
+
+            @media #{$xs} {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+
+            img {
+                border-radius: 100%;
+                background-color: #CCE7FE;
+                width: 70%;
+            }
+        }
+
+        &-title {
+            font-size: 22px;
+            color: var(--clr-common-black);
+            padding: 0px 20px;
+            transition: all 0.3s linear;
+            &:hover {
+                color: var(--clr-theme-3);
+              }
+        }
+
+        &-icon {
+            i {
+                font-size: 50px;
+                line-height: 120px;
+                text-align: center;
+                color: var(--clr-common-white);
+
+                @media #{$xs} {
+                    line-height: 70px;
+                    font-size: 40px;
+                }
+
+                &:hover {
+                    color: var(--clr-common-white);
+                }
+            }
+        }
+
+    }
+}
+
+//product category
+
+.bf-product-cat {
+    min-height: 367px;
+    mix-blend-mode: multiply;
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    background-color: #D6FFFC;
+    $self: &;
+
+    &:hover {
+        #{$self} {
+            &-bg {
+                transform: scale(1.05);
+            }
+        }
+    }
+
+    &.cat-xl {
+        #{$self} {
+            &-btn {
+                a {
+                    color: var(--clr-common-white);
+
+                    &::before {
+                        background-color: var(--clr-common-white);
+                    }
+                    &:hover {
+                        color: var(--clr-theme-3);
+                        &::before {
+                            background-color: var(--clr-theme-3);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    &-bg {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        border-radius: 20px;
+        transition: all 0.5s linear;
+    }
+
+    &-content {
+        background-color: var(--clr-theme-1);
+        display: inline-block;
+        padding: 24px;
+        margin: 24px;
+        min-width: 370px;
+        border-radius: 24px;
+        position: relative;
+        z-index: 1;
+
+        @media #{$xl} {
+            min-width: 310px;
+        }
+
+        @media #{$lg} {
+            min-width: 330px;
+        }
+
+        @media #{$xs} {
+            min-width: 85%;
+        }
+    }
+
+    &-title {
+        color: var(--clr-common-white);
+        margin-bottom: 10px;
+    }
+
+    p {
+        color: var(--clr-common-border);
+        margin-bottom: 10px;
+    }
+
+    &-btn {
+        a {
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 32px;
+            color: var(--clr-common-white);
+            position: relative;
+
+            &::before {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                height: 1px;
+                width: 100%;
+                inset-inline-start: 0;
+                background-color: var(--clr-common-white);
+                transition: all 0.3s linear;
+            }
+
+            &:hover {
+                color: var(--clr-theme-3);
+                &::before {
+                    width: 0%;
+                    inset-inline-start: auto;
+                    inset-inline-end: 0;
+                    background-color: var(--clr-theme-3);
+                }
+            }
+        }
+    }
+}
+
+.product-bg-1 {
+    &::before {
+        position: absolute;
+        content: "";
+        width: 100%;
+        height: 100%;
+        border-radius: 20px;
+        background: linear-gradient(90deg, #C5E4FF 0%, rgba(199, 229, 255, 0.00) 100%);
+        left: 0;
+        top: 0;
+        opacity: 1;
+    }
+}
+
+.product-bg-2 {
+    &::before {
+        position: absolute;
+        content: "";
+        width: 100%;
+        height: 100%;
+        border-radius: 20px;
+        background: linear-gradient(180deg, #C5E4FF 0%, rgba(199, 229, 255, 0.00) 100%);
+        left: 0;
+        top: 0;
+        opacity: 1;
+
+    }
+}
+
+// prodect-area
+.bf-product-filter-btn {
+    display: inline-flex;
+    gap: 30px;
+    justify-content: end;
+    border-bottom: 1px solid #E6E6E6;
+
+    &-wrapper {
+        display: flex;
+
+        @media #{$sm,$xs} {
+            display: inline;
+        }
+    }
+
+    button {
+        font-size: 16px;
+        line-height: 32px;
+        font-weight: 500;
+        position: relative;
+
+        &.active {
+            @include transition(.3s);
+            color: var(--clr-theme-3);
+
+            &::before {
+                content: "";
+                width: 100%;
+                background-color: var(--clr-theme-3);
+                height: 3px;
+                bottom: -2px;
+                inset-inline-start: 0;
+                position: absolute;
+            }
+        }
+    }
+
+    @media #{$sm,$xs} {
+        gap: 20px;
+    }
+}

@@ -1,0 +1,44 @@
+@use "../abstract" as *;
+
+// brand style
+
+.brand {
+  &__item {
+    width: 165px;
+    aspect-ratio: 100/100;
+    @include flexbox();
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgba(20, 20, 20, 0.08);
+    border-radius: 50%;
+    transition: 0.5s;
+    position: relative;
+    margin: 0 auto;
+    &:hover {
+      border-color: transparent;
+      background: var(--clr-theme-1);
+
+      img {
+        filter: opacity(1) invert(1);
+      }
+    }
+    img {
+      filter: opacity(0.5);
+    }
+    &.is-white {
+      border: 1px solid #ffffff20;
+
+      &:hover {
+        border-color: transparent;
+        background: var(--clr-theme-3);
+
+        img {
+          filter: opacity(1) invert(1);
+        }
+      }
+      img {
+        filter: opacity(0.5) invert(1);
+      }
+    }
+  }
+}
