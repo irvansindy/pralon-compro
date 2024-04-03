@@ -1,8 +1,8 @@
 @extends('layouts.users.app')
 
-@include('layouts.users.navbar')
-@include('layouts.users.sidebar')
 @section('content')
+    @include('layouts.users.navbar')
+    @include('layouts.users.sidebar')
     <main>
         {{-- <div class="adjust-header-space bg-common-white"></div> --}}
         <!-- hero area start  -->
@@ -379,533 +379,20 @@
         </section>
         <!-- testimonial area end  -->
 
-        <!-- team area start  -->
-        <section class="df-team__area section-spacing">
-            <div class="container">
-                <div class="row align-items-end section-title-spacing g-5 wow fadeInUp" data-wow-delay=".3s">
-                    <div class="col-lg-8">
-                        <div class="section__title-wrapper">
-                            <span class="section__subtitle bg-lighter">OUR EXPERTS</span>
-                            <h2 class="section__title">Qualified Professionals</h2>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="df-team__button d-flex justify-content-lg-end">
-                            <a href="team.html" class="primary-btn">all Experts
-                                <span class="icon__box">
-                                    <img class="icon__first" src="assets/img/icon/arrow-white.webp"
-                                        alt="image not found">
-                                    <img class="icon__second" src="assets/img/icon/arrow-white.webp"
-                                        alt="image not found">
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="row row-cols-lg-3 row-cols-md-2 row-cols-1 g-5">
-                    <div class="col">
-                        <div class="df-member__box  wow fadeInUp" data-wow-delay=".5s">
-                            <div class="df-member__thumb p-relative">
-                                <img src="assets/img/team/member-01.webp" alt="image not found">
-                                <div class="df-member__social">
-                                    <ul>
-                                        <li><a href="https://www.facebook.com/"><i
-                                                    class="icon-023-facebook-app-symbol"></i></a></li>
-                                        <li><a href="https://www.whatsapp.com/"><i class="icon-024-whatsapp"></i></a>
-                                        </li>
-                                        <li><a href="https://www.instagram.com/"><i class="icon-025-instagram"></i></a>
-                                        </li>
-                                        <li><a href="https://www.messenger.com/"><i class="icon-026-messenger"></i></a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="df-member__info">
-                                <h4 class="df-member__name"><a href="team-details.html">Anthony L.
-                                        Spinks</a>
-                                </h4>
-                                <span class="designation">Pipe Fixer</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="df-member__box  wow fadeInUp" data-wow-delay=".7s">
-                            <div class="df-member__thumb p-relative">
-                                <img src="assets/img/team/member-02.webp" alt="image not found">
-                                <div class="df-member__social">
-                                    <ul>
-                                        <li><a href="https://www.facebook.com/"><i
-                                                    class="icon-023-facebook-app-symbol"></i></a></li>
-                                        <li><a href="https://www.whatsapp.com/"><i class="icon-024-whatsapp"></i></a>
-                                        </li>
-                                        <li><a href="https://www.instagram.com/"><i class="icon-025-instagram"></i></a>
-                                        </li>
-                                        <li><a href="https://www.messenger.com/"><i class="icon-026-messenger"></i></a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="df-member__info">
-                                <h4 class="df-member__name"><a href="team-details.html">Eddie N.
-                                        Corrigan</a>
-                                </h4>
-                                <span class="designation">Project Manager</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="df-member__box  wow fadeInUp" data-wow-delay=".9s">
-                            <div class="df-member__thumb p-relative">
-                                <img src="assets/img/team/member-03.webp" alt="image not found">
-                                <div class="df-member__social">
-                                    <ul>
-                                        <li><a href="https://www.facebook.com/"><i
-                                                    class="icon-023-facebook-app-symbol"></i></a></li>
-                                        <li><a href="https://www.whatsapp.com/"><i class="icon-024-whatsapp"></i></a>
-                                        </li>
-                                        <li><a href="https://www.instagram.com/"><i class="icon-025-instagram"></i></a>
-                                        </li>
-                                        <li><a href="https://www.messenger.com/"><i class="icon-026-messenger"></i></a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="df-member__info">
-                                <h4 class="df-member__name"><a href="team-details.html">Anthony L.
-                                        Spinks</a>
-                                </h4>
-                                <span class="designation">Chief Expert</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- team area end  -->
-
-        <!-- horizontal line start  -->
-        <div class="container">
-            <div class="hr1"></div>
-        </div>
-        <!-- horizontal line end  -->
-
-        <!-- pricing area start  -->
-        <section class="df-pricing__area section-spacing fix">
-            <div class="container">
-                <div class="row justify-content-center section-title-spacing wow fadeInUp" data-wow-delay=".3s">
-                    <div class="col-xl-8">
-                        <div class="section__title-wrapper text-center mb-20">
-                            <span class="section__subtitle bg-lighter">OUR PRICING</span>
-                            <h2 class="section__title">Flexible Pricing</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="df-pricing4__package-wrapper ">
-                    <div class="row gx-xl-0 g-5">
-                        <div class="col-xl-4 col-lg-6 col-md-6">
-                            <div class="df-pricing4__package basic">
-                                <div class="df-pricing4__package-content">
-                                    <div class="">
-                                        <span class="df-pricing4__package-name">BASIC</span>
-                                        <h4 class="df-pricing4__package-price">$30<span>/monthly</span></h4>
-                                    </div>
-                                    <div class="">
-                                        <div class="df-pricing4__feature-list">
-                                            <ul>
-                                                <li>
-                                                    <span class="list-icon">
-                                                        <i class="icon-058-check"></i>
-                                                    </span>
-                                                    <p>Air conditioner installing</p>
-                                                </li>
-                                                <li>
-                                                    <span class="list-icon">
-                                                        <i class="icon-058-check"></i>
-                                                    </span>
-                                                    <p>Cooler dust cleaning</p>
-                                                </li>
-                                                <li>
-                                                    <span class="list-icon">
-                                                        <i class="icon-058-check"></i>
-                                                    </span>
-                                                    <p>Customer Ultra Benefits</p>
-                                                </li>
-                                                <li class="disabled">
-                                                    <span class="list-icon">
-                                                        <i class="icon-058-check"></i>
-                                                    </span>
-                                                    <p>Test compressure heat</p>
-                                                </li>
-                                                <li class="disabled">
-                                                    <span class="list-icon">
-                                                        <i class="icon-058-check"></i>
-                                                    </span>
-                                                    <p>24/7 support</p>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="df-pricing4__btn">
-                                            <a href="contact.html" class="primary-btn bordered w-100">Select Package
-                                                <span class="icon__box">
-                                                    <img class="icon__first" src="assets/img/icon/arrow-theme.webp"
-                                                        alt="image not found">
-                                                    <img class="icon__second" src="assets/img/icon/arrow-white.webp"
-                                                        alt="image not found">
-                                                </span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-4 col-lg-6 col-md-6">
-                            <div class="df-pricing4__package premium">
-                                <div class="df-pricing4__package-content">
-                                    <div class="p-relative">
-                                        <span class="df-pricing4__package-name">PREMIUM</span>
-                                        <h4 class="df-pricing4__package-price">$60<span>/monthly</span></h4>
-                                        <span class="df-pricing4__popular section__subtitle bg-lighter">Most
-                                            populur</span>
-                                    </div>
-                                    <div class="">
-                                        <div class="df-pricing4__feature-list">
-                                            <ul>
-                                                <li>
-                                                    <span class="list-icon">
-                                                        <i class="icon-058-check"></i>
-                                                    </span>
-                                                    <p>Air conditioner installing</p>
-                                                </li>
-                                                <li>
-                                                    <span class="list-icon">
-                                                        <i class="icon-058-check"></i>
-                                                    </span>
-                                                    <p>Cooler dust cleaning</p>
-                                                </li>
-                                                <li>
-                                                    <span class="list-icon">
-                                                        <i class="icon-058-check"></i>
-                                                    </span>
-                                                    <p>Customer Ultra Benefits</p>
-                                                </li>
-                                                <li>
-                                                    <span class="list-icon">
-                                                        <i class="icon-058-check"></i>
-                                                    </span>
-                                                    <p>Test compressure heat</p>
-                                                </li>
-                                                <li class="disabled">
-                                                    <span class="list-icon">
-                                                        <i class="icon-058-check"></i>
-                                                    </span>
-                                                    <p>24/7 support</p>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="df-pricing4__btn">
-                                            <a href="contact.html" class="primary-btn w-100">Select Package
-                                                <span class="icon__box">
-                                                    <img class="icon__first" src="assets/img/icon/arrow-white.webp"
-                                                        alt="image not found">
-                                                    <img class="icon__second" src="assets/img/icon/arrow-white.webp"
-                                                        alt="image not found">
-                                                </span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-4 col-lg-6 col-md-6">
-                            <div class="df-pricing4__package ultimate">
-                                <div class="df-pricing4__package-content">
-                                    <div class="">
-                                        <span class="df-pricing4__package-name">ULTIMATE</span>
-                                        <h4 class="df-pricing4__package-price">$90<span>/monthly</span></h4>
-                                    </div>
-                                    <div class="">
-                                        <div class="df-pricing4__feature-list">
-                                            <ul>
-                                                <li>
-                                                    <span class="list-icon">
-                                                        <i class="icon-058-check"></i>
-                                                    </span>
-                                                    <p>Air conditioner installing</p>
-                                                </li>
-                                                <li>
-                                                    <span class="list-icon">
-                                                        <i class="icon-058-check"></i>
-                                                    </span>
-                                                    <p>Cooler dust cleaning</p>
-                                                </li>
-                                                <li>
-                                                    <span class="list-icon">
-                                                        <i class="icon-058-check"></i>
-                                                    </span>
-                                                    <p>Customer Ultra Benefits</p>
-                                                </li>
-                                                <li>
-                                                    <span class="list-icon">
-                                                        <i class="icon-058-check"></i>
-                                                    </span>
-                                                    <p>Test compressure heat</p>
-                                                </li>
-                                                <li>
-                                                    <span class="list-icon">
-                                                        <i class="icon-058-check"></i>
-                                                    </span>
-                                                    <p>24/7 support</p>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="df-pricing4__btn">
-                                            <a href="contact.html" class="primary-btn bordered w-100">Select Package
-                                                <span class="icon__box">
-                                                    <img class="icon__first" src="assets/img/icon/arrow-theme.webp"
-                                                        alt="image not found">
-                                                    <img class="icon__second" src="assets/img/icon/arrow-white.webp"
-                                                        alt="image not found">
-                                                </span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- pricing area end  -->
-
-        <!-- booking area start  -->
-        <section class="df-booking__area section-spacing-top bg-theme-4">
-            <div class="df-booking__area-bg"></div>
-            <div class="container">
-                <div class="row align-items-end section-title-spacing g-5 wow fadeInUp" data-wow-delay=".3s">
-                    <div class="col-lg-8 col-md-7">
-                        <div class="section__title-wrapper">
-                            <span class="section__subtitle bg-lighter">BOOK NOW</span>
-                            <h2 class="section__title">Book Online For <br> Appointment</h2>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-5">
-                        <div class="d-flex justify-content-lg-end">
-                            <div class="meta-item meta__df-booking">
-                                <div class="meta-item__icon is-white">
-                                    <i class="icon-074-phone"></i>
-                                </div>
-                                <div class="meta-item__text-2">
-                                    <p class="text-white uppercase fw-500 lh-1">CONTACT NUMBER</p>
-                                    <span class="text-white"><a href="tel:+866332-2020">+866 332-2020</a></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="df-booking__form-wrapper wow fadeInUp" data-wow-delay=".3s">
-                    <div class="df-booking__video">
-                        <img src="assets/img/gallery/img-01.webp" alt="image not found">
-                        <div class="df-video__play-btn pos-center">
-                            <a href="https://www.youtube.com/watch?v=0pZBJ7aJNy0" class="play-btn popup-video"><i
-                                    class="icon-008-play-button"></i></a>
-                        </div>
-                    </div>
-                    <div class="df-booking__form">
-                        <h3 class="df-booking__form-title">Request a Appointment</h3>
-                        <form action="#">
-                            <div class="row gx-5">
-                                <div class="col-md-6">
-                                    <div class="df-input-field">
-                                        <label for="name">Your Name*</label>
-                                        <input type="text" id="name" name="name">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="df-input-field">
-                                        <label for="email">Your Email*</label>
-                                        <input type="text" id="email" name="email">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="df-input-field">
-                                        <label for="number">Your Phone*</label>
-                                        <input type="text" id="number" name="number">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="df-input-field">
-                                        <label for="service">Select Service*</label>
-                                        <select name="service" id="service">
-                                            <option value="plumbing">Plumbing</option>
-                                            <option value="cleaning">Cleaning</option>
-                                            <option value="cleaning">Pipe Leak</option>
-                                            <option value="cleaning">Drain</option>
-                                            <option value="cleaning">Gasoline</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="df-input-field field-date">
-                                        <label for="date">Date of Visit*</label>
-                                        <input type="text" id="date" class="bd-date-picker" value="18-07-2023">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="df-input-field field-time">
-                                        <label for="time">Time of Visit*</label>
-                                        <input type="text" id="time" name="time" value="10:30">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="df-input-field">
-                                        <label for="address">House Address*</label>
-                                        <input type="text" id="address" name="address">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="df-booking__form-btn mt-10">
-                                        <button type="submit" class="primary-btn">send now
-                                            <span class="icon__box">
-                                                <img class="icon__first" src="assets/img/icon/arrow-white.webp"
-                                                    alt="image not found">
-                                                <img class="icon__second" src="assets/img/icon/arrow-white.webp"
-                                                    alt="image not found">
-                                            </span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- booking area end  -->
-
         <!-- blog area start  -->
         <section class="df-blog__area section-spacing">
             <div class="container">
                 <div class="row justify-content-center section-title-spacing wow fadeInUp" data-wow-delay=".3s">
                     <div class="col-xl-8">
                         <div class="section__title-wrapper text-center">
-                            <span class="section__subtitle bg-lighter">OUR BLOG</span>
-                            <h2 class="section__title">Read Latest Blog</h2>
+                            <span class="section__subtitle bg-lighter">BERITA KAMI</span>
+                            <h2 class="section__title">Berita & Blog</h2>
                         </div>
                     </div>
                 </div>
                 <div class="df-blog5__wrapper">
                     <div class="swiper blog__slider">
-                        <div class="swiper-wrapper">
-                            <div class="swiper-slide">
-                                <div class="df-blog5__box wow fadeInUp" data-wow-delay=".5s">
-                                    <div class="df-blog5__thumb">
-                                        <a href="blog-details.html"><img src="assets/img/blog/blog-01.webp"
-                                                alt="image not found"></a>
-                                    </div>
-                                    <div class="df-blog5__content">
-                                        <div class="df-blog5__meta">
-                                            <span class="blog-category"><a href="blog-details.html">Plumber</a></span>
-                                            <span class="separate"></span>
-                                            <span class="blog-date">12 Oct 2023</span>
-                                        </div>
-                                        <h3 class="df-blog5__title underline"><a href="blog-details.html">The Pipeline:
-                                                Let Your Source for All Things</a></h3>
-                                        <div class="df-blog5__btn">
-                                            <a href="blog-details.html" class="primary-btn">Read More
-                                                <span class="icon__box">
-                                                    <img class="icon__first" src="assets/img/icon/arrow-black.webp"
-                                                        alt="image not found">
-                                                    <img class="icon__second" src="assets/img/icon/arrow-theme.webp"
-                                                        alt="image not found">
-                                                </span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="df-blog5__box wow fadeInUp" data-wow-delay=".7s">
-                                    <div class="df-blog5__thumb">
-                                        <a href="blog-details.html"><img src="assets/img/blog/blog-02.webp"
-                                                alt="image not found"></a>
-                                    </div>
-                                    <div class="df-blog5__content">
-                                        <div class="df-blog5__meta">
-                                            <span class="blog-category"><a href="blog-details.html">Maintain</a></span>
-                                            <span class="separate"></span>
-                                            <span class="blog-date">09 Oct 2023</span>
-                                        </div>
-                                        <h3 class="df-blog5__title underline"><a href="blog-details.html">The Importance
-                                                of Regular Plumbing Maintain</a></h3>
-                                        <div class="df-blog5__btn">
-                                            <a href="blog-details.html" class="primary-btn">Read More
-                                                <span class="icon__box">
-                                                    <img class="icon__first" src="assets/img/icon/arrow-black.webp"
-                                                        alt="image not found">
-                                                    <img class="icon__second" src="assets/img/icon/arrow-theme.webp"
-                                                        alt="image not found">
-                                                </span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="df-blog5__box wow fadeInUp" data-wow-delay=".5s">
-                                    <div class="df-blog5__thumb">
-                                        <a href="blog-details.html"><img src="assets/img/blog/blog-01.webp"
-                                                alt="image not found"></a>
-                                    </div>
-                                    <div class="df-blog5__content">
-                                        <div class="df-blog5__meta">
-                                            <span class="blog-category"><a href="blog-details.html">Plumber</a></span>
-                                            <span class="separate"></span>
-                                            <span class="blog-date">12 Oct 2023</span>
-                                        </div>
-                                        <h3 class="df-blog5__title underline"><a href="blog-details.html">The Pipeline:
-                                                Let Your Source for All Things</a></h3>
-                                        <div class="df-blog5__btn">
-                                            <a href="blog-details.html" class="primary-btn">Read More
-                                                <span class="icon__box">
-                                                    <img class="icon__first" src="assets/img/icon/arrow-black.webp"
-                                                        alt="image not found">
-                                                    <img class="icon__second" src="assets/img/icon/arrow-theme.webp"
-                                                        alt="image not found">
-                                                </span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="df-blog5__box wow fadeInUp" data-wow-delay=".7s">
-                                    <div class="df-blog5__thumb">
-                                        <a href="blog-details.html"><img src="assets/img/blog/blog-02.webp"
-                                                alt="image not found"></a>
-                                    </div>
-                                    <div class="df-blog5__content">
-                                        <div class="df-blog5__meta">
-                                            <span class="blog-category"><a href="blog-details.html">Maintain</a></span>
-                                            <span class="separate"></span>
-                                            <span class="blog-date">09 Oct 2023</span>
-                                        </div>
-                                        <h3 class="df-blog5__title underline"><a href="blog-details.html">The Importance
-                                                of Regular Plumbing Maintain</a></h3>
-                                        <div class="df-blog5__btn">
-                                            <a href="blog-details.html" class="primary-btn">Read More
-                                                <span class="icon__box">
-                                                    <img class="icon__first" src="assets/img/icon/arrow-black.webp"
-                                                        alt="image not found">
-                                                    <img class="icon__second" src="assets/img/icon/arrow-theme.webp"
-                                                        alt="image not found">
-                                                </span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="swiper-wrapper" id="list_berita">
                         </div>
                     </div>
                 </div>
@@ -963,6 +450,7 @@
         </div>
         <!-- brands area end  -->
     </main>
+    @include('layouts.users.footer')
 @endsection
 @push('js')
     <script>
@@ -1208,6 +696,66 @@
                                         </div>
                                     </div>
 
+                                </div>
+                            </div>
+                        </div>
+                    `)
+                })
+            }
+
+            fetchBerita()
+            function fetchBerita() {
+                $('#list_berita').empty()
+
+                let dummy_berita = [
+                    {
+                        'tag': 'Tips',
+                        'date': '21 Maret 2024',
+                        'title': 'Kenapa Air Bersih & Sanitasi Layak Itu Sangat Penting?',
+                        'img': '{{ asset("assets/img/pralon/berita/new1.jpg") }}'
+                    },
+                    {
+                        'tag': 'Tips',
+                        'date': '22 Maret 2024',
+                        'title': 'Cara Pasang Pipa Yang Baik dan Benar',
+                        'img': '{{ asset("assets/img/pralon/berita/new2.jpg") }}'
+                    },
+                    {
+                        'tag': 'Tips',
+                        'date': '21 Maret 2024',
+                        'title': 'Kenapa Air Bersih & Sanitasi Layak Itu Sangat Penting?',
+                        'img': '{{ asset("assets/img/pralon/berita/new1.jpg") }}'
+                    },
+                    {
+                        'tag': 'Tips',
+                        'date': '22 Maret 2024',
+                        'title': 'Cara Pasang Pipa Yang Baik dan Benar',
+                        'img': '{{ asset("assets/img/pralon/berita/new2.jpg") }}'
+                    },
+                ];
+                
+                $.each(dummy_berita, function(i, data) {
+                    $('#list_berita').append(`
+                        <div class="swiper-slide">
+                            <div class="df-blog5__box wow fadeInUp" data-wow-delay=".5s">
+                                <div class="df-blog5__thumb">
+                                    <a href="#"><img src="${data.img}" alt="image not found"></a>
+                                </div>
+                                <div class="df-blog5__content">
+                                    <div class="df-blog5__meta">
+                                        <span class="blog-category"><a href="">${data.tag}</a></span>
+                                        <span class="separate"></span>
+                                        <span class="blog-date">${data.date}</span>
+                                    </div>
+                                    <h3 class="df-blog5__title"><a href="#" id="project_detail">${data.title}</a></h3>
+                                    <div class="meta-item">
+                                        <a href="#" target="_blank" class="primary-btn hover-white">Read more
+                                            <span class="icon__box">
+                                                <img class="icon__first" src="assets/img/icon/arrow-white.webp" alt="image not found">
+                                                <img class="icon__second" src="assets/img/icon/arrow-black.webp" alt="image not found">
+                                            </span>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>

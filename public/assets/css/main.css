@@ -15052,7 +15052,7 @@ input[type=range]::-moz-range-thumb {
   margin-bottom: 25px;
 }
 .demo__features-icon span svg * {
-  fill: var(--clr-theme-3);
+  fill: var(--clr-theme-6);
 }
 
 .demo__features-content h3 {
