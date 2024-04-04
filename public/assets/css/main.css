@@ -210,31 +210,31 @@ h4 {
 }
 
 h1 {
-  font-size: 56px;
+  font-size: 56px !important;
 }
 @media only screen and (min-width: 1200px) and (max-width: 1440px) {
   h1 {
-    font-size: 48px;
+    font-size: 48px !important;
   }
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
   h1 {
-    font-size: 42px;
+    font-size: 42px !important;
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   h1 {
-    font-size: 44px;
+    font-size: 44px !important;
   }
 }
 @media only screen and (min-width: 576px) and (max-width: 767px), (max-width: 575px) {
   h1 {
-    font-size: 38px;
+    font-size: 38px !important;
   }
 }
 @media (max-width:450px) {
   h1 {
-    font-size: 30px;
+    font-size: 30px !important;
   }
 }
 
@@ -7545,7 +7545,7 @@ div.mean-container a.meanmenu-reveal {
   }
 }
 .df-about3__counter-number {
-  color: var(--clr-theme-3);
+  color: var(--clr-theme-6);
 }
 .df-about3__counter-number {
   font-size: 54px;
@@ -8127,7 +8127,8 @@ div.mean-container a.meanmenu-reveal {
   color: #4CD591;
 }
 .df-benifits2__icon.bg-3 i {
-  color: #557AFF;
+  /* color: #557AFF; */
+  color: #C21010;
 }
 .df-benifits2__title {
   margin-bottom: 5px;
@@ -8136,7 +8137,7 @@ div.mean-container a.meanmenu-reveal {
 .df-benifits__icon {
   width: 80px;
   height: 80px;
-  line-height: 170px !important;
+  line-height: 90px !important;
   font-size: 40px;
   color: var(--clr-theme-6);
   text-align: center;
@@ -11873,14 +11874,14 @@ div.mean-container a.meanmenu-reveal {
 }
 
 .slick-current.loading-bar-bullet::before {
-  border: 10px solid var(--clr-theme-3);
+  border: 10px solid var(--clr-theme-6);
   background: #ebeef0;
 }
 
 .timeline__slider-nav {
   width: 125px;
   height: 125px;
-  background-color: var(--clr-theme-3);
+  background-color: var(--clr-theme-6);
   border-radius: 50%;
   justify-content: center;
   align-items: center;

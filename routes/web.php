@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\HomeController;
+use App\Http\Controllers\User\AboutUsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,6 +19,7 @@ use App\Http\Controllers\User\HomeController;
 // });
 
 Route::get("/", [HomeController::class,"index"])->name("home");
+Route::get("/about-us", [AboutUsController::class,"index"])->name("about-us");
 
 Auth::routes();
 

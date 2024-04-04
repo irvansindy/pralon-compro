@@ -3,6 +3,8 @@
 @section('content')
     @include('layouts.users.navbar')
     @include('layouts.users.sidebar')
+    <div class="mouseCursor cursor-outer"></div>
+    <div class="mouseCursor cursor-inner"><span>Drag</span></div>
     <main>
         {{-- <div class="adjust-header-space bg-common-white"></div> --}}
         <!-- hero area start  -->
@@ -180,23 +182,14 @@
                 <div class="row align-items-center justify-content-between g-50 wow fadeInUp" data-wow-delay=".3s">
                     <div class="col-xl-7">
                         <div class="section__title-wrapper section-title-spacing">
-                            <span class="section__subtitle bg-lighter">KENAPA PILIH PRALON</span>
+                            {{-- <span class="section__subtitle bg-lighter">KENAPA PILIH PRALON</span> --}}
+                            <span class="section__subtitle bg-lighter">KENAPA MEMILIH MEREK PRALON</span>
                             <h2 class="section__title">Sudah Teruji Selama 60 Tahun</h2>
                             <p class="mt-35 mb-35">Ketika kamu membutuhkan perpipaan, inilah 5 alasan kenapa kamu harus memilih merek Pralon.</p>
                         </div>
                         <div class="df-benifits__wrapper">
                             <div class="row justify-content-between" id="pralon_point_plus_list">
-                                <div class="col-xl-6 col-md-6">
-                                    <div class="df-benifits__single-box">
-                                        <div class="df-benifits__icon">
-                                            <i class="icon-df-service" style="line-height: 2"></i>
-                                        </div>
-                                        <div class="df-benifits__content">
-                                            <h4 class="df-benifits__title">Fast Service</h4>
-                                            <p class="df-benifits__sub-title">Quick and Reliable Plumbing Services.</p>
-                                        </div>
-                                    </div>
-                                </div>
+                                
                             </div>
                             <div class="bf-benifits__btn text-xl-start text-md-center mt-50">
                                 <a href="about-v2.html" class="primary-btn hover-white">Selengkapnya
@@ -594,27 +587,27 @@
                     {
                         'title': 'Quality Assurance',
                         'desc': 'Menerapkan Standar Mutu ISO 9001, ISO 14001, OHSAS 45001 dan Green Label Indonesia.',
-                        'icon': '<i class="icon-df-service" style="line-height: 2"></i>'
+                        'icon': '<i class="icon-df-service" style=""></i>'
                     },
                     {
                         'title': 'Experience',
                         'desc': 'Pengalaman lebih dari 60 tahun.',
-                        'icon': '<i class="icon-036-star-1" style="line-height: 2"></i>'
+                        'icon': '<i class="icon-036-star-1" style=""></i>'
                     },
                     {
                         'title': 'Quality Product',
                         'desc': 'Menggunakan Bahan Baku dan Aditif Khusus , Kuat, Tahan Lama, Tahan Terhadap Korosi, dan tidak mudah pecah.',
-                        'icon': '<i class="icon-053-price" style="line-height: 2"></i>'
+                        'icon': '<i class="icon-053-price" style=""></i>'
                     },
                     {
                         'title': 'Recycle',
                         'desc': 'Terbuat dari bahan baku yang dapat di daur ulang.',
-                        'icon': '<i class="icon-031-like" style="line-height: 2"></i>'
+                        'icon': '<i class="icon-031-like" style=""></i>'
                     },
                     {
                         'title': 'Passed',
                         'desc': 'Lulus Uji Muti Laboratorium.',
-                        'icon': '<i class="icon-031-like" style="line-height: 2"></i>'
+                        'icon': '<i class="icon-031-like" style=""></i>'
                     },
                 ];
                 $.each(dummy_pralon, function(i, data) {
