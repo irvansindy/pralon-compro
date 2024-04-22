@@ -1,4 +1,4 @@
-@extends('layouts.users.app')
+@extends('layouts.users.app', ['title' => 'Beranda'])
 
 @section('content')
     @include('layouts.users.navbar')
@@ -60,7 +60,7 @@
         </section>
         <!-- hero area end  -->
 
-        <!-- services area start  -->
+        <!-- product list start  -->
         <div class="services__area section-spacing">
             <div class="container">
                 <div class="row justify-content-center section-title-spacing mb-40 wow fadeInUp" data-wow-delay=".3s">
@@ -80,7 +80,7 @@
                     data-wow-delay=".3s"></div>
             </div>
         </div>
-        <!-- services area end  -->
+        <!-- product list end  -->
 
         <!-- about area start  -->
         <section class="df-about__area section-spacing bg-theme-4">
@@ -166,7 +166,7 @@
                 </div>
             </div>
             <div class="df-portfolio__area-btn text-center mt-60 wow fadeInUp" data-wow-delay=".3s">
-                <a href="portfolio-classic.html" class="primary-btn hover-white">Selengkapnya
+                <a href="#" class="primary-btn hover-white">Selengkapnya
                     <span class="icon__box">
                         <img class="icon__first" src="assets/img/icon/arrow-white.webp" alt="image not found">
                         <img class="icon__second" src="assets/img/icon/arrow-black.webp" alt="image not found">
@@ -442,6 +442,7 @@
             </div>
         </div>
         <!-- brands area end  -->
+
     </main>
     @include('layouts.users.footer')
 @endsection
@@ -456,50 +457,67 @@
                     {
                         'name': 'Pipa uPVC SNI',
                         'desc': 'Dibuat dari bahan baku Polyvinyl Chloride (PVC) dengan standar SNI.',
+                        'img': '{{ asset("assets/img/pralon/produk/1.jpg") }}'
                     },
                     {
                         'name': 'Pipa Gold JIS',
                         'desc': 'Untuk aplikasi air bersih dan air buangan digunakan di rumah tinggal, apartemen dan prasarana lainnya.',
+                        'img': '{{ asset("assets/img/pralon/produk/2.jpg") }}'
                     },
                     {
                         'name': 'Pralon Standard',
                         'desc': 'Pipa dengan kualitas terbaik, karakteristik kuat, ringan, bebas timbal dan mudah dalam pemasangan.',
+                        'img': '{{ asset("assets/img/pralon/produk/3.jpg") }}'
                     },
                     {
                         'name': 'Pralon Jacking',
                         'desc': 'Untuk air bungan limbah, dengan metode jacking tanpa ada galian di permukaan tanah.',
+                        'img': '{{ asset("assets/img/pralon/produk/4.jpg") }}'
+                    },
+                    {
+                        'name': 'Pipa uPVC SNI',
+                        'desc': 'Untuk berbagai kebutuhan air limbah rumah tangga, industri maupun prasarana lainnya.',
+                        'img': '{{ asset("assets/img/pralon/produk/5.jpg") }}'
                     },
                     {
                         'name': 'Pralon HDPE',
                         'desc': 'Memiliki sifat yang lentur, tidak  mudah retak, ringan dan umur pakai yang sangat panjang.',
+                        'img': '{{ asset("assets/img/pralon/produk/6.jpg") }}'
                     },
                     {
                         'name': 'Pralon MDPE',
                         'desc': 'Digunakan untuk pipanisasi gas untuk industri, perumahan, dan prasana umum.',
+                        'img': '{{ asset("assets/img/pralon/produk/7.jpg") }}'
                     },
                     {
                         'name': 'Pralon Subduct',
                         'desc': 'Digunakan sebagai pelindung kabel fiber-optic (FO) pada jaringan telekomunikasi.',
+                        'img': '{{ asset("assets/img/pralon/produk/8.jpg") }}'
                     },
                     {
                         'name': 'Pralon HIC',
                         'desc': 'Sebagai pelindung kabel Listrik dan kabel elektronik, sehingga aman dan rapi terpasang.',
+                        'img': '{{ asset("assets/img/pralon/produk/9.jpg") }}'
                     },
                     {
                         'name': 'Injection Fittings',
                         'desc': 'Diproduksi dengan system injection moulding memberikan jaminan kekuatan dan keakuratan.',
+                        'img': '{{ asset("assets/img/pralon/produk/10.jpg") }}'
                     },
                     {
                         'name': 'Handmade Fitting',
                         'desc': 'Dirancang untuk dapat memenuhi segala kebutuhan instalasi pipa dengan efesiensi dan akurasi yang tertinggi.',
+                        'img': '{{ asset("assets/img/pralon/produk/11.jpg") }}'
                     },
                     {
                         'name': 'Solvent Cement',
                         'desc': 'Sebagai perekat senyawa yang menyatukan baik pipa maupun dengan sambungannya.',
+                        'img': '{{ asset("assets/img/pralon/produk/12.jpg") }}'
                     },
                     {
                         'name': 'Lubricant',
                         'desc': 'Pelumas ramah lingkungan digunakan pada sambungan rubber-ring joint system.',
+                        'img': '{{ asset("assets/img/pralon/produk/13.jpg") }}'
                     },
                 ];
                 $('#list_product').empty()
@@ -509,7 +527,7 @@
                             <div class="service__box wow fadeInUp" data-wow-delay=".9s">
                                 <div class="service__content">
                                     <div class="service__img">
-                                        <img src="assets/img/service/kitchen.webp" alt="image not found">
+                                        <img src="${data.img}" alt="image not found">
                                     </div>
                                     <h4 class="service__title"><a href="service-details.html">${data.name}</a></h4>
                                     <p class="service__text">${data.desc}</p>

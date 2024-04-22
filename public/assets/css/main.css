@@ -15213,4 +15213,9 @@ input[type=range]::-moz-range-thumb {
   background-color: var(--clr-theme-1);
   color: var(--clr-common-white);
 }
+
+.list-group-item {
+  background-color: none !important;
+  border: none !important;
+}
 /*# sourceMappingURL=../maps/main.css.map */
