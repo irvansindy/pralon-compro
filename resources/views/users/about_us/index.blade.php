@@ -202,7 +202,7 @@
                 <div class="row gy-5 wow fadeInUp" data-wow-delay=".3s">
                     <div class="col-lg-5 col-md-6">
                         <div class="section__title-wrapper">
-                            <h2 class="section__title">Have You Any Requirement Of Plumbing & Repairing</h2>
+                            <h2 class="section__title">Pralon Values</h2>
                         </div>
                         <div class="df-requirement__button-wrapper">
                             <a href="contact.html" class="primary-btn">Contact Us

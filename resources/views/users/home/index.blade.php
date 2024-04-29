@@ -529,7 +529,7 @@
                                     <div class="service__img">
                                         <img src="${data.img}" alt="image not found">
                                     </div>
-                                    <h4 class="service__title"><a href="service-details.html">${data.name}</a></h4>
+                                    <h4 class="service__title"><a href="#" style="text-decoration:none !important;">${data.name}</a></h4>
                                     <p class="service__text">${data.desc}</p>
                                 </div>
                             </div>

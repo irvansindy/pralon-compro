@@ -9,24 +9,26 @@
                             <div class="df-footer__logo mb-30">
                                 <a href="#"><img src="{{ asset('assets/img/logo/pralon.png') }}" alt="image not found"></a>
                             </div>
-                            <p class="df-footer-text">It can help to identify areas for improvement</p>
+                            <p class="df-footer-text" style="font-size: 16px !important;">
+                                Pralon adalah merek dagang dari pipa uPVC berkualitas tinggi yang di produksi oleh PT Pralon. Pralon telah lama dikenal sejak tahun 1963 sebagai pelopor dalam industri pipa uPVC di Indonesia.
+                            </p>
                         </div>
                         <div class="col-xl-5 col-lg-6 col-md-6">
                             <div class="df-newsletter__content">
-                                <h2 class="df-newsletter__title mb-40 lh-1">Subscribe Us Now!</h2>
+                                <h2 class="df-newsletter__title mb-40 lh-1">Connect With Us!</h2>
                                 <div class="df-newsletter__form">
                                     <form action="#">
                                         <div class="df-input-field">
                                             <input type="text" id="email2" name="email" placeholder="Enter email address">
                                         </div>
                                         <div class="df-newsletter__form-btn">
-                                            <button type="submit" class="primary-btn hover-white">Subscribe
+                                            <button type="submit" class="primary-btn hover-white">Connect
                                                 <span class="icon__box">
-                                                <img class="icon__first" src="assets/img/icon/arrow-white.webp"
-                                                    alt="image not found">
-                                                <img class="icon__second" src="assets/img/icon/arrow-black.webp"
-                                                    alt="image not found">
-                                            </span>
+                                                    <img class="icon__first" src="{{ asset('assets/img/icon/arrow-white.webp') }}"
+                                                        alt="image not found">
+                                                    <img class="icon__second" src="{{ asset('assets/img/icon/arrow-black.webp') }}"
+                                                        alt="image not found">
+                                                </span>
                                             </button>
                                         </div>
                                     </form>
@@ -47,7 +49,7 @@
         <div class="footer__widgets-area">
             <div class="container">
                 <div class="footer__widgets-wrapper widgets-5">
-                    <div class="footer__widget">
+                    {{-- <div class="footer__widget">
                         <h4 class="footer__widget-title">Company</h4>
                         <div class="footer__links underline-2">
                             <ul>
@@ -94,18 +96,19 @@
                             <p>Work time: <br>
                             Sun - Fri 09am - 8pm</p>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="footer__widget">
                         <h4 class="footer__widget-title">Social Links</h4>
                         <div class="social-links">
                             <ul>
-                                <li><a href="https://www.facebook.com/"><i class="icon-023-facebook-app-symbol"></i></a>
+                                <li>
+                                    <a href="https://www.facebook.com/Pralon.official" target="_blank"><i class="icon-023-facebook-app-symbol"></i></a>
                                 </li>
-                                <li><a href="https://www.instagram.com/"><i class="icon-025-instagram"></i></a>
+                                <li>
+                                    <a href="https://www.instagram.com/pralon_official" target="_blank"><i class="icon-025-instagram"></i></a>
                                 </li>
-                                <li><a href="https://www.pinterest.com/"><i class="icon-029-pinterest"></i></a>
-                                </li>
-                                <li><a href="https://twitter.com/"><i class="icon-twitter-x"></i></a>
+                                <li>
+                                    <a href="https://www.youtube.com/@ptpralon-official5154" target="_blank"><i class="fa-brands fa-youtube"></i></a>
                                 </li>
                             </ul>
                         </div>

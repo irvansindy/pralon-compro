@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\AboutUsController;
+use App\Http\Controllers\User\ProductController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,6 +21,9 @@ use App\Http\Controllers\User\AboutUsController;
 
 Route::get("/", [HomeController::class,"index"])->name("home");
 Route::get("/about-us", [AboutUsController::class,"index"])->name("about-us");
+Route::get("/product", [ProductController::class,"index"])->name("product");
+Route::get("/fetch-product", [ProductController::class,"fetchProduct"])->name("fetch-product");
+Route::get("/product-detail/{id}/{slug}", [ProductController::class,"detailProduct"])->name("product-detail");
 
 Auth::routes();
 
