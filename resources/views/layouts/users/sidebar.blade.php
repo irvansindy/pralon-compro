@@ -51,37 +51,37 @@
                             <div class="col-4 col-sm-4">
                                 <div class="offset-insta__thumb">
                                     <a href="#">
-                                        <img src="assets/img/offcanvas/insta-1.webp" alt="image not found"></a>
+                                        <img src="{{ asset('assets/img/offcanvas/insta-1.webp') }}" alt="image not found"></a>
                                 </div>
                             </div>
                             <div class="col-4 col-sm-4">
                                 <div class="offset-insta__thumb">
                                     <a href="#">
-                                        <img src="assets/img/offcanvas/insta-2.webp" alt="image not found"></a>
+                                        <img src="{{ asset('assets/img/offcanvas/insta-2.webp') }}" alt="image not found"></a>
                                 </div>
                             </div>
                             <div class="col-4 col-sm-4">
                                 <div class="offset-insta__thumb">
                                     <a href="#">
-                                        <img src="assets/img/offcanvas/insta-3.webp" alt="image not found"></a>
+                                        <img src="{{ asset('assets/img/offcanvas/insta-3.webp') }}" alt="image not found"></a>
                                 </div>
                             </div>
                             <div class="col-4 col-sm-4">
                                 <div class="offset-insta__thumb">
                                     <a href="#">
-                                        <img src="assets/img/offcanvas/insta-4.webp" alt="image not found"></a>
+                                        <img src="{{ asset('assets/img/offcanvas/insta-4.webp') }}" alt="image not found"></a>
                                 </div>
                             </div>
                             <div class="col-4 col-sm-4">
                                 <div class="offset-insta__thumb">
                                     <a href="#">
-                                        <img src="assets/img/offcanvas/insta-5.webp" alt="image not found"></a>
+                                        <img src="{{ asset('assets/img/offcanvas/insta-5.webp') }}" alt="image not found"></a>
                                 </div>
                             </div>
                             <div class="col-4 col-sm-4">
                                 <div class="offset-insta__thumb">
                                     <a href="#">
-                                        <img src="assets/img/offcanvas/insta-6.webp" alt="image not found"></a>
+                                        <img src="{{ asset('assets/img/offcanvas/insta-6.webp') }}" alt="image not found"></a>
                                 </div>
                             </div>
 

@@ -9,10 +9,7 @@
         <div class="adjust-header-space bg-common-white"></div>
         <!-- product start  -->
         <section class="df-services__area section-spacing p-relative x-clip" id="product_list" style="padding-bottom: 10px !important;">
-            <div class="text-center">
-                <img src="{{ asset('assets/img/pralon/animation/loading_spinner.svg') }}" class="mx-auto" id="loading_animation_product">
-
-            </div>
+            
             <div class="data_product_list">
                 <div class="area-shapes">
                     <div class="df-inner-area__shape1"></div>
@@ -25,26 +22,16 @@
                                 <span class="section__subtitle bg-lighter">PRODUK KAMI</span>
                                 <h2 class="section__title mb-2">Jelajahi Produk Kami</h2>
                             </div>
+                            
                         </div>
                     </div>
                     {{-- filter pill button --}}
-                    <ul class="nav nav-pills my-5 justify-content-center wow fadeInUp" style="--bs-nav-link-padding-x: 1.5rem !important;">
+                    <ul class="nav nav-pills my-5 justify-content-center wow fadeInUp" id="list_category" style="--bs-nav-link-padding-x: 1.5rem !important;">
                         <li class="nav-item wow fadeInUp">
-                            <a class="nav-link active" aria-current="page" data-bs-toggle="pill" href="#">Semua Produk</a>
-                        </li>
-                        <li class="nav-item wow fadeInUp">
-                            <a class="nav-link" href="#" data-bs-toggle="pill">uPVC</a>
-                        </li>
-                        <li class="nav-item wow fadeInUp">
-                            <a class="nav-link" href="#" data-bs-toggle="pill">PE</a>
-                        </li>
-                        <li class="nav-item wow fadeInUp">
-                            <a class="nav-link" href="#" data-bs-toggle="pill">Fitting</a>
-                        </li>
-                        <li class="nav-item wow fadeInUp">
-                            <a class="nav-link" href="#" data-bs-toggle="pill">Aksesoris</a>
-                        </li>
                     </ul>
+                    <div class="text-center mt-3">
+                        <img src="{{ asset('assets/img/pralon/animation/loading_spinner.svg') }}" class="mx-auto" id="loading_animation_product">
+                    </div>
                     {{-- end filter pill button --}}
                     <div class="row g-5 row-cols-xl-4 row-cols-md-2 row-cols-1 wow fadeInUp mt-2" id="list_product"
                         data-wow-delay=".3s">
@@ -64,7 +51,6 @@
             <div class="hr1"></div>
         </div>
         <!-- horizontal line end  -->
-        {{-- {{ route('product-detail', ['id' => '', 'slug' => '']) }} --}}
     </main>
     @include('layouts.users.footer')
 @endsection

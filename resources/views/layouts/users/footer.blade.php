@@ -49,54 +49,6 @@
         <div class="footer__widgets-area">
             <div class="container">
                 <div class="footer__widgets-wrapper widgets-5">
-                    {{-- <div class="footer__widget">
-                        <h4 class="footer__widget-title">Company</h4>
-                        <div class="footer__links underline-2">
-                            <ul>
-                                <li><a href="pricing-plan.html">Pricing</a></li>
-                                <li><a href="portfolio-classic.html">Portfolio</a></li>
-                                <li><a href="contact.html">Career</a></li>
-                                <li><a href="faq.html">FAQ</a></li>
-                                <li><a href="error-404.html">404 Page</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="footer__widget">
-                        <h4 class="footer__widget-title">Services</h4>
-                        <div class="footer__links underline-2">
-                            <ul>
-                                <li><a href="service-details.html">Drain Cleaning</a></li>
-                                <li><a href="service-details.html">Gasoline Service</a></li>
-                                <li><a href="service-details.html">Kitchen Plumbing</a></li>
-                                <li><a href="service-details.html">Pipe Leaking</a></li>
-                                <li><a href="service-details.html">Bathroom</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="footer__widget">
-                        <h4 class="footer__widget-title">Useful Links</h4>
-                        <div class="footer__links underline-2">
-                            <ul>
-                                <li><a href="about.html">About Us</a></li>
-                                <li><a href="team.html">Our Team</a></li>
-                                <li><a href="elements-testimonial.html">Clients Feedback</a></li>
-                                <li><a href="contact.html">Contact</a></li>
-                                <li><a href="#">Coming Soon</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="footer__widget">
-                        <h4 class="footer__widget-title">Contact Info</h4>
-                        <div class="footer-meta mb-15">
-                            <i class="icon-030-pin"></i>
-                            <p>2784 Ivah Fields, <br> Jonesville, Virginia, USA.</p>
-                        </div>
-                        <div class="footer-meta">
-                            <i class="icon-timelapse"></i>
-                            <p>Work time: <br>
-                            Sun - Fri 09am - 8pm</p>
-                        </div>
-                    </div> --}}
                     <div class="footer__widget">
                         <h4 class="footer__widget-title">Social Links</h4>
                         <div class="social-links">

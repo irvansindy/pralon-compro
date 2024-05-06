@@ -23,7 +23,12 @@ Route::get("/", [HomeController::class,"index"])->name("home");
 Route::get("/about-us", [AboutUsController::class,"index"])->name("about-us");
 Route::get("/product", [ProductController::class,"index"])->name("product");
 Route::get("/fetch-product", [ProductController::class,"fetchProduct"])->name("fetch-product");
+Route::get("/fetch-product-by-category", [ProductController::class,"fetchProductByCategoty"])->name("fetch-product-by-category");
+Route::get("/fetch-categories", [ProductController::class,"fetchCategories"])->name("fetch-categories");
 Route::get("/product-detail/{id}/{slug}", [ProductController::class,"detailProduct"])->name("product-detail");
+Route::get("download-catalog/{catalog}", [ProductController::class,"downloadCatalog"])->name("download-catalog");
+Route::get("download-pricelist/{pricelist}", [ProductController::class,"downloadPriceList"])->name("download-pricelist");
+Route::post("/log-user", [ProductController::class,"storeLogUserDownload"])->name("log-user");
 
 Auth::routes();
 

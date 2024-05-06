@@ -5,10 +5,6 @@
     <div class="mouseCursor cursor-outer"></div>
     <div class="mouseCursor cursor-inner"><span>Drag</span></div>
     <main>
-        {{-- @php
-            dd($product->name)
-        @endphp --}}
-
         <div class="adjust-header-space bg-common-white"></div>
 
         <!-- page title area start  -->
@@ -21,8 +17,10 @@
                             <div class="breadcrumb-menu-2 d-flex justify-content-center">
                                 <nav aria-label="Breadcrumbs" class="breadcrumb-trail breadcrumbs">
                                     <ul class="trail-items-2">
-                                        <li class="trail-item-2 trail-begin"><a href="{{ route('home') }}"><span>Home</span></a></li>
-                                        <li class="trail-item-2 trail-center"><a href="{{ route('product') }}"><span>Produk</span></a></li>
+                                        <li class="trail-item-2 trail-begin"><a
+                                                href="{{ route('home') }}"><span>Home</span></a></li>
+                                        <li class="trail-item-2 trail-center"><a
+                                                href="{{ route('product') }}"><span>Produk</span></a></li>
                                         <li class="trail-item-2 trail-end"><span>{{ $product->name }}</span></li>
                                     </ul>
                                 </nav>
@@ -40,7 +38,7 @@
                 <div class="row g-50 align-items-center">
                     <div class="col-lg-6 order-lg-0 order-1">
                         <div class="df-service5__thumb">
-                            <img src="{{ asset('assets/img/pralon/list_product/'.$product->image) }}" alt="img not found">
+                            <img src="{{ asset('assets/img/pralon/list_product/' . $product->image) }}" alt="img not found">
                         </div>
                     </div>
                     <div class="col-lg-6 order-lg-1 order-0">
@@ -51,13 +49,6 @@
                             </div>
                             <p class="mt-35 mb-35">{{ $product->main_desc }}</p>
                             <div class="df-service5__info" style="gap: 16px 0 !important;">
-                                {{-- @forelse ($product->detailProduct->feature as $feature)
-                                    <div class="df-service5__client-info me-2">
-                                        <h4 class="df-service5__client-title mb-2">{{ $feature->ordering.'. '.$feature->name }}</h4>
-                                        <p class="df-service5__client-name">{{ $feature->ordering.'. '.$feature->name }}</p>
-                                    </div>
-                                @empty
-                                @endforelse --}}
                             </div>
                         </div>
                     </div>
@@ -79,28 +70,45 @@
                     <div class="col-lg-8 d-flex justify-content-end">
                         <div class="df-challenge__content">
                             <p class="mb-40 mt-40">
-                                Untuk informasi lebih lengkap mengenai produk {{ $product->full_name }} dapat langsung mengunduh Katalog & Daftar Harga dibawah ini.
+                                Untuk informasi lebih lengkap mengenai produk {{ $product->full_name }} dapat langsung
+                                mengunduh Katalog & Daftar Harga dibawah ini.
                             </p>
                             <div class="df-challenge__feature-list">
                                 <ul>
-                                    <li>
-                                        <button type="button" class="primary-btn bordered btn-small hover-white">Katalog Produk
-                                            <span class="icon__box">
-                                                <img class="icon__first" src="{{ asset('assets/img/icon/arrow-theme.png') }}" alt="image not found" style="color: #C21010 !important;">
-                                                <img class="icon__second" src="{{ asset('assets/img/icon/arrow-white.webp') }}"
-                                                    alt="image not found">
-                                            </span>
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="primary-btn bordered btn-small">Daftar Harga
-                                            <span class="icon__box">
-                                                <img class="icon__first" src="{{ asset('assets/img/icon/arrow-theme.png') }}" alt="image not found">
-                                                <img class="icon__second" src="{{ asset('assets/img/icon/arrow-white.webp') }}"
-                                                    alt="image not found">
-                                            </span>
-                                        </a>
-                                    </li>
+                                    {{-- {{ asset('assets/file/brocure/brosur_fabricated.pdf') }}
+                                    {{ asset('assets/file/pricelist/pricelist_fabricated.pdf') }} --}}
+                                    @if ($product->brocure != null)
+                                        <li>
+                                            <button type="button" class="primary-btn bordered btn-small hover-white"
+                                                id="btn_download_brocure" data-id="{{ $product->id }}"
+                                                data-brocure="{{ $product->brocure->brocure_file }}" data-bs-toggle="modal" data-bs-target="#confirm_download_brocure">Katalog Produk
+                                                <span class="icon__box">
+                                                    <img class="icon__first"
+                                                        src="{{ asset('assets/img/icon/arrow-theme.png') }}"
+                                                        alt="image not found" style="color: #C21010 !important;">
+                                                    <img class="icon__second"
+                                                        src="{{ asset('assets/img/icon/arrow-white.webp') }}"
+                                                        alt="image not found">
+                                                </span>
+                                            </button>
+                                        </li>
+                                    @endif
+                                    @if ($product->priceList != null)
+                                        <li>
+                                            <button type="button" class="primary-btn bordered btn-small hover-white"
+                                                id="btn_download_pricelist" data-id="{{ $product->id }}"
+                                                data-pricelist="{{ $product->priceList->price_list_file }}" data-bs-toggle="modal" data-bs-target="#confirm_download_pricelist">Daftar Harga
+                                                <span class="icon__box">
+                                                    <img class="icon__first"
+                                                        src="{{ asset('assets/img/icon/arrow-theme.png') }}"
+                                                        alt="image not found" style="color: #C21010 !important;">
+                                                    <img class="icon__second"
+                                                        src="{{ asset('assets/img/icon/arrow-white.webp') }}"
+                                                        alt="image not found">
+                                                </span>
+                                            </button>
+                                        </li>
+                                    @endif
                                 </ul>
                             </div>
                         </div>
@@ -117,17 +125,18 @@
                     @forelse ($product->detailImage as $image)
                         <div class="col-lg-6">
                             <div class="df-img-thumb">
-                                <img src="{{ asset('assets/img/pralon/list_product/detail_product/'.$image->image_detail) }}" alt="image not found">
+                                <img src="{{ asset('assets/img/pralon/list_product/detail_product/' . $image->image_detail) }}"
+                                    alt="image not found">
                             </div>
                         </div>
-                        
+
                     @empty
                         <div class="col-lg-6">
                             <div class="df-img-thumb">
-                                <img src="{{ asset('assets/img/blog/blog-details-thumb-003.webp') }}" alt="image not found">
+                                <img src="{{ asset('assets/img/blog/blog-details-thumb-003.webp') }}"
+                                    alt="image not found">
                             </div>
                         </div>
-                        
                     @endforelse
                 </div>
             </div>
@@ -152,117 +161,60 @@
                             <div class="df-challenge__feature-list">
                                 <ul>
                                     @forelse ($product->detailProduct->feature as $feature)
-                                    <li>
-                                        <span class="list-icon">
-                                            <i class="icon-058-check"></i>
-                                        </span>
-                                        <p>{{ $feature->name }}</p>
-                                    </li>
-                                @empty
-                                @endforelse
+                                        <li>
+                                            <span class="list-icon">
+                                                <i class="icon-058-check"></i>
+                                            </span>
+                                            <p>{{ $feature->name }}</p>
+                                        </li>
+                                    @empty
+                                    @endforelse
                                 </ul>
                             </div>
                         </div>
                     </div>
                     <!-- service style 01 start -->
-        <section class="service-box-styles section-spacing">
-            <div class="container">
-                <div class="section__title-wrapper text-center section-title-spacing">
-                    <span class="section__subtitle bg-lighter">PRODUK</span>
-                    <h2 class="section__title">Produk Terkait</h2>
-                </div>
-                <div class="row g-5 row-cols-xl-3 row-cols-md-2 row-cols-1">
-                    @forelse ($related_products as $related_product)
-                    <div class="col">
-                        <a href="{{ route('product-detail', ['id' => $related_product->id, 'slug' => $related_product->slug]) }}">
-                            <div class="service__box wow fadeInUp" data-wow-delay=".5s">
-                                <div class="service__content">
-                                    <div class="service__img">
-                                        <img src="{{ asset('assets/img/pralon/list_product/'.$related_product->image) }}" alt="image not found">
-                                    </div>
-                                    <h4 class="service__title">{{ $related_product->name }}</h4>
-                                    <p class="service__text">
-                                        {{ $related_product->short_desc }}
-                                    </p>
-                                </div>
+                    <section class="service-box-styles section-spacing">
+                        <div class="container">
+                            <div class="section__title-wrapper text-center section-title-spacing">
+                                <span class="section__subtitle bg-lighter">PRODUK</span>
+                                <h2 class="section__title">Produk Terkait</h2>
                             </div>
-                        </a>
-                    </div>
-                        
-                    @empty
-                        
-                    @endforelse
-                    {{-- <div class="col">
-                        <div class="service__box wow fadeInUp" data-wow-delay=".7s">
-                            <div class="service__content">
-                                <div class="service__img">
-                                    <img src="assets/img/service/pipe.webp" alt="image not found">
-                                </div>
-                                <h4 class="service__title"><a href="service-details.html">Pipe Leak</a></h4>
-                                <p class="service__text">Plumbing services are essential for ensuring the proper
-                                    functioning.</p>
+                            <div class="row g-5 row-cols-xl-3 row-cols-md-2 row-cols-1">
+                                @forelse ($related_products as $related_product)
+                                    <div class="col">
+                                        <a
+                                            href="{{ route('product-detail', ['id' => $related_product->id, 'slug' => $related_product->slug]) }}">
+                                            <div class="service__box wow fadeInUp" data-wow-delay=".5s">
+                                                <div class="service__content">
+                                                    <div class="service__img">
+                                                        <img src="{{ asset('assets/img/pralon/list_product/' . $related_product->image) }}"
+                                                            alt="image not found">
+                                                    </div>
+                                                    <h4 class="service__title">{{ $related_product->name }}</h4>
+                                                    <p class="service__text">
+                                                        {{ $related_product->short_desc }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                @empty
+                                @endforelse
                             </div>
                         </div>
-                    </div>
-                    <div class="col">
-                        <div class="service__box wow fadeInUp" data-wow-delay=".9s">
-                            <div class="service__content">
-                                <div class="service__img">
-                                    <img src="assets/img/service/drain.webp" alt="image not found">
-                                </div>
-                                <h4 class="service__title"><a href="service-details.html">Drain Cleaning</a></h4>
-                                <p class="service__text">Plumbing services are essential for ensuring the proper
-                                    functioning.</p>
-                            </div>
-                        </div>
-                    </div> --}}
-                </div>
-            </div>
-        </section>
-        <!-- service style 01 end -->
-                    {{-- <div class="col-xl-12">
-                        <div class="df-portfolio-details__nav wow fadeInUp animated" data-wow-duration="1.5s" data-wow-delay="0.3">
-                            <div class="df-portfolio-details__item">
-                                <div class="df-portfolio-details__button">
-                                    <a href="portfolio-details.html" class="circle-btn rotate">
-                                        <span class="icon__box">
-                                            <img class="icon__first" src="assets/img/icon/arrow-black.webp"
-                                                alt="image not found">
-                                            <img class="icon__second" src="assets/img/icon/arrow-white.webp"
-                                                alt="image not found">
-                                        </span>
-                                    </a>
-                                    <div class="df-portfolio-details__content text-start">
-                                        <h3 class="df-portfolio-details__title">Easy Installation of Solar Panel</h3>
-                                        <span>Instalation</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="df-portfolio-details__item">
-                                <div class="df-portfolio-details__button">
-                                    <div class="df-portfolio-details__content text-end">
-                                        <h3 class="df-portfolio-details__title">Sunlight Solutions for Home</h3>
-                                        <span>Eco Friendly</span>
-                                    </div>
-                                    <a href="portfolio-details.html" class="circle-btn">
-                                        <span class="icon__box">
-                                            <img class="icon__first" src="assets/img/icon/arrow-black.webp"
-                                                alt="image not found">
-                                            <img class="icon__second" src="assets/img/icon/arrow-white.webp"
-                                                alt="image not found">
-                                        </span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div> --}}
+                    </section>
+                    <!-- service style 01 end -->
                 </div>
             </div>
         </section>
         <!-- result area start -->
     </main>
+    @include('users.product.modal_confirm_download_brocure')
+    @include('users.product.modal_confirm_download_pricelist')
     @include('layouts.users.footer')
 @endsection
 @push('js')
-    @include('users.product.product_js')
+    @include('users.product.product_detail_js')
 @endpush

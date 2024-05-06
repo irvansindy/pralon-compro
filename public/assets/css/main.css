@@ -4862,6 +4862,11 @@ body {
   line-height: 20px;
   font-weight: 500;
 }
+
+.main-menu ul li a:hover {
+  color: var(--clr-theme-6) !important;
+}
+
 @media only screen and (min-width: 1200px) and (max-width: 1440px) {
   .main-menu ul li a {
     font-size: 16px;
@@ -4998,6 +5003,7 @@ body {
   top: 100%;
   -webkit-transform: scaleY(1) translateZ(194px);
   transform: scaleY(1) translateZ(0px);
+  color: var(--clr-theme-6) !important;
 }
 .main-menu ul li.menu-item-has-children {
   position: relative;
@@ -6862,7 +6868,7 @@ div.mean-container a.meanmenu-reveal {
 }
 .breadcrumb-menu-2 li:last-child {
   padding-left: 12px;
-  color: var(--clr-theme-3);
+  color: var(--clr-theme-6);
 }
 .breadcrumb-menu-2 li:last-child::before {
   display: inline-block;
@@ -6871,7 +6877,7 @@ div.mean-container a.meanmenu-reveal {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background-color: var(--clr-theme-3);
+  background-color: var(--clr-theme-6);
   left: -7px;
   top: 15px;
 }
