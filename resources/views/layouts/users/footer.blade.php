@@ -81,15 +81,16 @@
     <div class="copyright__area p-relative bg-theme-4">
         <div class="container">
             <div class="copyright-content__wrapper">
-                <div class="copyright__text">
-                    <p>©
+                <div class="copyright__text text-center">
+                    <p>
+                        All Rights Reserved by Pralon Indonesia
+                        ©
                         <script>
                             document.write(new Date().getFullYear())
                         </script>
-                        All Rights Reserved by <a href="https://themeforest.net/user/bdevs/portfolio" target="_blank">Dofix</a>
                     </p>
                 </div>
-                <div class="copyright__nav">
+                {{-- <div class="copyright__nav">
                     <ul>
                         <li>
                             <a href="policy.html" target="_blank">Privacy & Policy</a>
@@ -98,7 +99,7 @@
                             <a href="terms.html" target="_blank">Terms & Condition</a>
                         </li>
                     </ul>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>

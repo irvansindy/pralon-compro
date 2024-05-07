@@ -93,15 +93,17 @@ class ProductController extends Controller
 
     public function storeLogUserDownload(Request $request)
     {
-        $log = LogUserDownload::create([
-            'name' => $request->name,
-            'phone_number' => $request->phone_number,
-            'email'=> $request->email,
-        ]);
-
-        $file = $request->product_brocure;
-        return FormatResponseJson::success($file,'success');
-
-        // return redirect()->route('download-catalog', ['catalog' => $file]);
+        try {
+            $log = LogUserDownload::create([
+                'name' => $request->name,
+                'phone_number' => $request->phone_number,
+                'email'=> $request->email,
+            ]);
+    
+            $file = $request->product_brocure;
+            return FormatResponseJson::success($log,'success');
+        } catch (\Throwable $th) {
+            return FormatResponseJson::error(null,'Field tidak boleh kosong', 500);
+        }
     }
 }

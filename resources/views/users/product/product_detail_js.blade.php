@@ -48,12 +48,16 @@
 
                     toastr.info(
                         '<p style="font-size: 16px !important; color: white !important;">Berhasil download daftar harga</p>',
-                        '<p style="font-size: 16px !important; color: white !important;">Sukses</p>',
+                        '<p style="font-size: 16px !important; font-weight: bold !important; color: white !important;">Sukses</p>',
                         {timeOut: 10000})
                 },
                 error: function(xhr, status, error) {
                     // Handle error
-                    alert('Error downloading file: ' + error);
+                    let response_error = JSON.parse(xhr.responseText)
+                    toastr.error(
+                        '<p style="font-size: 16px !important; color: white !important;">'+response_error.meta.message+'</p>',
+                        '<p style="font-size: 16px !important; font-weight: bold !important; color: white !important;">Error</p>',
+                        {timeOut: 5000})
                 }
             })
         })
@@ -66,7 +70,6 @@
             var product_id = $(this).data('product_id')
             var product_brocure = $(this).data('product_brocure')
             var url_brocure = $(this).data('url_brocure')
-            // alert([product_id, product_brocure])
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -88,12 +91,16 @@
                     // Display an info toast with no title
                     toastr.info(
                         '<p style="font-size: 16px !important; color: white !important;">Berhasil download brosur</p>',
-                        '<p style="font-size: 16px !important; color: white !important;">Sukses</p>',
+                        '<p style="font-size: 16px !important; font-weight: bold !important; color: white !important;">Sukses</p>',
                         {timeOut: 10000})
                 },
                 error: function(xhr, status, error) {
                     // Handle error
-                    alert('Error downloading file: ' + error);
+                    let response_error = JSON.parse(xhr.responseText)
+                    toastr.error(
+                        '<p style="font-size: 16px !important; color: white !important;">'+response_error.meta.message+'</p>',
+                        '<p style="font-size: 16px !important; font-weight: bold !important; color: white !important;">Error</p>',
+                        {timeOut: 5000})
                 }
             })
         })
