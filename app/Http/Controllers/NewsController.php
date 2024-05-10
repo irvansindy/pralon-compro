@@ -19,18 +19,19 @@ class NewsController extends Controller
             $limit = $request->limit;
             $category = $request->category;
             $search = $request->search;
-            // $category = 2;
-            // $search = 'tips';
 
             $news_query = News::with(['category', 'imageDetail']);
-            
-            if (empty($category) && empty($search)) {
-                $news = $news_query->orderBy('date', 'desc')
-            ->offset($offset)
-            ->limit($limit)
-            // ->offset(0)
-            // ->limit(3)
-            ->get();
+            if ($category == NULL || $search == NULL) {
+                // dd($request->search);
+                if ($request->init_search == true) {
+                    // dd($request->init_search);
+                    $news = $news_query->orderBy('date', 'desc')->get();
+                } else {
+                    $news = $news_query->orderBy('date', 'desc')
+                    ->offset($offset)
+                    ->limit($limit)
+                    ->get();
+                }
             } else {
                 if (!empty($category)) {
                     $news_query->whereHas('category', function ($q) use ($category) {
@@ -47,7 +48,6 @@ class NewsController extends Controller
                 }
                 $news = $news_query->orderBy('date','desc')->get();
             }
-
             return FormatResponseJson::success($news, 'Berita berhasil diambil');
         } catch (\Throwable $th) {
             return FormatResponseJson::error(null, $th->getMessage(), 404);

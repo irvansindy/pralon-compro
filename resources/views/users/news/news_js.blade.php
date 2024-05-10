@@ -1,7 +1,7 @@
 <script>
     $(document).ready(function() {
         var offset_data = 0;
-        var limit_fetch = 3;
+        var limit_fetch = 4;
         // $('#loading_animation_product').hide()
         fetchNews()
         fetchNewsCategories()
@@ -206,7 +206,8 @@
                 url: '{{ route("fetch-news") }}',
                 type: 'GET',
                 data: { 
-                    search: search
+                    search: search,
+                    init_search: 1
                 },
                 dataType: 'json',
                 async: true,
@@ -431,5 +432,11 @@
                 }
             })
         })
+
+        $("form").bind("keypress", function(e) {
+            if (e.keyCode == 13) {
+                return false;
+            }
+        });
     })
 </script>
