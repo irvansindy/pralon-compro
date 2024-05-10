@@ -60,13 +60,14 @@
     <script src="{{ asset('assets/js/plugins/wow.min.js') }}"></script>
     <script src="{{ asset('assets/js/plugins/jquery-ui.min.js') }}"></script>
     <script src="{{ asset('assets/js/vendor/isotope.pkgd.min.js') }}"></script>
-    <script src="{{ asset('assets/js/vendor/imagesloaded.pkgd.min.js') }}"></script>
+    <script src="{{ asset('assets/js/vendor/imagesloaded.pkgd.min.js') }}"></script>z
     <script src="{{ asset('assets/js/vendor/jquery.appear.js') }}"></script>
     <script src="{{ asset('assets/js/vendor/jquery.odometer.min.js') }}"></script>
     <script src="{{ asset('assets/js/vendor/jquery-ui-slider-range.js') }}"></script>
     <script src="{{ asset('assets/js/plugins/slick.min.js') }}"></script>
     <script src="{{ asset('assets/js/plugins/parallax-scroll.js') }}"></script>
     <script src="{{ asset('assets/js/vendor/js_circle-progress.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment-with-locales.min.js" integrity="sha512-4F1cxYdMiAW98oomSLaygEwmCnIP38pb4Kx70yQYqRwLVCs3DbRumfBq82T08g/4LJ/smbFGFpmeFlQgoDccgg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{{ asset('assets/js/main.js') }}"></script>
     @stack('js')

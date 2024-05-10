@@ -25,7 +25,10 @@ class DatabaseSeeder extends Seeder
             ProductDetailFeatureSeeder::class,
             ProductImage::class,
             ProductPricelist::class,
-            ProductBrocure::class
+            ProductBrocure::class,
+            NewsCategoriesSeeder::class,
+            NewsSeeder::class,
+            NewsImageDetailSeeder::class,
         ]);
     }
 }

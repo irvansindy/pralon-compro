@@ -34,7 +34,7 @@
                                     </li>
                                     <li class="has-dropdown has-mega-menu">
                                         <a href="{{ route('product') }}">PRODUK</a>
-                                        <ul class="mega-menu">
+                                        {{-- <ul class="mega-menu">
                                             <li class="mega-menu-item">
                                                 <ul>
                                                     <li><a href="elements-accordion.html">Accordion</a></li>
@@ -81,11 +81,11 @@
                                                     <li><a href="terms.html">Terms &amp; Condition</a></li>
                                                 </ul>
                                             </li>
-                                        </ul>
+                                        </ul> --}}
                                     </li>
                                     <li class="menu-item-has-children">
-                                        <a href="#">BERITA</a>
-                                        <ul class="sub-menu">
+                                        <a href="{{ route('news') }}">BERITA</a>
+                                        {{-- <ul class="sub-menu">
                                             <li class="menu-item-has-children">
                                                 <a href="portfolio-classic.html">Portfolio</a>
                                                 <ul class="sub-menu">
@@ -125,7 +125,7 @@
                                             <li><a href="pricing-plan.html">Pricing Plan</a></li>
                                             <li><a href="faq.html">FAQ</a></li>
                                             <li><a href="error-404.html">Error 404</a></li>
-                                        </ul>
+                                        </ul> --}}
                                     </li>
                                     {{-- <li class="menu-item-has-children">
                                         <a href="blog-classic.html">Blog</a>

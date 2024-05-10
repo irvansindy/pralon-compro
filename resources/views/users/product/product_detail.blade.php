@@ -18,7 +18,7 @@
                                 <nav aria-label="Breadcrumbs" class="breadcrumb-trail breadcrumbs">
                                     <ul class="trail-items-2">
                                         <li class="trail-item-2 trail-begin"><a
-                                                href="{{ route('home') }}"><span>Home</span></a></li>
+                                                href="{{ route('home') }}"><span>Beranda</span></a></li>
                                         <li class="trail-item-2 trail-center"><a
                                                 href="{{ route('product') }}"><span>Produk</span></a></li>
                                         <li class="trail-item-2 trail-end"><span>{{ $product->name }}</span></li>
