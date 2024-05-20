@@ -6,7 +6,7 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
+    <link rel="icon" href="{{ asset('assets/img/logo/pralon.png') }}">
     <title>{{ config('app.name', 'Pralon Indonesia') }}</title>
 
     <!-- Fonts -->

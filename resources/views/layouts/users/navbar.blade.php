@@ -1,14 +1,14 @@
 <!-- header area start  -->
 <header>
-    <div id="header-sticky" class="header__main header__demo  b-bottom-2">
+    <div id="header-sticky" class="header__main header__demo b-bottom-2">
         {{-- <div id="header-sticky" class="header__main-2 header__shadow b-bottom"> --}}
         <div class="container header__main-container">
             <div class="row align-items-center">
                 <div class="col-xl-12 col-lg-12">
                     <div class="header__main-content-wrapper p-relative">
                         <div class="header__main-left">
-                            <div class="header__logo">
-                                <a href="" class="logo-dark"><img src="{{ asset('assets/img/logo/pralon.png') }}"
+                            <div class="header__logo ms-2">
+                                <a href="{{ route('home') }}" class="logo-dark"><img src="{{ asset('assets/img/logo/pralon.png') }}"
                                         alt="logo-img"></a>
                             </div>
                             {{-- <div class="area-separator d-none d-lg-inline-flex"></div> --}}

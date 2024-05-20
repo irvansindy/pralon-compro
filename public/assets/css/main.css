@@ -6132,7 +6132,8 @@ div.mean-container a.meanmenu-reveal {
   font-size: 16px;
   text-transform: uppercase;
   line-height: 1.3;
-  color: var(--clr-common-white);
+  /* color: var(--clr-common-white); */
+  color: var(--clr-theme-6);
 }
 .hero__area .intro-title .video-title span {
   display: block;

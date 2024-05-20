@@ -62,6 +62,12 @@
                                 <li>
                                     <a href="https://www.youtube.com/@ptpralon-official5154" target="_blank"><i class="fa-brands fa-youtube"></i></a>
                                 </li>
+                                <li>
+                                    <a href="http://tiktok.com/@pralonofficial" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
+                                </li>
+                                <li>
+                                    <a href="http://linkedin.com/company/pt-pralon" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
+                                </li>
                             </ul>
                         </div>
                     </div>
