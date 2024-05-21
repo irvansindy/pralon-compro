@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\AboutUsController;
 use App\Http\Controllers\User\ProductController;
-use App\Http\Controllers\NewsController;
+use App\Http\Controllers\User\NewsController;
+use App\Http\Controllers\User\ContactUsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -37,6 +38,9 @@ Route::get('/fetch-news', [NewsController::class,'fetchNews'])->name('fetch-news
 Route::get('/fetch-news-categories', [NewsController::class,'fetchNewsCategories'])->name('fetch-news-categories');
 Route::get('/fetch-news-recent-post', [NewsController::class,'fetchRecentPost'])->name('fetch-news-recent-post');
 Route::get('fetch-news-detail', [NewsController::class,'fetchNewsDetail'])->name('fetch-news-detail');
+
+Route::get('contact-us', [ContactUsController::class,'index'])->name('contact-us');
+Route::get('fetch-contact-us', [ContactUsController::class,'fetch'])->name('fetch-contact-us');
 
 Auth::routes();
 

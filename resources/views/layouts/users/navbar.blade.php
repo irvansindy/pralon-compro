@@ -139,7 +139,7 @@
                                             </li>
                                         </ul>
                                     </li> --}}
-                                    <li><a href="contact.html">HUBUNGI KAMI</a></li>
+                                    <li><a href="{{ route('contact-us') }}">HUBUNGI KAMI</a></li>
                                 </ul>
                             </nav>
                         </div>
