@@ -4870,12 +4870,12 @@ body {
 
 @media only screen and (min-width: 1200px) and (max-width: 1440px) {
   .main-menu ul li a {
-    font-size: 16px;
+    font-size: 14px;
   }
 }
 @media only screen and (min-width: 1200px) and (max-width: 1440px), only screen and (min-width: 992px) and (max-width: 1199px) {
   .main-menu ul li a {
-    padding: 30px 0;
+    padding: 20px 0;
   }
 }
 .main-menu ul li .sub-menu {
@@ -4900,7 +4900,8 @@ body {
   border-top: 1px solid rgba(230, 227, 241, 0.3098039216);
 }
 .main-menu ul li .sub-menu .sub-menu {
-  left: 102.3%;
+  /* left: 102.3%; */
+  left: 100%;
   top: 0%;
 }
 .main-menu ul li .sub-menu li {
@@ -5009,6 +5010,10 @@ body {
 .main-menu ul li.menu-item-has-children {
   position: relative;
 }
+.main-menu ul li.menu-item-has-children a.active{
+  color: var(--clr-theme-6);
+  font-weight: bold;
+}
 .main-menu ul li.menu-item-has-children:after {
   content: "\f067";
   font-size: 14px;
@@ -5091,6 +5096,10 @@ div.mean-container a.meanmenu-reveal {
   display: none !important;
 }
 
+.has-dropdown.has-mega-menu a.active {
+  color: var(--clr-theme-6);
+  font-weight: bold;
+}
 .has-dropdown.has-mega-menu .mega-menu li ul {
   display: block !important;
 }
@@ -10770,18 +10779,18 @@ div.mean-container a.meanmenu-reveal {
   padding-right: 60px;
   border-radius: 10px;
   display: grid;
-  grid-template-columns: 25% auto;
+  grid-template-columns: 50% auto;
   gap: 25px 30px;
 }
 @media only screen and (min-width: 1200px) and (max-width: 1440px), only screen and (min-width: 992px) and (max-width: 1199px) {
   .df-blog4__box {
-    grid-template-columns: 30% auto;
+    grid-template-columns: 50% auto;
     padding-right: 30px;
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .df-blog4__box {
-    grid-template-columns: 45% auto;
+    grid-template-columns: 50% auto;
     padding-right: 30px;
     align-items: center;
   }
@@ -10811,7 +10820,7 @@ div.mean-container a.meanmenu-reveal {
   color: var(--clr-common-white);
 }
 .df-blog4__content {
-  display: grid;
+  /* display: grid; */
   /* grid-template-columns: auto 130px; */
   /* gap: 30px 80px; */
   align-items: center;
@@ -10824,13 +10833,13 @@ div.mean-container a.meanmenu-reveal {
 .df-blog4__content p {
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
 }
-@media only screen and (min-width: 1200px) and (max-width: 1440px), only screen and (min-width: 992px) and (max-width: 1199px), only screen and (min-width: 768px) and (max-width: 991px), only screen and (min-width: 576px) and (max-width: 767px), (max-width: 575px) {
+@media only screen and (min-width: 1440px) and (max-width: 2880px), only screen and (min-width: 1200px) and (max-width: 1440px), only screen and (min-width: 992px) and (max-width: 1199px), only screen and (min-width: 768px) and (max-width: 991px), only screen and (min-width: 576px) and (max-width: 767px), (max-width: 575px) {
   .df-blog4__content p {
-    font-size: 18px;
-    line-height: 24px;
+    font-size: 13px !important;
+    line-height: 20px;
   }
 }
 .df-blog4__thumb {
@@ -10851,7 +10860,7 @@ div.mean-container a.meanmenu-reveal {
   content: "";
   width: 100%;
   height: 100%;
-  background: var(--clr-theme-3);
+  /* background: var(--clr-theme-3); */
   opacity: 0.15;
   left: 0;
   top: 0;
@@ -10878,16 +10887,16 @@ div.mean-container a.meanmenu-reveal {
   font-weight: 500;
 }
 .df-blog4__title {
-  font-size: 48px;
-  line-height: 36px;
-  margin-bottom: 25px;
+  font-size: 24px;
+  line-height: 24px;
+  margin-bottom: 16px;
   font-weight: 600;
   /* color: var(--clr-theme-6); */
 }
 @media only screen and (min-width: 1200px) and (max-width: 1440px), only screen and (min-width: 992px) and (max-width: 1199px), only screen and (min-width: 768px) and (max-width: 991px), only screen and (min-width: 576px) and (max-width: 767px), (max-width: 575px) {
   .df-blog4__title {
-    font-size: 32px;
-    line-height: 32px;
+    font-size: 22px;
+    line-height: 20px;
   }
 }
 .df-blog4__title a:hover {

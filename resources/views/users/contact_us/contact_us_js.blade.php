@@ -1,5 +1,9 @@
 <script>
     $(document).ready(function() {
+        var lebar = $(window).width()
+        var tinggi = $(window).height()
+        // alert('lebar :'+lebar)
+        // alert('tinggi :' +tinggi)
         fetchContactUs()
         function fetchContactUs() {
             $.ajax({
@@ -21,35 +25,31 @@
                         <div class="col">
                             <div class="df-blog4__box">
                                 <div class="df-blog4__thumb">
-                                    <a href="blog-details.html"><img src="{{ asset('assets/img/pralon/contact/${contact.image}') }}"
+                                    <a href="#  "><img src="{{ asset('assets/img/pralon/contact/${contact.image}') }}"
                                             alt="image not found"></a>
                                 </div>
                                 <div class="df-blog4__content">
                                     <h3 class="df-blog4__title">
                                         <a href="#">${contact.name}</a>
                                     </h3>
-                                    <p>${contact.address}</p>
-                                    <div class="row row-cols-3 py-2" style="font-size: 12px;">
+                                    <p title="${contact.address}">${contact.address}</p>
+                                    <div class="row row-cols-1 py-2" style="font-size: 12px !important;">
                                         <div class="col">
-                                            <span>
-                                                Email :
-                                                <br>
-                                                <a href="mailto:${contact.email}">${contact.email}</a>
+                                            <span style="font-size: 12px !important;">
+                                                <i class="fa-solid fa-envelope"></i>
+                                                <a href="mailto:${contact.email}" style="font-size: 12px !important;">${contact.email}</a>
                                             </span>
                                         </div>
                                         <div class="col">
-                                            <span>
-                                                Telp :
-                                                <br>
+                                            <span style="font-size: 12px !important;">
+                                                <i class="fa-solid fa-phone"></i>
                                                 ${contact.phone_number}
                                             </span>
 
                                         </div>
                                         <div class="col">
-                                            <span>
-                                                Fax :
-                                                <br>
-                                                ${contact.fax}
+                                            <span style="font-size: 12px !important;">
+                                                <i class="fa-solid fa-fax"></i> ${contact.fax}
                                             </span>
                                         </div>
                                     </div>

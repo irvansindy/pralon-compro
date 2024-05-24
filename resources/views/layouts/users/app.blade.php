@@ -60,7 +60,7 @@
     <script src="{{ asset('assets/js/plugins/wow.min.js') }}"></script>
     <script src="{{ asset('assets/js/plugins/jquery-ui.min.js') }}"></script>
     <script src="{{ asset('assets/js/vendor/isotope.pkgd.min.js') }}"></script>
-    <script src="{{ asset('assets/js/vendor/imagesloaded.pkgd.min.js') }}"></script>z
+    <script src="{{ asset('assets/js/vendor/imagesloaded.pkgd.min.js') }}"></script>
     <script src="{{ asset('assets/js/vendor/jquery.appear.js') }}"></script>
     <script src="{{ asset('assets/js/vendor/jquery.odometer.min.js') }}"></script>
     <script src="{{ asset('assets/js/vendor/jquery-ui-slider-range.js') }}"></script>

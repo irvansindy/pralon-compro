@@ -13,7 +13,7 @@
         <section class="df-services__area section-spacing p-relative x-clip">
             {{-- <div class="circle-2"></div>
             <div class="circle-3"></div> --}}
-            <div class="container-fluid">
+            <div class="container">
                 <div class="row justify-content-center section-title-spacing wow fadeInUp" data-wow-delay=".3s">
                     <div class="col-xl-8">
                         <div class="section__title-wrapper text-center">
@@ -22,131 +22,32 @@
                         </div>
                     </div>
                 </div>
-                <!-- blog style 02 start  -->
-                <div class="df-blog4__wrapper">
-                    <div class="row g-5 row-cols-md-2 row-cols-1 wow fadeInUp" id="list_contact_us" data-wow-delay=".5s"
-                        style="padding-left: 25px; padding-right: 25px;">
-                        <div class="col">
-                            <div class="df-blog4__box">
-                                <div class="df-blog4__thumb">
-                                    <a href="blog-details.html"><img src="assets/img/blog/blog-18.webp"
-                                            alt="image not found"></a>
-                                </div>
-                                <div class="df-blog4__content">
-                                    <h3 class="df-blog4__title">
-                                        <a href="#">Kantor Pusat</a>
-                                    </h3>
-                                    <p>Head office Synergy Building #08-08 Jl. Jalur Sutera Barat 17, Alam Sutera Serpong
-                                        Tangerang 15143 Indonesia</p>
-                                    <div class="row row-cols-3 py-2" style="font-size: 12px;">
-                                        <div class="col">
-                                            <span>
-                                                Email :
-                                                <br>
-                                                <a href="mailto:info@pralon.com">info@pralon.com</a>
-                                            </span>
-                                        </div>
-                                        <div class="col">
-                                            <span>
-                                                Telp :
-                                                <br>
-                                                (021) 304 38808
-                                            </span>
-
-                                        </div>
-                                        <div class="col">
-                                            <span>
-                                                Fax :
-                                                <br>
-                                                (021) 304 38801
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                {{-- <div class="card mb-3" style="max-width: 540px;">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="{{ asset('assets/img/pralon/contact/Head Office.jpg') }}" class="img img-fluid rounded-start" alt="..."
+                                style="max-width: 100%"
+                            >
                         </div>
-                        <div class="col">
-                            <div class="df-blog4__box">
-                                <div class="df-blog4__thumb">
-                                    <a href="blog-details.html"><img src="assets/img/blog/blog-18.webp"
-                                            alt="image not found"></a>
-                                </div>
-                                <div class="df-blog4__content">
-                                    <h3 class="df-blog4__title">
-                                        <a href="#">Kantor Pusat</a>
-                                    </h3>
-                                    <p>Head office Synergy Building #08-08 Jl. Jalur Sutera Barat 17, Alam Sutera Serpong
-                                        Tangerang 15143 Indonesia</p>
-                                    <div class="row row-cols-3 py-2" style="font-size: 12px;">
-                                        <div class="col">
-                                            <span>
-                                                Email :
-                                                <br>
-                                                <a href="mailto:info@pralon.com">info@pralon.com</a>
-                                            </span>
-                                        </div>
-                                        <div class="col">
-                                            <span>
-                                                Telp :
-                                                <br>
-                                                (021) 304 38808
-                                            </span>
-
-                                        </div>
-                                        <div class="col">
-                                            <span>
-                                                Fax :
-                                                <br>
-                                                (021) 304 38801
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="df-blog4__box">
-                                <div class="df-blog4__thumb">
-                                    <a href="blog-details.html"><img src="assets/img/blog/blog-18.webp"
-                                            alt="image not found"></a>
-                                </div>
-                                <div class="df-blog4__content">
-                                    <h3 class="df-blog4__title">
-                                        <a href="#">Kantor Pusat</a>
-                                    </h3>
-                                    <p>Head office Synergy Building #08-08 Jl. Jalur Sutera Barat 17, Alam Sutera Serpong
-                                        Tangerang 15143 Indonesia</p>
-                                    <div class="row row-cols-3 py-2" style="font-size: 12px;">
-                                        <div class="col">
-                                            <span>
-                                                Email :
-                                                <br>
-                                                <a href="mailto:info@pralon.com">info@pralon.com</a>
-                                            </span>
-                                        </div>
-                                        <div class="col">
-                                            <span>
-                                                Telp :
-                                                <br>
-                                                (021) 304 38808
-                                            </span>
-
-                                        </div>
-                                        <div class="col">
-                                            <span>
-                                                Fax :
-                                                <br>
-                                                (021) 304 38801
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
+                                    additional content. This content is a little bit longer.</p>
+                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
                             </div>
                         </div>
                     </div>
+                </div> --}}
+                <!-- blog style 02 start  -->
+                <div class="df-blog4__wrapper">
+                    <div class="row g-5 row-cols-lg-2 row-cols-md-2 row-cols-1 wow fadeInUp" id="list_contact_us" data-wow-delay=".5s"
+                        style="padding-left: 50px !important; padding-right: 50px !important;">
+                    </div>
                 </div>
                 <!-- blog style 02 end  -->
-                <div class="df-booking2__form-wrapper section-spacing-top">
+                <div class="df-booking2__form-wrapper section-spacing-top"
+                    style="padding-top: 180px !important; padding-left: 50px !important; padding-right: 50px !important;">
                     <div class="df-booking__video">
                         <img src="{{ asset('assets/img/pralon/contact/Head Office.jpg') }}" alt="image not found">
                         {{-- <div class="df-video__play-btn pos-center">

@@ -7,7 +7,7 @@
                 <div class="col-xl-12 col-lg-12">
                     <div class="header__main-content-wrapper p-relative">
                         <div class="header__main-left">
-                            <div class="header__logo ms-2">
+                            <div class="header__logo ms-5">
                                 <a href="{{ route('home') }}" class="logo-dark"><img src="{{ asset('assets/img/logo/pralon.png') }}"
                                         alt="logo-img"></a>
                             </div>
@@ -17,7 +17,7 @@
                             <nav id="mobile-menu" style="display: block;">
                                 <ul class="justify-content-center" style="margin-bottom: 0 !important;">
                                     <li class="menu-item-has-children">
-                                        <a href="{{ route('home') }}">BERANDA</a>
+                                        <a href="{{ route('home') }}" class="{{ Route::currentRouteName() == 'home' ? 'active' : '' }}">BERANDA</a>
                                         {{-- <ul class="sub-menu">
                                             <li><a href="plumbing.html">Plumbing</a></li>
                                             <li><a href="air-condition.html">Air Condition</a></li>
@@ -26,14 +26,14 @@
                                         </ul> --}}
                                     </li>
                                     <li class="menu-item-has-children">
-                                        <a href="{{ route('about-us') }}">TENTANG KAMI</a>
+                                        <a href="{{ route('about-us') }}" class="{{ Route::currentRouteName() == 'about-us' ? 'active' : '' }}">TENTANG KAMI</a>
                                         {{-- <ul class="sub-menu">
                                             <li><a href="about.html">About</a></li>
                                             <li><a href="about-v2.html">About-v2</a></li>
                                         </ul> --}}
                                     </li>
                                     <li class="has-dropdown has-mega-menu">
-                                        <a href="{{ route('product') }}">PRODUK</a>
+                                        <a href="{{ route('product') }}" class="{{ Route::currentRouteName() == 'product' ? 'active' : '' }}">PRODUK</a>
                                         {{-- <ul class="mega-menu">
                                             <li class="mega-menu-item">
                                                 <ul>
@@ -84,7 +84,7 @@
                                         </ul> --}}
                                     </li>
                                     <li class="menu-item-has-children">
-                                        <a href="{{ route('news') }}">BERITA</a>
+                                        <a href="{{ route('news') }}" class="{{ Route::currentRouteName() == 'news' ? 'active' : '' }}">BERITA</a>
                                         {{-- <ul class="sub-menu">
                                             <li class="menu-item-has-children">
                                                 <a href="portfolio-classic.html">Portfolio</a>
@@ -139,7 +139,8 @@
                                             </li>
                                         </ul>
                                     </li> --}}
-                                    <li><a href="{{ route('contact-us') }}">HUBUNGI KAMI</a></li>
+                                    <li class="menu-item-has-children">
+                                        <a href="{{ route('contact-us') }}" class="{{ Route::currentRouteName() == 'contact-us' ? 'active' : '' }}">HUBUNGI KAMI</a></li>
                                 </ul>
                             </nav>
                         </div>
