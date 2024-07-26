@@ -122,11 +122,12 @@
         <div class="df-img-area-start section-spacing-bottom">
             <div class="container">
                 <div class="row g-5">
+                    
                     @forelse ($product->detailImage as $image)
                         <div class="col-lg-6">
                             <div class="df-img-thumb">
                                 <img src="{{ asset('assets/img/pralon/list_product/detail_product/' . $image->image_detail) }}"
-                                    alt="image not found">
+                                    alt="tidak ada">
                             </div>
                         </div>
 
@@ -134,7 +135,7 @@
                         <div class="col-lg-6">
                             <div class="df-img-thumb">
                                 <img src="{{ asset('assets/img/blog/blog-details-thumb-003.webp') }}"
-                                    alt="image not found">
+                                    alt="tidak ada">
                             </div>
                         </div>
                     @endforelse
@@ -211,8 +212,12 @@
         </section>
         <!-- result area start -->
     </main>
+    @if ($product->brocure != null)
     @include('users.product.modal_confirm_download_brocure')
-    @include('users.product.modal_confirm_download_pricelist')
+    @endif
+    @if ($product->priceList != NULL)
+        @include('users.product.modal_confirm_download_pricelist')
+    @endif
     @include('layouts.users.footer')
 @endsection
 @push('js')

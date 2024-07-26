@@ -46,7 +46,7 @@ class ProductController extends Controller
 
         $related_products = Product::where('id', '!=', $id)
         ->inRandomOrder()->take(3)->get();
-        // return response()->json($product->brocure->brocure_file,200);
+        // return response()->json($product);
         return view('users.product.product_detail', compact('product', 'related_products'));
     }
     public function fetchProductByCategoty(Request $request)
