@@ -6,6 +6,9 @@ use App\Http\Controllers\User\AboutUsController;
 use App\Http\Controllers\User\ProductController;
 use App\Http\Controllers\User\NewsController;
 use App\Http\Controllers\User\ContactUsController;
+
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\MenuController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -41,6 +44,15 @@ Route::get('fetch-news-detail', [NewsController::class,'fetchNewsDetail'])->name
 
 Route::get('contact-us', [ContactUsController::class,'index'])->name('contact-us');
 Route::get('fetch-contact-us', [ContactUsController::class,'fetch'])->name('fetch-contact-us');
+
+// admin
+Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard');
+Route::get('/menu-setting', [MenuController::class,'index'])->name('menu-setting');
+Route::get('/fetch-menu', [MenuController::class,'fetchMenu'])->name('fetch-menu');
+Route::get('/detail-menu', [MenuController::class,'detailMenu'])->name('detail-menu');
+
+Route::post('/store-menu', [MenuController::class,'storeMenu'])->name('store-menu');
+Route::post('/update-menu', [MenuController::class,'updateMenu'])->name('update-menu');
 
 Auth::routes();
 
