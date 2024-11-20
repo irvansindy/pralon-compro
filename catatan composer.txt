@@ -4,3 +4,7 @@ composer update --ignore-platform-req=ext-dom --ignore-platform-req=ext-xml --ig
 
 user : pralon_compro
 #ComproSindy9890
+
+pass admin
+adminpralon@gmail.com
+#AdminPralon6969

@@ -9,6 +9,7 @@ use App\Http\Controllers\User\ContactUsController;
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\Admin\ProductCategoryController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -46,13 +47,22 @@ Route::get('contact-us', [ContactUsController::class,'index'])->name('contact-us
 Route::get('fetch-contact-us', [ContactUsController::class,'fetch'])->name('fetch-contact-us');
 
 // admin
-Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard');
-Route::get('/menu-setting', [MenuController::class,'index'])->name('menu-setting');
-Route::get('/fetch-menu', [MenuController::class,'fetchMenu'])->name('fetch-menu');
-Route::get('/detail-menu', [MenuController::class,'detailMenu'])->name('detail-menu');
-
-Route::post('/store-menu', [MenuController::class,'storeMenu'])->name('store-menu');
-Route::post('/update-menu', [MenuController::class,'updateMenu'])->name('update-menu');
+Route::middleware(['auth'])->group(function () {
+    // dashboard
+    Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard');
+    // menu setting
+    Route::get('/menu-setting', [MenuController::class,'index'])->name('menu-setting');
+    Route::get('/fetch-menu', [MenuController::class,'fetchMenu'])->name('fetch-menu');
+    Route::get('/detail-menu', [MenuController::class,'detailMenu'])->name('detail-menu');
+    Route::post('/store-menu', [MenuController::class,'storeMenu'])->name('store-menu');
+    Route::post('/update-menu', [MenuController::class,'updateMenu'])->name('update-menu');
+    
+    // product
+    Route::get('product-categories', [ProductCategoryController::class,'index'])->name('product-categories');
+    Route::get('fetch-product-categories', [ProductCategoryController::class,'fetchCategories'])->name('fetch-product-categories');
+    Route::post('store-product-category', [ProductCategoryController::class,'storeCategory'])->name('store-product-category');
+    Route::post('update-product-category', [ProductCategoryController::class,'updateCategory'])->name('update-product-category');
+});
 
 Auth::routes();
 
