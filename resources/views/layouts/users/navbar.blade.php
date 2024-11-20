@@ -8,7 +8,7 @@
                     <div class="header__main-content-wrapper p-relative">
                         <div class="header__main-left">
                             <div class="header__logo ms-5">
-                                <a href="{{ route('home') }}" class="logo-dark"><img src="{{ asset('assets/img/logo/pralon.png') }}"
+                                <a href="{{ route('home') }}" class="logo-dark"><img src="{{ asset('assets/img/logo/logo-pralon-white.png') }}"
                                         alt="logo-img"></a>
                             </div>
                             {{-- <div class="area-separator d-none d-lg-inline-flex"></div> --}}

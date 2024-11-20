@@ -183,8 +183,8 @@
             <!-- Footer -->
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2021</span>
+                    <div class="copyright text-center my-auto" id="copyright">
+                        <span>Copyright &copy; Your Website </span>
                     </div>
                 </div>
             </footer>
@@ -243,6 +243,11 @@
     <!-- sweet alert 2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @stack('js')
+    <script>
+        const date = new Date();
+        let year = date.getFullYear();
+        document.getElementById("copyright").innerHTML = '<span>Copyright &copy; Sindy '+year+'</span>'
+    </script>
 </body>
 
 </html>
