@@ -43,7 +43,7 @@ class ProductController extends Controller
         ->where('slug', $slug)
         ->orderBy('id','ASC')
         ->firstOrFail();
-
+        
         $related_products = Product::where('id', '!=', $id)
         ->inRandomOrder()->take(3)->get();
         // return response()->json($product);

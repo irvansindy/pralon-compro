@@ -10,6 +10,7 @@ use App\Http\Controllers\User\ContactUsController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\ProductCategoryController;
+use App\Http\Controllers\Admin\ProductController as AdminProductController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -56,12 +57,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/detail-menu', [MenuController::class,'detailMenu'])->name('detail-menu');
     Route::post('/store-menu', [MenuController::class,'storeMenu'])->name('store-menu');
     Route::post('/update-menu', [MenuController::class,'updateMenu'])->name('update-menu');
-    
-    // product
+    // product category
     Route::get('product-categories', [ProductCategoryController::class,'index'])->name('product-categories');
     Route::get('fetch-product-categories', [ProductCategoryController::class,'fetchCategories'])->name('fetch-product-categories');
     Route::post('store-product-category', [ProductCategoryController::class,'storeCategory'])->name('store-product-category');
     Route::post('update-product-category', [ProductCategoryController::class,'updateCategory'])->name('update-product-category');
+    // master product
+    Route::get('master-product', [AdminProductController::class,'index'])->name('master-product');
+    Route::get('fetch-master-product', [AdminProductController::class,'fetchProduct'])->name('fetch-master-product');
+    Route::get('fetch-master-product-by-id', [AdminProductController::class,'fetchProductById'])->name('fetch-master-product-by-id');
+    Route::post('store-master-product', [AdminProductController::class,'storeProduct'])->name('store-master-product');
+    Route::post('update-master-product', [AdminProductController::class,'updateProduct'])->name('update-master-product');
 });
 
 Auth::routes();

@@ -29,7 +29,10 @@
     <link href="{{ asset('assets/admin_pages/css/sb-admin-2.min.css') }}" rel="stylesheet">
     <!-- Custom styles for this page -->
     <link href="{{ asset('assets/admin_pages/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
-
+    <!-- select 2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <!-- summernote -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-bs4.min.css" rel="stylesheet">
 </head>
 
 <body id="page-top">
@@ -127,7 +130,10 @@
 
     <!-- sweet alert 2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
+    <!-- select 2 -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <!-- summernote -->
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-bs4.min.js"></script>
     <script>
         const date = new Date();
         let year = date.getFullYear();

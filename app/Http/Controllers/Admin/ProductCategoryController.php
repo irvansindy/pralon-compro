@@ -23,8 +23,7 @@ class ProductCategoryController extends Controller
             $categories = ProductCategory::all();
             return FormatResponseJson::success($categories, 'product categories fetched successfully');
         } catch (\Throwable $th) {
-            return FormatResponseJson::error(null, 'product categories fetched successfully', 500);
-
+            return FormatResponseJson::error(null, 'product categories fetched unsuccessfully', 500);
         }
     }
     public function storeCategory(Request $request)
