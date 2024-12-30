@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/vendor/icomoon.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/plugins/slick.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/plugins/odometer.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}"> --}}
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])

@@ -11,6 +11,8 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
+use App\Http\Controllers\Admin\HomePageController as AdminHomePageController;
+use App\Http\Controllers\Admin\AboutUsController as AdminAboutUsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -68,6 +70,33 @@ Route::middleware(['auth'])->group(function () {
     Route::get('fetch-master-product-by-id', [AdminProductController::class,'fetchProductById'])->name('fetch-master-product-by-id');
     Route::post('store-master-product', [AdminProductController::class,'storeProduct'])->name('store-master-product');
     Route::post('update-master-product', [AdminProductController::class,'updateProduct'])->name('update-master-product');
+    /* master content
+    homepage/beranda */
+    Route::get('home-page-setting', [AdminHomePageController::class,'index'])->name('home-page-setting');
+    Route::get('fetch-home-page-setting', [AdminHomePageController::class,'fetchMasterSection'])->name('fetch-home-page-setting');
+    Route::get('fetch-home-page-setting-by-id', [AdminHomePageController::class,'fetchMasterSectionById'])->name('fetch-home-page-setting-by-id');
+    Route::post('store-master-section', [AdminHomePageController::class,'storeMasterSection'])->name('store-master-section');
+    // master about us
+    Route::get('about-us-setting', [AdminAboutUsController::class, 'index'])->name('about-us-setting');
+    Route::get('fetch-about-us-setting', [AdminAboutUsController::class, 'fetchAllContentAboutUs'])->name('fetch-about-us-setting');
+    Route::get('fetch-detail-header-about-us', [AdminAboutUsController::class, 'fetchDetailHeaderAboutUs'])->name('fetch-detail-header-about-us');
+    Route::get('fetch-detail-history-about-us', [AdminAboutUsController::class, 'fetchDetailHistory'])->name('fetch-detail-history-about-us');
+    Route::get('fetch-detail-why-pralon-about-us', [AdminAboutUsController::class, 'fetchDetailWhyPralon'])->name('fetch-detail-why-pralon-about-us');
+    Route::get('fetch-detail-visi-misi-about-us', [AdminAboutUsController::class, 'fetchVisiMisi'])->name('fetch-detail-visi-misi-about-us');
+    Route::get('fetch-detail-value-about-us', [AdminAboutUsController::class, 'fetchValue'])->name('fetch-detail-value-about-us');
+    Route::get('fetch-certificate-about-us', [AdminAboutUsController::class, 'fetchCertificates'])->name('fetch-certificate-about-us');
+
+    Route::post('store-header-about-us', [AdminAboutUsController::class, 'storeHeader'])->name('store-header-about-us');
+    Route::post('update-header-about-us', [AdminAboutUsController::class, 'updateHeader'])->name('update-header-about-us');
+    Route::post('store-history-about-us', [AdminAboutUsController::class, 'storeHistory'])->name('store-history-about-us');
+    Route::post('update-history-about-us', [AdminAboutUsController::class, 'updateHistory'])->name('update-history-about-us');
+    Route::post('store-why-pralon-about-us', [AdminAboutUsController::class, 'storeWhyPralon'])->name('store-why-pralon-about-us');
+    Route::post('update-why-pralon-about-us', [AdminAboutUsController::class, 'updateWhyPralon'])->name('update-why-pralon-about-us');
+    Route::post('store-visi-misi-about-us', [AdminAboutUsController::class, 'storeVisiMisi'])->name('store-visi-misi-about-us');
+    Route::post('update-visi-misi-about-us', [AdminAboutUsController::class, 'updateVisiMisi'])->name('update-visi-misi-about-us');
+    Route::post('store-value-about-us', [AdminAboutUsController::class, 'storeValue'])->name('store-value-about-us');
+    Route::post('update-value-about-us', [AdminAboutUsController::class, 'updateValue'])->name('update-value-about-us');
+    Route::post('store-certificate-about-us', [AdminAboutUsController::class, 'storeCertificate'])->name('store-certificate-about-us');
 });
 
 Auth::routes();

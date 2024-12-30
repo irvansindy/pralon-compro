@@ -21,7 +21,7 @@
                             <div class="breadcrumb-menu-2 d-flex justify-content-center">
                                 <nav aria-label="Breadcrumbs" class="breadcrumb-trail breadcrumbs">
                                     <ul class="trail-items-2">
-                                        <li class="trail-item-2 trail-begin"><a href="index.html"><span>Home</span></a></li>
+                                        <li class="trail-item-2 trail-begin"><a href="{{ route('home') }}"><span>Home</span></a></li>
                                         <li class="trail-item-2 trail-end"><span>Tentang Kami</span></li>
                                     </ul>
                                 </nav>
@@ -58,7 +58,7 @@
                                 di Indonesia. Dengan menggunakan teknologi mutakhir dan standard produksi yang tinggi, PT
                                 Pralon telah berhasil mencipt akan produk-produk dengan kualitas terbaik.
                             </p>
-                            <div class="df-about3__counter-wrap mb-40">
+                            {{-- <div class="df-about3__counter-wrap mb-40">
                                 <div class="df-about3__counter-box">
                                     <div class="df-about3__counter-number-box">
                                         <h2 class="df-about3__counter-number"><span class="odometer" data-count="13"></span>
@@ -83,7 +83,7 @@
                                             alt="image not found">
                                     </span>
                                 </a>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -155,20 +155,16 @@
                                         </div>
                                         <ol style="font-size: 16px; !important">
                                             <li>
-                                                <p>Memproduksi produk berkualitas yang mudah didapat dan peduli terhadap
-                                                    lingkungan dengan harga yang sesuai (Value for money) sehingga
-                                                    memberikan kepuasan pelanggan.</p>
+                                                <p>Memproduksi produk berkualitas yang mudah didapat dan peduli terhadap lingkungan dengan harga yang sesuai (Value for money) sehingga memberikan kepuasan pelanggan.</p>
                                             </li>
                                             <li>
                                                 <p>
-                                                    Senantiasa ber-inovasi dalam proses dan teknologi agar dapat memenuhi
-                                                    kebutuhan pasar (market oriented).
+                                                    Senantiasa ber-inovasi dalam proses dan teknologi agar dapat memenuhi kebutuhan pasar (market oriented).
                                                 </p>
                                             </li>
                                             <li>
                                                 <p>
-                                                    Menjadi tempat yang membanggakan bagi karyawan yang kompeten untuk
-                                                    berkarya dan mengembangkan diri secara optimal.
+                                                    Menjadi tempat yang membanggakan bagi karyawan yang kompeten untuk berkarya dan mengembangkan diri secara optimal.
                                                 </p>
                                             </li>
                                             <li>

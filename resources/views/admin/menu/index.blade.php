@@ -42,9 +42,6 @@
         @include('admin.menu.menu_modal')
         @include('admin.menu.submenu_modal')
         @include('admin.menu.list_submenu')
-        {{-- <button class="btn btn-outline-secondary mx-1 my-1 add_submenu" id="" style="float: right !important;" data-toggle="modal" data-target="#createSubMenu" data-delete_id="${menu.id}" title="create submenu">
-            <i class="fas fa-solid fa-plus"></i>
-        </button> --}}
     </div>
 @endsection
 @push('js')

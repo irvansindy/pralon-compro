@@ -38,7 +38,8 @@
                 <div class="row g-50 align-items-center">
                     <div class="col-lg-6 order-lg-0 order-1">
                         <div class="df-service5__thumb">
-                            <img src="{{ asset('assets/img/pralon/list_product/' . $product->image) }}" alt="img not found">
+                            {{-- <img src="{{ asset('assets/img/pralon/list_product/' . $product->image) }}" alt="img not found"> --}}
+                            <img src="{{ asset($product->image) }}" alt="img not found">
                         </div>
                     </div>
                     <div class="col-lg-6 order-lg-1 order-0">
@@ -126,16 +127,15 @@
                     @forelse ($product->detailImage as $image)
                         <div class="col-lg-6">
                             <div class="df-img-thumb">
-                                <img src="{{ asset('assets/img/pralon/list_product/detail_product/' . $image->image_detail) }}"
-                                    alt="tidak ada">
+                                {{-- <img src="{{ asset('assets/img/pralon/list_product/detail_product/' . $image->image_detail) }}" alt="tidak ada"> --}}
+                                <img src="{{ asset($image->image_detail) }}" alt="tidak ada">
                             </div>
                         </div>
 
                     @empty
                         <div class="col-lg-6">
                             <div class="df-img-thumb">
-                                <img src="{{ asset('assets/img/blog/blog-details-thumb-003.webp') }}"
-                                    alt="tidak ada">
+                                <img src="{{ asset('assets/img/blog/blog-details-thumb-003.webp') }}" alt="tidak ada">
                             </div>
                         </div>
                     @endforelse
@@ -190,8 +190,7 @@
                                             <div class="service__box wow fadeInUp" data-wow-delay=".5s">
                                                 <div class="service__content">
                                                     <div class="service__img">
-                                                        <img src="{{ asset('assets/img/pralon/list_product/' . $related_product->image) }}"
-                                                            alt="image not found">
+                                                        <img src="{{ asset($related_product->image) }}" alt="image not found">
                                                     </div>
                                                     <h4 class="service__title">{{ $related_product->name }}</h4>
                                                     <p class="service__text">

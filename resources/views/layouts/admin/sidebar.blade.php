@@ -11,12 +11,25 @@
 
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
-
+    @php
+        $menus = DB::table('menus')->get();
+        foreach ($menus as $menu) {
+        @endphp
+        <li class="nav-item active">
+            <a class="nav-link" href="index.html">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+        @php
+        }
+    @endphp
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
         <a class="nav-link" href="index.html">
             <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Dashboard</span></a>
+            <span>Dashboard</span>
+        </a>
     </li>
 
     <!-- Divider -->

@@ -33,6 +33,7 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <!-- summernote -->
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-bs4.min.css" rel="stylesheet">
+    @stack('css')
 </head>
 
 <body id="page-top">
@@ -61,7 +62,7 @@
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            <footer class="sticky-footer bg-white">
+            <footer class="sticky-footer bg-white mt-auto">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto" id="copyright">
                         <span>Copyright &copy; Your Website </span>

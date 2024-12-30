@@ -24,13 +24,16 @@
                                 <td>${menu.url != null ? menu.url : 'not set'}</td>
                                 <td>${status_active}</td>
                                 <td>
-                                    <button class="btn btn-outline-danger mx-1 my-1 delete_menu" id="" style="float: right !important;" data-toggle="" data-target="#" data-delete_id="${menu.id}" title="delete menu">
+                                    <button class="btn btn-outline-info mr-1 add_submenu" id="" style="float: right !important;" data-toggle="modal" data-target="#createSubMenu" data-add_submenu_id="${menu.id}" title="add submenu">
+                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                    </button>
+                                    <button class="btn btn-outline-danger mr-1 delete_menu" id="" style="float: right !important;" data-toggle="" data-target="#" data-delete_id="${menu.id}" title="delete menu">
                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                     </button>
-                                    <button class="btn btn-outline-secondary mx-1 my-1 check_list_submenu" id="" style="float: right !important;" data-toggle="modal" data-target="#listSubMenu" data-master_id="${menu.id}" title="list submenu">
+                                    <button class="btn btn-outline-secondary mr-1 check_list_submenu" id="" style="float: right !important;" data-toggle="modal" data-target="#listSubMenu" data-master_id="${menu.id}" title="list submenu">
                                         <i class="fa fa-list-alt" aria-hidden="true"></i>
                                     </button>
-                                    <button class="btn btn-outline-info mx-1 my-1 detail_menu" id="" style="float: right !important;" data-toggle="modal" data-target="#createMenu" data-detail_id="${menu.id}" title="detail menu">
+                                    <button class="btn btn-outline-info mr-1 detail_menu" id="" style="float: right !important;" data-toggle="modal" data-target="#createMenu" data-detail_id="${menu.id}" title="detail menu">
                                         <i class="fas fa-eye" aria-hidden="true"></i>
                                     </button>
                                 </td>
@@ -104,6 +107,12 @@
                     })
                 }
             })
+        })
+
+        $(document).on('click', '.add_submenu', function(e) {
+            e.preventDefault()
+            let id = $(this).data('add_submenu_id')
+            alert(id)
         })
 
         $(document).on('click', '.detail_menu', function(e) {
@@ -195,7 +204,7 @@
         $(document).on('click', '.check_list_submenu', function(e) {
             e.preventDefault()
             let id = $(this).data('master_id')
-            alert(id)
+            alert("aduh")
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
