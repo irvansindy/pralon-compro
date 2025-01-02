@@ -662,4 +662,21 @@ class AboutUsController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
+    public function deleteCertificate(Request $request)
+    {
+        try {
+            $existing_certificate = Certificate::where('id', $request->key)->first();
+            if ($existing_certificate) {
+                $old_source_certificate = public_path($existing_certificate->icon);
+                if (file_exists($old_source_certificate)) {
+                    unlink($old_source_certificate);
+                }
+                $existing_certificate->delete();
+            }
+            return FormatResponseJson::success(null,'Certificate deleted successfully');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return FormatResponseJson::error(null, $e->getMessage(), 500);
+        }
+    }
 }

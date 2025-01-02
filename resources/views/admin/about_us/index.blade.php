@@ -119,6 +119,8 @@
     </style>
     <!-- Fileinput.js CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-fileinput@5.5.4/css/fileinput.min.css" integrity="sha256-BOmk7YM0QE1RkIM/AIozfWkJnPNJXo7WZySGa3xXdYc=" crossorigin="anonymous">
+    <!-- default icons used in the plugin are from Bootstrap 5.x icon library (which can be enabled by loading CSS below) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.min.css" crossorigin="anonymous">
 @endpush
 @push('js')
     @include('admin.about_us.about_us_js')

@@ -20,7 +20,7 @@
                 <form enctype="multipart/form-data" method="post" action="{{ route('store-certificate-about-us') }}" class="krajee-example-form" id="form_certificate_about_us">
                     @csrf
                     <div class="file-loading">
-                        <input id="input-multiple-file" name="input-multiple-file[]" multiple type="file" accept="image/*">
+                        <input id="input-multiple-file" name="input-multiple-file[]" multiple type="file" accept="image/*" data-show-upload="false" data-show-caption="true">
                     </div>
                     <hr>
                     <div class="text-center">

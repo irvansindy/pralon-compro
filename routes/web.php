@@ -97,6 +97,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('store-value-about-us', [AdminAboutUsController::class, 'storeValue'])->name('store-value-about-us');
     Route::post('update-value-about-us', [AdminAboutUsController::class, 'updateValue'])->name('update-value-about-us');
     Route::post('store-certificate-about-us', [AdminAboutUsController::class, 'storeCertificate'])->name('store-certificate-about-us');
+    Route::post('delete-certificate-about-us', [AdminAboutUsController::class, 'deleteCertificate'])->name('delete-certificate-about-us');
 });
 
 Auth::routes();

@@ -1,3 +1,5 @@
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-fileinput@5.5.4/js/fileinput.min.js" integrity="sha256-eyql5FyEi9+B/fPWI8q0rZRgbYtBuzXmkO0XAqMq+Bg=" crossorigin="anonymous"></script>
+
 <script>
     $(document).ready(() => {
         fetchAllContentAboutUs()
@@ -973,48 +975,59 @@
                             validateInitialCount: true,
                             overwriteInitial: false,
                             initialPreviewAsData: true,
-                            allowedFileExtensions: ["jpg", "png", "gif"]
+                            allowedFileExtensions: ["jpg", "png", "jpeg"]
                         });
                         $(".btn-submit-sertificate").on("click", function() {
                             $("#input-multiple-file").fileinput('upload');
                         });
                     } else {
-                        $('#list-certificate').empty()
+                        let initialPreview = [];
+                        let initialPreviewConfig = [];
+                        initialPreview = certificate_data.map(file => file.icon);
+                        initialPreviewConfig = certificate_data.map(file => ({
+                            caption: file.title,
+                            size: file.size,
+                            // url: '/file-delete',
+                            key: file.id,
+                            extra: { _token: '{{ csrf_token() }}' } // CSRF token for Laravel
+                        }));
 
+                        $("#input-multiple-file").fileinput({
+                            uploadUrl: "/store-certificate-about-us",
+                            showUpload: true,
+                            showRemove: false,
+                            required: true,
+                            validateInitialCount: true,
+                            overwriteInitial: false,
+                            initialPreviewAsData: true,
+                            initialPreview: initialPreview,
+                            initialPreviewConfig: initialPreviewConfig,
+                            allowedFileExtensions: ["jpg", "png", "jpeg"],
+                            deleteUrl: "/delete-certificate-about-us",
+                            ajaxSettings: {
+                                headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' }
+                            }
+                        });
+
+                        // Event listeners
+                        $(".btn-upload-4").off('click').on("click", function() {
+                            $("#input-freqd-2").fileinput('upload');
+                        });
+
+                        $(".btn-reset-4").off('click').on("click", function() {
+                            $("#input-freqd-2").fileinput('clear');
+                        });
+
+                        $('#input-freqd-2').on('filedeleted', function(event, key) {
+                            console.log('File deleted: ', key);
+                        });
+
+                        $('#input-freqd-2').on('fileclear', function(event) {
+                            console.log('All files cleared.');
+                        });
                     }
                 }
             })
         })
-
-        // $('#input-multiple-file').fileinput({})
-
-        // $("#input-100").fileinput({
-            // theme: 'fa5',
-            // showCancel: true,
-            // initialPreviewAsData: true,
-            // maxFileCount: 5,
-            // enableResumableUpload: true,
-        // });
     })
-</script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap-fileinput@5.5.4/js/fileinput.min.js" integrity="sha256-eyql5FyEi9+B/fPWI8q0rZRgbYtBuzXmkO0XAqMq+Bg=" crossorigin="anonymous"></script>
-<script type="text/javascript">
-    
-    // $("#file-input").fileinput({
-        // theme: 'fa',
-        // uploadUrl: "/image-view",
-        // uploadExtraData: function() {
-        //     return {
-        //         _token: $("input[name='_token']").val(),
-        //     };
-        // },
-        // allowedFileExtensions: ['jpg', 'png', 'gif'],
-        // overwriteInitial: false,
-        // maxFileSize:2000,
-        // maxFilesNum: 10,
-        // slugCallback: function (filename) {
-        //     return filename.replace('(', '_').replace(']', '_');
-        // }
-    // });
-
 </script>
