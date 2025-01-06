@@ -9,6 +9,8 @@ use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\DetailProduct;
 use App\Models\DetailImageProduct;
+use App\Models\productBrocure;
+use App\Models\productPriceList;
 use App\Helpers\FormatResponseJson;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -33,7 +35,7 @@ class ProductController extends Controller
     {
         try {
             // dd($request->id);
-            $product = Product::with(['detailProduct', 'detailImage', 'priceList', 'brocure'])
+            $product = Product::with(['detailProduct', 'detailImage', 'priceList', 'price_list'])
             ->where('id', $request->id)
             ->first();
             $categories = ProductCategory::get(['id', 'name']);
@@ -50,7 +52,7 @@ class ProductController extends Controller
     {
         try {
             DB::beginTransaction();
-            // dd($request->all());
+            // 
             $validator = Validator::make($request->all(), [
                 'master_product_name' => 'required|string',
                 'master_product_full_name' => 'required|string',
@@ -131,7 +133,7 @@ class ProductController extends Controller
     public function updateProduct(Request $request)
     {
         try {
-            // dd($request->all());
+            // 
             $validator = Validator::make($request->all(), [
                 'master_product_name' => 'required|string',
                 'master_product_full_name' => 'required|string',
@@ -229,5 +231,187 @@ class ProductController extends Controller
             DB::rollback();
             return FormatResponseJson::error(null, $e->getMessage(), 500);
         }
+    }
+    public function fetchBrocureByProductId(Request $request)
+    {
+        try {
+            $existing_price_list = productBrocure::where('product_id', $request->id)->orderBy('date', 'DESC')->get();
+            return FormatResponseJson::success($existing_price_list, 'product price_lists fetched successfully');
+        } catch (\Exception $e) {
+            return FormatResponseJson::error(null, $e->getMessage(), 500);
+        }
+    }
+    public function storeBrocure(Request $request)
+    {
+        try {
+            
+            $validator = Validator::make($request->all(), [
+                'brocure_file' => 'required|file|max:50000|mimes:pdf',
+                'brocure_date' => 'required|date',
+            ], [
+                'brocure_file.required'=> 'File tidak boleh kosong',
+                'brocure_file.mimes'=> 'File harus berekstensi pdf',
+                'brocure_file.max'=> 'File size maksimal 20 MB',
+                'brocure_date.required'=> 'Tanggal efektif tidak boleh kosong',
+            ]);
+            if ($validator->fails()) {
+                throw new ValidationException($validator);
+            }
+            // existing product and product brocure
+            $existing_product = Product::where('id',$request->product_id_for_brocure)->first(['id', 'name']);
+            // dd($existing_product);
+            $check_existing_brocure = productBrocure::where('product_id','=', $request->product_id_for_brocure)
+            ->get();
+            $total_current_brocure = $check_existing_brocure->count();
+
+            // master file brocure
+            $file_brocure_file = $request->file('brocure_file');
+            $slug_name = Str::slug($file_brocure_file->getClientOriginalName()." ".$existing_product->name." ".$total_current_brocure+1, '-');
+            $file_brocure_file_name = $slug_name.'.'.$file_brocure_file->getClientOriginalExtension();
+            dd($slug_name);
+
+            $data_brocure = [
+                'product_id' => $request->product_id_for_brocure,
+                'brocure_file' => 'storage/uploads/brocure/'.$file_brocure_file_name,
+                'status' => 'active',
+                'date' => $request->brocure_date,
+                'created_at' => date('Y-m-d H:i:s'),
+            ];
+
+            $create_brocure = productBrocure::create($data_brocure);
+            if ($create_brocure) {
+                $file_brocure_file->move(public_path('storage/uploads/brocure/'), $file_brocure_file_name);
+            }
+
+            // update other brocure to inactive
+            $other_brochures = productBrocure::where('id',  '!=' , $create_brocure->id)
+            ->where('product_id','=', $request->product_id_for_brocure)
+            ->get();
+            // dd($other_brochures);
+            $other_brochures->each(function ($item) use ($request) {
+                $item->status = 'inactive';
+                $item->save();
+            });
+            return FormatResponseJson::success($create_brocure,'product brocure created successfully');
+
+        } catch (ValidationException $e) {
+            // Return validation errors as JSON response
+            DB::rollback();
+            return FormatResponseJson::error(null, ['errors' => $e->errors()], 422);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return FormatResponseJson::error(null, $e->getMessage(), 500);
+        }
+    }
+    public function updateStatusBrocure(Request $request)
+    {
+        // 
+        // update current brocure to active
+        $brocure = productBrocure::findOrFail($request->id);
+        $brocure->status = $request->status;
+        $brocure->save();
+
+        // update other brocure to inactive
+        $other_brochures = productBrocure::where('id',  '!=' , $request->id)
+        ->where('product_id','=', $request->product_id)
+        ->get();
+        // dd($other_brochures);
+        $other_brochures->each(function ($item) use ($request) {
+            $item->status = 'inactive';
+            $item->save();
+        });
+
+        return response()->json(['message' => 'Status updated successfully'], 200);
+    }
+
+    public function fetchPriceListByProductId(Request $request)
+    {
+        try {
+            $existing_price_list = productPriceList::where('product_id', $request->id)->orderBy('date', 'DESC')->get();
+            return FormatResponseJson::success($existing_price_list, 'product price lists fetched successfully');
+        } catch (\Exception $e) {
+            return FormatResponseJson::error(null, $e->getMessage(), 500);
+        }
+    }
+    public function storePriceList(Request $request)
+    {
+        try {
+            
+            $validator = Validator::make($request->all(), [
+                'price_list_file' => 'required|file|max:50000|mimes:pdf',
+                'price_list_date' => 'required|date',
+            ], [
+                'price_list_file.required'=> 'File tidak boleh kosong',
+                'price_list_file.mimes'=> 'File harus berekstensi pdf',
+                'price_list_file.max'=> 'File size maksimal 20 MB',
+                'price_list_date.required'=> 'Tanggal efektif tidak boleh kosong',
+            ]);
+            if ($validator->fails()) {
+                throw new ValidationException($validator);
+            }
+            // existing product and product price_list
+            $existing_product = Product::where('id',$request->product_id_for_price_list)->first(['id', 'name']);
+            $check_existing_price_list = productPriceList::where('product_id','=', $request->product_id_for_price_list)
+            ->get();
+            $total_current_price_list = $check_existing_price_list->count();
+
+            // master file price_list
+            $file_price_list_file = $request->file('price_list_file');
+            $slug_name = Str::slug($file_price_list_file->getClientOriginalName()." ".$existing_product->name." ".$total_current_price_list+1, '-');
+            $file_price_list_file_name = $slug_name.'.'.$file_price_list_file->getClientOriginalExtension();
+            // dd($slug_name);
+
+            $data_price_list = [
+                'product_id' => $request->product_id_for_price_list,
+                'price_list_file' => 'storage/uploads/price_list/'.$file_price_list_file_name,
+                'status' => 'active',
+                'date' => $request->price_list_date,
+                'created_at' => date('Y-m-d H:i:s'),
+            ];
+
+            $create_price_list = productPriceList::create($data_price_list);
+            if ($create_price_list) {
+                $file_price_list_file->move(public_path('storage/uploads/price_list/'), $file_price_list_file_name);
+            }
+
+            // update other price_list to inactive
+            $other_brochures = productPriceList::where('id',  '!=' , $create_price_list->id)
+            ->where('product_id','=', $request->product_id_for_price_list)
+            ->get();
+            // dd($other_brochures);
+            $other_brochures->each(function ($item) use ($request) {
+                $item->status = 'inactive';
+                $item->save();
+            });
+            return FormatResponseJson::success($create_price_list,'product price_list created successfully');
+
+        } catch (ValidationException $e) {
+            // Return validation errors as JSON response
+            DB::rollback();
+            return FormatResponseJson::error(null, ['errors' => $e->errors()], 422);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return FormatResponseJson::error(null, $e->getMessage(), 500);
+        }
+    }
+    public function updateStatusPriceList(Request $request)
+    {
+        // 
+        // update current price_list to active
+        $price_list = productPriceList::findOrFail($request->id);
+        $price_list->status = $request->status;
+        $price_list->save();
+
+        // update other price_list to inactive
+        $other_brochures = productPriceList::where('id',  '!=' , $request->id)
+        ->where('product_id','=', $request->product_id)
+        ->get();
+        // dd($other_brochures);
+        $other_brochures->each(function ($item) use ($request) {
+            $item->status = 'inactive';
+            $item->save();
+        });
+
+        return response()->json(['message' => 'Status updated successfully'], 200);
     }
 }

@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\HomePageController as AdminHomePageController;
 use App\Http\Controllers\Admin\AboutUsController as AdminAboutUsController;
+use App\Http\Controllers\Admin\NewAndBlogController as AdminNewAndBlogController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -68,8 +69,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('master-product', [AdminProductController::class,'index'])->name('master-product');
     Route::get('fetch-master-product', [AdminProductController::class,'fetchProduct'])->name('fetch-master-product');
     Route::get('fetch-master-product-by-id', [AdminProductController::class,'fetchProductById'])->name('fetch-master-product-by-id');
+    Route::get('fetch-brocure-product-by-id', [AdminProductController::class,'fetchBrocureByProductId'])->name('fetch-brocure-product-by-id');
+    Route::get('fetch-pricelist-product-by-id', [AdminProductController::class,'fetchPriceListByProductId'])->name('fetch-pricelist-product-by-id');
+
     Route::post('store-master-product', [AdminProductController::class,'storeProduct'])->name('store-master-product');
     Route::post('update-master-product', [AdminProductController::class,'updateProduct'])->name('update-master-product');
+    Route::post('store-brocure', [AdminProductController::class,'storeBrocure'])->name('store-brocure');
+    Route::post('update-brocure-status', [AdminProductController::class,'updateStatusBrocure'])->name('update-brocure-status');
+    Route::post('store-price-list', [AdminProductController::class,'storePriceList'])->name('store-price-list');
+    Route::post('update-price-list-status', [AdminProductController::class,'updateStatusPriceList'])->name('update-price-list-status');
     /* master content
     homepage/beranda */
     Route::get('home-page-setting', [AdminHomePageController::class,'index'])->name('home-page-setting');
@@ -98,6 +106,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('update-value-about-us', [AdminAboutUsController::class, 'updateValue'])->name('update-value-about-us');
     Route::post('store-certificate-about-us', [AdminAboutUsController::class, 'storeCertificate'])->name('store-certificate-about-us');
     Route::post('delete-certificate-about-us', [AdminAboutUsController::class, 'deleteCertificate'])->name('delete-certificate-about-us');
+
+    // master news anb blog
+    Route::get('news-and-blog', [AdminNewAndBlogController::class,'index'])->name('news-and-blog');
 });
 
 Auth::routes();

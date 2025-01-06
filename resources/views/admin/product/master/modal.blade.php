@@ -1,5 +1,4 @@
-<div class="modal fade" id="ModalMasterProduct" data-backdrop="static" tabindex="-1" role="dialog"
-    aria-labelledby="ModalMasterProductLabel" aria-hidden="true">
+<div class="modal fade" id="ModalMasterProduct" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="ModalMasterProductLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">

@@ -43,7 +43,10 @@
                 </div>
             </div>
         </div>
+        
         @include('admin.product.master.modal')
+        @include('admin.product.master.modal_brocure')
+        @include('admin.product.master.modal_price_list')
     </div>
 @endsection
 @push('js')
