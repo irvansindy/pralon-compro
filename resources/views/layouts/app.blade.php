@@ -31,7 +31,7 @@
     {{-- <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}"> --}}
 
     <!-- Scripts -->
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
 </head>
 <body>
     <div id="app">

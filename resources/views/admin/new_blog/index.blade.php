@@ -3,96 +3,43 @@
     <div class="container-fluid">
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">News And Blog Setting</h1>
+            <h1 class="h3 mb-0 text-gray-800">Master Products</h1>
+            <button class="d-none d-sm-inline-block btn btn-dark shadow-sm" id="add_master_product" data-toggle="modal" data-target="#ModalMasterProduct">
+                <i class="fas fa-plus fa-sm text-white-100"></i>
+            </button>
         </div>
         <!-- Content -->
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title">News And Blog Content Section</h5>
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-dark">List Product</h6>
             </div>
             <div class="card-body">
-                <div class="row">
-                    <div class="col-md-4">
-                        <section id="header-about-us">
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                                    <h6 class="m-0 font-weight-bold text-dark">Header Content</h6>
-                                    <span class="badge badge-pill badge-primary py-1" id="btn-header-about-us" data-header_id=''><i class="fas fa-solid fa-eye"></i> View</span>
-                                </div>
-                                <div class="card-body">
-                                    <p>Dummy link header</p>
-                                </div>
-                            </div>
-                        </section>
-                    </div>
-                    <div class="col-md-4">
-                        <section id="history-about-us">
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                                    <h6 class="m-0 font-weight-bold text-dark">History/Sejarah</h6>
-                                    <span class="badge badge-pill badge-primary py-1" id="btn-history-about-us" data-history_id=''><i class="fas fa-solid fa-eye"></i> View</span>
-                                </div>
-                                <div class="card-body">
-                                    <p>Dummy link history</p>
-                                </div>
-                            </div>
-                        </section>
-                    </div>
-                    <div class="col-md-4">
-                        <section id="why-pralon-about-us">
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                                    <h6 class="m-0 font-weight-bold text-dark">Why Pralon</h6>
-                                    <span class="badge badge-pill badge-primary py-1" id="btn-why-pralon-about-us" data-why_pralon_id=""><i class="fas fa-solid fa-eye"></i> View</span>
-                                </div>
-                                <div class="card-body">
-                                    <p>Dummy Why Pralon</p>
-                                </div>
-                            </div>
-                        </section>
-                    </div>
-                    <div class="col-md-4">
-                        <section id="visi-misi-about-us">
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                                    <h6 class="m-0 font-weight-bold text-dark">Visi & Misi</h6>
-                                    <span class="badge badge-pill badge-primary py-1" id="btn-visi-misi-about-us" data-vision_id=""><i class="fas fa-solid fa-eye"></i> View</span>
-                                </div>
-                                <div class="card-body">
-                                    <p>Dummy Visi & Misi</p>
-                                </div>
-                            </div>
-                        </section>
-                    </div>
-                    <div class="col-md-4">
-                        <section id="value-with-contact-us-about-us">
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                                    <h6 class="m-0 font-weight-bold text-dark">Value Pralon</h6>
-                                    <span class="badge badge-pill badge-primary py-1" id="btn-value-with-contact-us-about-us" data-value_pralon_id=""><i class="fas fa-solid fa-eye"></i> View</span>
-                                </div>
-                                <div class="card-body">
-                                    <p>Dummy Value Pralon</p>
-                                </div>
-                            </div>
-                        </section>
-                    </div>
-                    <div class="col-md-4">
-                        <section id="sertifikat-about-us">
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                                    <h6 class="m-0 font-weight-bold text-dark">List Sertifikat</h6>
-                                    <span class="badge badge-pill badge-primary py-1"  id="btn-sertifikat-about-us" data-certificate_id=""><i class="fas fa-solid fa-eye"></i> View</span>
-                                </div>
-                                <div class="card-body">
-                                    <p>Dummy List Sertifikat</p>
-                                </div>
-                            </div>
-                        </section>
-                    </div>
-                    {{-- <a href="#">
-                        <img src="{{ asset("assets/img/pralon/sertifikat/9001.jpg") }}" alt="">
-                    </a> --}}
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="table_products" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Name</th>
+                                <th>Fullname</th>
+                                <th>slug</th>
+                                <th>Action</th>
+                                
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>No</th>
+                                <th>Name</th>
+                                <th>Fullname</th>
+                                <th>slug</th>
+                                <th>Action</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

@@ -110,6 +110,7 @@ Route::middleware(['auth'])->group(function () {
     // master news anb blog
     Route::get('news-and-blog', [AdminNewAndBlogController::class,'index'])->name('news-and-blog');
     Route::get('fetch-news-blog', [AdminNewAndBlogController::class,'fetchNews'])->name('fetch-news-blog');
+    Route::post('store-news-blog', [AdminNewAndBlogController::class,'storeNewsBlog'])->name('store-news-blog');
 });
 
 Auth::routes();

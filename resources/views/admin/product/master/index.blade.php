@@ -1,4 +1,4 @@
-@extends('layouts.admin.app', ['title' => 'Product Category'])
+@extends('layouts.admin.app', ['title' => 'Master Products'])
 @section('content')
     <div class="container-fluid">
         <!-- Page Heading -->

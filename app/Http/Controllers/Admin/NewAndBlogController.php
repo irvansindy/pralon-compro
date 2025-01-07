@@ -25,4 +25,8 @@ class NewAndBlogController extends Controller
             return FormatResponseJson::error(null, $e->getMessage(), 500);
         }
     }
+    public function storeNewsBlog(Request $request)
+    {
+        
+    }
 }
