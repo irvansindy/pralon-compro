@@ -323,7 +323,6 @@ class ProductController extends Controller
 
         return response()->json(['message' => 'Status updated successfully'], 200);
     }
-
     public function fetchPriceListByProductId(Request $request)
     {
         try {
