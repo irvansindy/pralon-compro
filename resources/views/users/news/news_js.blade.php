@@ -1,7 +1,7 @@
 <script>
     $(document).ready(function() {
         var offset_data = 0;
-        var limit_fetch = 4;
+        var limit_fetch = 5;
         // $('#loading_animation_product').hide()
         fetchNews()
         fetchNewsCategories()
@@ -33,7 +33,7 @@
                             <div class="df-blog__box each_news" data-id="${news.id}" style="cursor: pointer !important;">
                                 <div class="df-blog__thumb">
                                     <a href="">
-                                        <img src="{{ asset('assets/img/pralon/news_blog/${news.image}') }}" alt="image not found">
+                                        <img src="{{ asset('${news.image}') }}" alt="image not found">
                                     </a>
                                 </div>
                                 <div class="df-blog__content">
@@ -108,7 +108,7 @@
                         $('#list_recent_post_news').append(`
                         <div class="blog-sideber-meta mb-25 each_recent_post" data-id="${post.id}" style="cursor: pointer !important;">
                             <div class="col blog-sideber-img">
-                                <a href="#"><img src="{{ asset('assets/img/pralon/news_blog/${post.image}') }}"
+                                <a href="#"><img src="{{ asset('${post.image}') }}"
                                         alt="blog-meta"></a>
                             </div>
                             <div class="col blog-sideber-text">
@@ -158,7 +158,7 @@
                             <div class="df-blog__box each_news" data-id="${news.id}" style="cursor: pointer !important;">
                                 <div class="df-blog__thumb">
                                     <a href="">
-                                        <img src="{{ asset('assets/img/pralon/news_blog/${news.image}') }}" alt="image not found">
+                                        <img src="{{ asset('${news.image}') }}" alt="image not found">
                                     </a>
                                 </div>
                                 <div class="df-blog__content">
@@ -224,7 +224,7 @@
                             <div class="df-blog__box each_news" data-id="${news.id}" style="cursor: pointer !important;">
                                 <div class="df-blog__thumb">
                                     <a href="">
-                                        <img src="{{ asset('assets/img/pralon/news_blog/${news.image}') }}" alt="image not found">
+                                        <img src="{{ asset('${news.image}') }}" alt="image not found">
                                     </a>
                                 </div>
                                 <div class="df-blog__content">
@@ -314,7 +314,7 @@
                                 <div class="df-blog-details__box mb-30 wow fadeInUp animated" data-wow-duration="1.5s" data-wow-delay="0.3">
                                     <div class="df-blog-details__thumb p-relative">
                                         <div class="df-blog-details__thumb-overlay wow"></div>
-                                        <img src="{{ asset('assets/img/pralon/news_blog/${res.data.image}') }}" alt="image not found">
+                                        <img src="{{ asset('${res.data.image}') }}" alt="image not found">
                                     </div>
                                     <div class="df-blog-details__content mb-40">
                                         <div class="df-blog-details__meta mb-25">
@@ -325,11 +325,11 @@
                                         <div class="df-blog-details__thumb-wrap">
                                             <div class="df-blog-details__thumb2 p-relative mb-30">
                                                 <div class="df-blog-details__thumb-overlay wow"></div>
-                                                <img src="{{ asset('assets/img/pralon/news_blog/details/${res.data.news_image_detail[0].file_name}') }}" alt="image not found">
+                                                <img src="{{ asset('${res.data.news_image_detail[0].file_name}') }}" alt="image not found">
                                             </div>
                                             <div class="df-blog-details__thumb2 p-relative mb-30">
                                                 <div class="df-blog-details__thumb-overlay wow"></div>
-                                                <img src="{{ asset('assets/img/pralon/news_blog/details/${res.data.news_image_detail[1].file_name}') }}" alt="image not found">
+                                                <img src="{{ asset('${res.data.news_image_detail[1].file_name}') }}" alt="image not found">
                                             </div>
                                         </div>
                                         <p class="df-blog-details__text mb-35">
