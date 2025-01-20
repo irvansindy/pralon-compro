@@ -265,8 +265,6 @@
         $(document).on('click', '.each_news', function(e) {
             e.preventDefault()
             let news_id = $(this).data('id')
-            // alert(news_id)
-            // window.location.href = 'fetch-news-detail?id='+news_id;
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -327,11 +325,11 @@
                                         <div class="df-blog-details__thumb-wrap">
                                             <div class="df-blog-details__thumb2 p-relative mb-30">
                                                 <div class="df-blog-details__thumb-overlay wow"></div>
-                                                <img src="{{ asset('assets/img/pralon/news_blog/details/${res.data.image_detail[0].file_name}') }}" alt="image not found">
+                                                <img src="{{ asset('assets/img/pralon/news_blog/details/${res.data.news_image_detail[0].file_name}') }}" alt="image not found">
                                             </div>
                                             <div class="df-blog-details__thumb2 p-relative mb-30">
                                                 <div class="df-blog-details__thumb-overlay wow"></div>
-                                                <img src="{{ asset('assets/img/pralon/news_blog/details/${res.data.image_detail[1].file_name}') }}" alt="image not found">
+                                                <img src="{{ asset('assets/img/pralon/news_blog/details/${res.data.news_image_detail[1].file_name}') }}" alt="image not found">
                                             </div>
                                         </div>
                                         <p class="df-blog-details__text mb-35">

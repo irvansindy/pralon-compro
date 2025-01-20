@@ -83,10 +83,19 @@
                             for (let index = 0; index < res.links.length; index++) {
                                 let status = res.links[index].url != null ? 'active' : 'disabled';
                                 let url = res.links[index].url != null ? res.links[index].url : '#';
+                                let label = ''
+                                if (res.links[index].label == 'pagination.previous') {
+                                    label = 'Sebelumnya'
+                                } else if (res.links[index].label == 'pagination.next') {
+                                    label = 'Selanjutnya'
+                                } else {
+                                    label = res.links[index].label
+                                    
+                                }
                                 $('#list_page_product').append(`
                                 <li class="page-item">
                                     <a class="page-link ${status}" href="${url}" aria-label="Next">
-                                        <span aria-hidden="true">${res.links[index].label}</span>
+                                        <span class="${status == 'disabled' ? 'text-light' : ''}" aria-hidden="true">${label}</span>
                                     </a>
                                 </li>
                                 `)
@@ -127,7 +136,7 @@
                                         <div class="service__box">
                                             <div class="service__content">
                                                 <div class="service__img">
-                                                    <img src="{{ asset('assets/img/pralon/list_product/${product.image}') }}" alt="image Product">
+                                                    <img src="{{ asset('${product.image}') }}" alt="image Product">
                                                     </div>
                                                 <h4 class="service__title">
                                                     ${product.name}
@@ -150,13 +159,23 @@
                             for (let index = 0; index < res.links.length; index++) {
                                 let status = res.links[index].url != null ? 'active' : 'disabled';
                                 let url = res.links[index].url != null ? res.links[index].url : '#';
+                                let label = ''
+                                if (res.links[index].label == 'pagination.previous') {
+                                    label = 'Sebelumnya'
+                                } else if (res.links[index].label == 'pagination.next') {
+                                    label = 'Selanjutnya'
+                                } else {
+                                    label = res.links[index].label
+                                    
+                                }
+                                // res.links[index].label == null ? res.links[index].label : '';
                                 // <a class="page-link" href="${res.links[index].url}" aria-label="Next">
                                 //     <span aria-hidden="true">${res.links[index].label}</span>
                                 // </a>
                                 $('#list_page_product').append(`
                                 <li class="page-item">
                                     <a class="page-link ${status}" href="${url}" aria-label="Next">
-                                        <span aria-hidden="true">${res.links[index].label}</span>
+                                        <span class="${status == 'disabled' ? 'text-light' : ''}" aria-hidden="true">${label}</span>
                                     </a>
                                 </li>
                                 `)

@@ -22,7 +22,7 @@ class NewsController extends Controller
             $category = $request->category;
             $search = $request->search;
 
-            $news_query = News::with(['category', 'imageDetail']);
+            $news_query = News::with(['category', 'NewsImageDetail']);
             if ($category == NULL || $search == NULL) {
                 // dd($request->search);
                 if ($request->init_search == true) {
@@ -76,7 +76,7 @@ class NewsController extends Controller
     public function fetchNewsDetail(Request $request)
     {
         try {
-            $news = News::with(['category', 'imageDetail'])->where('id', $request->id)->first();
+            $news = News::with(['category', 'NewsImageDetail'])->where('id', $request->id)->first();
             return FormatResponseJson::success($news,'News berhasil diambil');
             // return view('users.news.detail', compact('news'));
         } catch (\Throwable $th) {

@@ -21,8 +21,8 @@ class News extends Model
         return $this->hasOne(NewsCategory::class, 'id','news_category_id');
     }
 
-    public function imageDetail()
+    public function NewsImageDetail()
     {
-        return $this->hasMany(NewsImageDetail::class,'news_id', 'id');
+        return $this->hasMany(NewsImageDetail::class);
     }
 }

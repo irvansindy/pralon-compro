@@ -109,8 +109,11 @@ Route::middleware(['auth'])->group(function () {
 
     // master news anb blog
     Route::get('news-and-blog', [AdminNewAndBlogController::class,'index'])->name('news-and-blog');
-    Route::get('fetch-news-blog', [AdminNewAndBlogController::class,'fetchNews'])->name('fetch-news-blog');
+    Route::get('fetch-news-blog', [AdminNewAndBlogController::class,'fetchNewsBlog'])->name('fetch-news-blog');
+    Route::get('fetch-news-blog-categories', [AdminNewAndBlogController::class,'fetchNewsBlogCategory'])->name('fetch-news-blog-categories');
+    Route::get('fetch-news-blog-by-id', [AdminNewAndBlogController::class,'fetchNewsBlogById'])->name('fetch-news-blog-by-id');
     Route::post('store-news-blog', [AdminNewAndBlogController::class,'storeNewsBlog'])->name('store-news-blog');
+    Route::post('update-news-blog', [AdminNewAndBlogController::class,'updateNewsBlog'])->name('update-news-blog');
 });
 
 Auth::routes();

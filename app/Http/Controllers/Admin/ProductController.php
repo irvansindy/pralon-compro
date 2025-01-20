@@ -35,7 +35,7 @@ class ProductController extends Controller
     {
         try {
             // dd($request->id);
-            $product = Product::with(['detailProduct', 'detailImage', 'priceList', 'price_list'])
+            $product = Product::with(['detailProduct', 'detailImage'])
             ->where('id', $request->id)
             ->first();
             $categories = ProductCategory::get(['id', 'name']);

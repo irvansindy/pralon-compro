@@ -54,6 +54,18 @@
     </main>
     @include('layouts.users.footer')
 @endsection
+@push('css')
+    <style>
+        .service__text {
+            display: -webkit-box;        /* Gunakan Flexbox khusus untuk teks */
+            -webkit-line-clamp: 3;       /* Tentukan jumlah maksimum baris */
+            -webkit-box-orient: vertical;
+            overflow: hidden;            /* Potong konten yang melampaui batas */
+            text-overflow: ellipsis;     /* Tambahkan "..." jika teks dipotong */
+        }
+
+    </style>
+@endpush
 @push('js')
     @include('users.product.product_js')
 @endpush
