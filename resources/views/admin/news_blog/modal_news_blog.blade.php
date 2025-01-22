@@ -53,7 +53,16 @@
                     <div class="row content_news_blog">
                         <div class="col-md-12">
                             <div class="form-group mt-3">
-                                <label for="news_blog_content">Content</label>
+                                <label for="news_blog_header_content">Header Content</label>
+                                <textarea name="news_blog_header_content" id="news_blog_header_content" class="form-control" required></textarea>
+                                <span class="text-sm text-danger mt-2 message_news_blog_header_content" id="message_news_blog_header_content" role="alert" style="font-size: 12px !important;"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row content_news_blog">
+                        <div class="col-md-12">
+                            <div class="form-group mt-3">
+                                <label for="news_blog_content">Main Content</label>
                                 <textarea name="news_blog_content" id="news_blog_content" class="form-control" required></textarea>
                                 <span class="text-sm text-danger mt-2 message_news_blog_content" id="message_news_blog_content" role="alert" style="font-size: 12px !important;"></span>
                             </div>

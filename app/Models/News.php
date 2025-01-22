@@ -8,14 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class News extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'news_category_id',
-        'title',
-        'image',
-        'short_desc',
-        'content',
-        'date',
-    ];
+    protected $guarded = [];
     public function category()
     {
         return $this->hasOne(NewsCategory::class, 'id','news_category_id');

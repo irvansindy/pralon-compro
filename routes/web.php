@@ -39,10 +39,12 @@ Route::get("/fetch-categories", [ProductController::class,"fetchCategories"])->n
 Route::get("/product-detail/{id}/{slug}", [ProductController::class,"detailProduct"])->name("product-detail");
 Route::get("download-catalog/{catalog}", [ProductController::class,"downloadCatalog"])->name("download-catalog");
 Route::get("download-pricelist/{pricelist}", [ProductController::class,"downloadPriceList"])->name("download-pricelist");
+Route::get('send-email-downloaded', [ProductController::class,'sendEmailDownloaded'])->name('send-email-downloaded');
 Route::post("/log-user", [ProductController::class,"storeLogUserDownload"])->name("log-user");
 
 Route::get('/news', [NewsController::class,'index'])->name('news');
 Route::get('/fetch-news', [NewsController::class,'fetchNews'])->name('fetch-news');
+Route::get('/fetch-news-cache', [NewsController::class,'fetchNewsWithCache'])->name('fetch-news-cache');
 Route::get('/fetch-news-categories', [NewsController::class,'fetchNewsCategories'])->name('fetch-news-categories');
 Route::get('/fetch-news-recent-post', [NewsController::class,'fetchRecentPost'])->name('fetch-news-recent-post');
 Route::get('fetch-news-detail', [NewsController::class,'fetchNewsDetail'])->name('fetch-news-detail');

@@ -49,6 +49,7 @@ class NewAndBlogController extends Controller
                 'news_blog_short_desc' => 'required|string',
                 'news_blog_detail_image_1' => 'required|image|max:10000|mimes:jpg,jpeg,png',
                 'news_blog_detail_image_2' => 'required|image|max:10000|mimes:jpg,jpeg,png',
+                'news_blog_header_content' => 'required|string',
                 'news_blog_content' => 'required|string',
             ], [
                 'news_blog_title.required'=> 'Title tidak boleh kosong',
@@ -71,7 +72,8 @@ class NewAndBlogController extends Controller
                 'news_blog_detail_image_2.mimes'=> 'Format gambar harus jpg, jpeg, png',
                 'news_blog_detail_image_2.max'=> 'Gambar maksimal 10MB',
                 
-                'news_blog_content.required'=> 'Konten tidak boleh kosong',
+                'news_blog_header_content.required'=> 'Konten paragraf awal tidak boleh kosong',
+                'news_blog_content.required'=> 'Konten paragraf akhir tidak boleh kosong',
             ]);
             if ($validator->fails()) {
                 throw new ValidationException($validator);
@@ -97,6 +99,7 @@ class NewAndBlogController extends Controller
                 'title'=> $request->news_blog_title,
                 'image'=> 'storage/uploads/news_blog/'.$file_news_blog_main_image_file_name,
                 'short_desc'=> $request->news_blog_short_desc,
+                'header_content'=> $request->news_blog_header_content,
                 'content'=> $request->news_blog_content,
                 'date'=> date('Y-m-d H:i:s'),
                 'created_at'=> date('Y-m-d H:i:s'),
@@ -107,11 +110,13 @@ class NewAndBlogController extends Controller
 
             $data_detail_image_1 = [
                 'news_id'=> $create_news_blog->id,
-                'file_name'=> 'storage/uploads/news_blog/detail/'.$file_news_blog_detail_image_1_file_name
+                'file_name'=> 'storage/uploads/news_blog/detail/'.$file_news_blog_detail_image_1_file_name,
+                'ordering' => 1,
             ];
             $data_detail_image_2 = [
                 'news_id'=> $create_news_blog->id,
-                'file_name'=> 'storage/uploads/news_blog/detail/'.$file_news_blog_detail_image_2_file_name
+                'file_name'=> 'storage/uploads/news_blog/detail/'.$file_news_blog_detail_image_2_file_name,
+                'ordering' => 2
             ];
 
             $create_detail_image_1 = NewsImageDetail::create($data_detail_image_1);
@@ -157,6 +162,7 @@ class NewAndBlogController extends Controller
                 'news_blog_title' => 'required|string',
                 'news_blog_category' => 'required|string',
                 'news_blog_short_desc' => 'required|string',
+                'news_blog_header_content' => 'required|string',
                 'news_blog_content' => 'required|string',
             ], [
                 'news_blog_title.required'=> 'Title tidak boleh kosong',
@@ -164,7 +170,8 @@ class NewAndBlogController extends Controller
 
                 'news_blog_short_desc.required'=> 'Deskripsi singkat tidak boleh kosong',
                 
-                'news_blog_content.required'=> 'Konten tidak boleh kosong',
+                'news_blog_header_content.required'=> 'Konten paragraf awal tidak boleh kosong',
+                'news_blog_content.required'=> 'Konten paragraf akhir tidak boleh kosong',
             ]);
             if ($validator->fails()) {
                 throw new ValidationException($validator);
@@ -179,6 +186,7 @@ class NewAndBlogController extends Controller
                 'news_category_id'=> $request->news_blog_category,
                 'title'=> $request->news_blog_title,
                 'short_desc'=> $request->news_blog_short_desc,
+                'header_content'=> $request->news_blog_header_content,
                 'content'=> $request->news_blog_content,
             ];
 

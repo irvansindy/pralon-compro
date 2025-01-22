@@ -322,6 +322,7 @@
                                                 ${moment(res.data.date).format('ll')}
                                             </span>
                                         </div>
+                                        <p class="df-blog-details__text mb-20">${res.data.header_content}</p>
                                         <div class="df-blog-details__thumb-wrap">
                                             <div class="df-blog-details__thumb2 p-relative mb-30">
                                                 <div class="df-blog-details__thumb-overlay wow"></div>
@@ -398,7 +399,7 @@
                                 <div class="df-blog-details__box mb-30 wow fadeInUp animated" data-wow-duration="1.5s" data-wow-delay="0.3">
                                     <div class="df-blog-details__thumb p-relative">
                                         <div class="df-blog-details__thumb-overlay wow"></div>
-                                        <img src="{{ asset('assets/img/pralon/news_blog/${res.data.image}') }}" alt="image not found">
+                                        <img src="{{ asset('${res.data.image}') }}" alt="image not found">
                                     </div>
                                     <div class="df-blog-details__content mb-40">
                                         <div class="df-blog-details__meta mb-25">
@@ -406,14 +407,15 @@
                                                 ${moment(res.data.date).format('ll')}
                                             </span>
                                         </div>
+                                        <p class="df-blog-details__text mb-20">${res.data.header_content}</p>
                                         <div class="df-blog-details__thumb-wrap">
                                             <div class="df-blog-details__thumb2 p-relative mb-30">
                                                 <div class="df-blog-details__thumb-overlay wow"></div>
-                                                <img src="{{ asset('assets/img/pralon/news_blog/details/${res.data.image_detail[0].file_name}') }}" alt="image not found">
+                                                <img src="{{ asset('${res.data.news_image_detail[0].file_name}') }}" alt="image not found">
                                             </div>
                                             <div class="df-blog-details__thumb2 p-relative mb-30">
                                                 <div class="df-blog-details__thumb-overlay wow"></div>
-                                                <img src="{{ asset('assets/img/pralon/news_blog/details/${res.data.image_detail[1].file_name}') }}" alt="image not found">
+                                                <img src="{{ asset('${res.data.news_image_detail[1].file_name}') }}" alt="image not found">
                                             </div>
                                         </div>
                                         <p class="df-blog-details__text mb-35">

@@ -12,6 +12,7 @@ class NewsImageDetail extends Model
     protected $fillable = [
         "news_id",
         "file_name",
+        "ordering"
     ];
     public function NewsBlog()
     {

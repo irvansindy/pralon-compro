@@ -14,6 +14,8 @@ use App\Models\ProductDetailFeature;
 use App\Models\LogUserDownload;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Response;
+use Mail;
+use App\Mail\CompanyMail;
 class ProductController extends Controller
 {
     public function index(): View
@@ -90,7 +92,6 @@ class ProductController extends Controller
         }
 
     }
-
     public function storeLogUserDownload(Request $request)
     {
         try {
@@ -105,5 +106,12 @@ class ProductController extends Controller
         } catch (\Throwable $th) {
             return FormatResponseJson::error(null,'Field tidak boleh kosong', 500);
         }
+    }
+    public function sendEmailDownloaded(Request $request)
+    {
+        Mail::to('irvanmuhammad22@gmail.com')->send(new CompanyMail([
+            'title' => 'The Title',
+            'body' => 'The Body',
+        ]));
     }
 }
