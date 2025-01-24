@@ -31,6 +31,7 @@ use App\Http\Controllers\Admin\NewAndBlogController as AdminNewAndBlogController
 
 Route::get("/", [HomeController::class,"index"])->name("home");
 Route::get("/about-us", [AboutUsController::class,"index"])->name("about-us");
+Route::get("/fetch-content-about-us", [AboutUsController::class,"fetchContentAboutUs"])->name("fetch-content-about-us");
 
 Route::get("/product", [ProductController::class,"index"])->name("product");
 Route::get("/fetch-product", [ProductController::class,"fetchProduct"])->name("fetch-product");
