@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\HomePageController as AdminHomePageController;
 use App\Http\Controllers\Admin\AboutUsController as AdminAboutUsController;
 use App\Http\Controllers\Admin\NewAndBlogController as AdminNewAndBlogController;
+use App\Http\Controllers\Admin\EmailTemplateController as AdminEmailTemplateController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -52,6 +53,7 @@ Route::get('fetch-news-detail', [NewsController::class,'fetchNewsDetail'])->name
 
 Route::get('contact-us', [ContactUsController::class,'index'])->name('contact-us');
 Route::get('fetch-contact-us', [ContactUsController::class,'fetch'])->name('fetch-contact-us');
+Route::post('send-email-contact-us', [ContactUsController::class,'sendEmail'])->name('send-email-contact-us');
 
 // admin
 Route::middleware(['auth'])->group(function () {
@@ -109,7 +111,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('update-value-about-us', [AdminAboutUsController::class, 'updateValue'])->name('update-value-about-us');
     Route::post('store-certificate-about-us', [AdminAboutUsController::class, 'storeCertificate'])->name('store-certificate-about-us');
     Route::post('delete-certificate-about-us', [AdminAboutUsController::class, 'deleteCertificate'])->name('delete-certificate-about-us');
-
     // master news anb blog
     Route::get('news-and-blog', [AdminNewAndBlogController::class,'index'])->name('news-and-blog');
     Route::get('fetch-news-blog', [AdminNewAndBlogController::class,'fetchNewsBlog'])->name('fetch-news-blog');
@@ -117,6 +118,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('fetch-news-blog-by-id', [AdminNewAndBlogController::class,'fetchNewsBlogById'])->name('fetch-news-blog-by-id');
     Route::post('store-news-blog', [AdminNewAndBlogController::class,'storeNewsBlog'])->name('store-news-blog');
     Route::post('update-news-blog', [AdminNewAndBlogController::class,'updateNewsBlog'])->name('update-news-blog');
+    // master email template
+    Route::get('email-template', [AdminEmailTemplateController::class,'index'])->name('email-template');
+    Route::get('fetch-email-template', [AdminEmailTemplateController::class,'fetch'])->name('fetch-email-template');
+    Route::get('detail-email-template', [AdminEmailTemplateController::class,'detail'])->name('detail-email-template');
+    Route::post('store-email-template', [AdminEmailTemplateController::class,'store'])->name('store-email-template');
+    Route::post('update-email-template', [AdminEmailTemplateController::class,'update'])->name('update-email-template');
 });
 
 Auth::routes();

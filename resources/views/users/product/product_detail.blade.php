@@ -71,18 +71,13 @@
                     <div class="col-lg-8 d-flex justify-content-end">
                         <div class="df-challenge__content">
                             <p class="mb-40 mt-40">
-                                Untuk informasi lebih lengkap mengenai produk {{ $product->full_name }} dapat langsung
-                                mengunduh Katalog & Daftar Harga dibawah ini.
+                                Untuk informasi lebih lengkap mengenai produk {{ $product->full_name }} dapat langsung mengunduh Katalog & Daftar Harga dibawah ini.
                             </p>
                             <div class="df-challenge__feature-list">
                                 <ul>
-                                    {{-- {{ asset('assets/file/brocure/brosur_fabricated.pdf') }}
-                                    {{ asset('assets/file/pricelist/pricelist_fabricated.pdf') }} --}}
                                     @if ($product->brocure != null)
                                         <li>
-                                            <button type="button" class="primary-btn bordered btn-small hover-white"
-                                                id="btn_download_brocure" data-id="{{ $product->id }}"
-                                                data-brocure="{{ $product->brocure->brocure_file }}" data-bs-toggle="modal" data-bs-target="#confirm_download_brocure">Katalog Produk
+                                            <button type="button" class="primary-btn bordered btn-small hover-white" id="btn_download_brocure" data-id="{{ $product->id }}" data-brocure="{{ $product->brocure->file_name }}" data-bs-toggle="modal" data-bs-target="#confirm_download_brocure">Katalog Produk
                                                 <span class="icon__box">
                                                     <img class="icon__first"
                                                         src="{{ asset('assets/img/icon/arrow-theme.png') }}"
@@ -96,9 +91,7 @@
                                     @endif
                                     @if ($product->priceList != null)
                                         <li>
-                                            <button type="button" class="primary-btn bordered btn-small hover-white"
-                                                id="btn_download_pricelist" data-id="{{ $product->id }}"
-                                                data-pricelist="{{ $product->priceList->price_list_file }}" data-bs-toggle="modal" data-bs-target="#confirm_download_pricelist">Daftar Harga
+                                            <button type="button" class="primary-btn bordered btn-small hover-white" id="btn_download_pricelist" data-id="{{ $product->id }}" data-pricelist="{{ $product->priceList->file_name }}" data-bs-toggle="modal" data-bs-target="#confirm_download_pricelist">Daftar Harga
                                                 <span class="icon__box">
                                                     <img class="icon__first"
                                                         src="{{ asset('assets/img/icon/arrow-theme.png') }}"
@@ -127,7 +120,6 @@
                     @forelse ($product->detailImage as $image)
                         <div class="col-lg-6">
                             <div class="df-img-thumb">
-                                {{-- <img src="{{ asset('assets/img/pralon/list_product/detail_product/' . $image->image_detail) }}" alt="tidak ada"> --}}
                                 <img src="{{ asset($image->image_detail) }}" alt="tidak ada">
                             </div>
                         </div>

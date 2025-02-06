@@ -2,17 +2,13 @@
 @section('content')
     @include('layouts.users.navbar')
     @include('layouts.users.sidebar')
-    <div class="mouseCursor cursor-outer"></div>
-    <div class="mouseCursor cursor-inner"><span>Drag</span></div>
+    {{-- <div class="mouseCursor cursor-outer"></div>
+    <div class="mouseCursor cursor-inner"><span>Drag</span></div> --}}
 
     <main>
-
         <div class="adjust-header-space bg-common-white"></div>
-
         <!-- contact area start  -->
         <section class="df-services__area section-spacing p-relative x-clip">
-            {{-- <div class="circle-2"></div>
-            <div class="circle-3"></div> --}}
             <div class="container">
                 <div class="row justify-content-center section-title-spacing wow fadeInUp" data-wow-delay=".3s">
                     <div class="col-xl-8">
@@ -22,81 +18,62 @@
                         </div>
                     </div>
                 </div>
-                {{-- <div class="card mb-3" style="max-width: 540px;">
-                    <div class="row g-0">
-                        <div class="col-md-4">
-                            <img src="{{ asset('assets/img/pralon/contact/Head Office.jpg') }}" class="img img-fluid rounded-start" alt="..."
-                                style="max-width: 100%"
-                            >
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                                    additional content. This content is a little bit longer.</p>
-                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
                 <!-- blog style 02 start  -->
                 <div class="df-blog4__wrapper">
-                    <div class="row g-5 row-cols-lg-2 row-cols-md-2 row-cols-1 wow fadeInUp" id="list_contact_us" data-wow-delay=".5s"
-                        style="padding-left: 50px !important; padding-right: 50px !important;">
+                    <div class="row g-5 row-cols-lg-2 row-cols-md-2 row-cols-1 wow fadeInUp" id="list_contact_us" data-wow-delay=".5s" style="padding-left: 50px !important; padding-right: 50px !important;">
                     </div>
                 </div>
                 <!-- blog style 02 end  -->
-                <div class="df-booking2__form-wrapper section-spacing-top"
-                    style="padding-top: 180px !important; padding-left: 50px !important; padding-right: 50px !important;">
+                <div class="df-booking2__form-wrapper section-spacing-top" style="padding-top: 180px !important; padding-left: 50px !important; padding-right: 50px !important;">
                     <div class="df-booking__video">
-                        <img src="{{ asset('assets/img/pralon/contact/Head Office.jpg') }}" alt="image not found">
-                        {{-- <div class="df-video__play-btn pos-center">
-                            <a href="https://www.youtube.com/watch?v=0pZBJ7aJNy0" class="play-btn popup-video">
-                                <i class="icon-008-play-button"></i>
-                            </a>
-                        </div> --}}
+                        <img src="{{ asset('storage/uploads/contact_us/Head Office 2.jpg') }}" alt="image not found">
                     </div>
                     <div class="df-booking2__form">
-                        <form action="#">
+                    {{-- <div class=""> --}}
+                        <form action="#" id="form_contact_us">
                             <div class="row gx-5">
                                 <div class="col-md-6">
                                     <div class="df-input-field">
                                         <input type="text" id="name" name="name" placeholder="Nama Lengkap">
+                                        <span class="text-sm text-danger mt-2 message_name" id="message_name" role="alert" style="font-size: 12px !important;"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="df-input-field">
                                         <input type="text" id="email" name="email" placeholder="Email">
+                                        <span class="text-sm text-danger mt-2 message_email" id="message_email" role="alert" style="font-size: 12px !important;"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="df-input-field">
-                                        <input type="text" id="number" name="number" placeholder="Nomor Handhpone">
+                                        <input type="number" id="phone_number" name="phone_number" placeholder="Nomor Handhpone">
+                                        <span class="text-sm text-danger mt-2 message_phone_number" id="message_phone_number" role="alert" style="font-size: 12px !important;"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="df-input-field">
-                                        <select name="service" id="service">
+                                        <select name="type_service" id="type_service">
                                             <option value="penjualan">Penjualan</option>
                                             <option value="informasi produk">Informasi Produk</option>
                                             <option value="karir">Karir</option>
                                             <option value="kerjasama_dan_sponsorship">Kerjasama & Sponsorship</option>
                                         </select>
+                                        <span class="text-sm text-danger mt-2 message_type_service" id="message_type_service" role="alert" style="font-size: 12px !important;"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="df-input-field">
-                                        <textarea id="message" name="message" placeholder="ketik pesan disini..."></textarea>
-
+                                        <textarea id="message_contact" name="message_contact" placeholder="ketik pesan disini..."></textarea>
+                                        <span class="text-sm text-danger mt-2 message_message_contact" id="message_message_contact" role="alert" style="font-size: 12px !important;"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="df-booking2__form-btn mt-0">
-                                        <button type="submit" class="primary-btn hover-white">kirim pesan
+                                        <button type="button" class="primary-btn hover-white">kirim pesan
                                             <span class="icon__box">
-                                                <img class="icon__first" src="assets/img/icon/arrow-white.webp"
+                                                <img class="icon__first" src="{{ asset('assets/img/icon/arrow-white.webp') }}"
                                                     alt="image not found">
-                                                <img class="icon__second" src="assets/img/icon/arrow-black.webp"
+                                                <img class="icon__second" src="{{ asset('assets/img/icon/arrow-black.webp') }}"
                                                     alt="image not found">
                                             </span>
                                         </button>
@@ -124,7 +101,8 @@
                                 height: 580px;
                                 width: 1920px;
                             }
-                        </style><a href="https://www.ongooglemaps.com">adding google map to website</a>
+                        </style>
+                        {{-- <a href="https://www.ongooglemaps.com">adding google map to website</a> --}}
                         <style>
                             .gmap_canvas {
                                 overflow: hidden;

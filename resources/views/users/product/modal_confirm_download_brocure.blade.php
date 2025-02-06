@@ -8,7 +8,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="df-booking2__form" style="padding: 10px !important;">
-                <form action="" id="form_download_brocure" method="post">
+                <form action="" id="form_download_brocure">
                     @csrf
                     <div class="modal-body">
                         <div class="df-input-field">
@@ -22,8 +22,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="primary-btn bordered btn-x-small" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="primary-btn btn-x-small hover-white" id="submit_download_brocure" data-product_id="" data-product_brocure="" data-url_brocure="{{ route('download-catalog', ['catalog' => $product->brocure->brocure_file != NULL ? $product->brocure->brocure_file : NULL]) }}">Submit</button>
-                        {{-- <button type="submit" class="primary-btn btn-x-small hover-white" id="submit_download_brocure" data-product_id="" data-product_brocure="">Submit</button> --}}
+                        <button type="button" class="primary-btn btn-x-small hover-white" id="submit_download_brocure" data-product_id="" data-product_brocure="" data-url_brocure="{{ route('download-catalog', ['catalog' => $product->brocure != NULL ? $product->brocure->file_name : NULL]) }}">Submit</button>
                     </div>
                 </form>
             </div>

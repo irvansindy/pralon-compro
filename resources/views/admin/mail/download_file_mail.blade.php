@@ -7,8 +7,7 @@
     <title></title>
 </head>
 <body>
-    <h1>{{ $data['title'] }}</h1>
-    <p>{{ $data['body'] }}</p>
-    <p>Thank you</p>
+    <h1>{{ $data['head'] }}</h1>
+    <p class="MsoNormal">{!! $data['body'] !!}</p>
 </body>
 </html>

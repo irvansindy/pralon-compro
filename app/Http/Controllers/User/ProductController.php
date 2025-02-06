@@ -9,13 +9,16 @@ use Illuminate\Support\Str;
 use App\Helpers\FormatResponseJson;
 use App\Models\Product;
 use App\Models\ProductCategory;
-use App\Models\DetailProduct;
-use App\Models\ProductDetailFeature;
+use App\Models\productBrocure;
+use App\Models\productPriceList;
 use App\Models\LogUserDownload;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 use Mail;
 use App\Mail\CompanyMail;
+use App\Models\EmailTemplate;
 class ProductController extends Controller
 {
     public function index(): View
@@ -48,7 +51,7 @@ class ProductController extends Controller
         
         $related_products = Product::where('id', '!=', $id)
         ->inRandomOrder()->take(3)->get();
-        // return response()->json($product);
+        // dd($product);
         return view('users.product.product_detail', compact('product', 'related_products'));
     }
     public function fetchProductByCategoty(Request $request)
@@ -65,26 +68,26 @@ class ProductController extends Controller
             return FormatResponseJson::error(null,$th->getMessage(),404);
         }
     }
-    public function downloadCatalog(Request $request)
+    // public function downloadCatalog(Request $request)
+    public function downloadCatalog($catalog)
     {
         try {
-            // dd($request->catalog);
-            $file_path = public_path('assets/file/brocure/'. $request->catalog);
+            $existing_brocure = productBrocure::where('file_name', $catalog)->first();
+            $file_path = public_path($existing_brocure->brocure_file);
             if (file_exists($file_path)) {
-                // return Response::download($file_path);
                 return response()->download($file_path);
             }
         } catch (\Throwable $th) {
             return FormatResponseJson::error(null,$th->getMessage(),404);
         }
     }
-    public function downloadPriceList(Request $request)
+    public function downloadPriceList($pricelist)
     {
         try {
-            // dd($request->catalog);
-            $file_path = public_path('assets/file/pricelist/'. $request->pricelist);
+            $existing_price_list = productPriceList::where('file_name', $pricelist)->first();
+            // dd($existing_price_list);
+            $file_path = public_path($existing_price_list->price_list_file);
             if (file_exists($file_path)) {
-                // return Response::download($file_path);
                 return response()->download($file_path);
             }
         } catch (\Throwable $th) {
@@ -101,7 +104,7 @@ class ProductController extends Controller
                 'email'=> $request->email,
             ]);
     
-            $file = $request->product_brocure;
+            // $file = $request->product_brocure;
             return FormatResponseJson::success($log,'success');
         } catch (\Throwable $th) {
             return FormatResponseJson::error(null,'Field tidak boleh kosong', 500);
@@ -109,9 +112,28 @@ class ProductController extends Controller
     }
     public function sendEmailDownloaded(Request $request)
     {
-        Mail::to('irvanmuhammad22@gmail.com')->send(new CompanyMail([
-            'title' => 'The Title',
-            'body' => 'The Body',
-        ]));
+        try {
+            // dd($request->all());
+            $name = $request->name;
+            $email = $request->email;
+            $phone_number = $request->phone_number;
+            $type_service = $request->type_service;
+            $message_contact = $request->message_contact;
+
+            // $existing_template = EmailTemplate::where('email_type', 'lke', '%'.'penjualan'.'%')->first();
+            $existing_template = EmailTemplate::where('email_type', 'lke', '%penjualan%')->first();
+            dd($existing_template);
+            Mail::to($email)->send(new CompanyMail([
+                'title' => 'The Title',
+                'body' => 'Salam hangat,<br/>Sales Marketing Pralon',
+            ]));
+        } catch (ValidationException $e) {
+            // Return validation errors as JSON response
+            DB::rollback();
+            return FormatResponseJson::error(null, ['errors' => $e->errors()], 422);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return FormatResponseJson::error(null, $e->getMessage(), 500);
+        }
     }
 }

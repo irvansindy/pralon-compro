@@ -27,8 +27,10 @@ class CompanyMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Test Mail',
-            from: new Address('marketingpralon@gmail.com', 'Pralon'),
+            // subject: 'Sahabat Pralon!',
+            // from: new Address('marketingpralon@gmail.com', 'Pralon'),
+            subject: $this->data['subject'],
+            from: new Address('marketingpralon@gmail.com', $this->data['name']),
         );
     }
 

@@ -72,7 +72,6 @@ class ProductController extends Controller
             $file_master_product_image = $request->file('master_product_image');
             $slug_name = Str::slug($request->master_product_full_name.' master_image', '-');
             $file_master_product_image_name = $slug_name.'.'.$file_master_product_image->getClientOriginalExtension();
-            
             $master_product = [
                 'category_id' => $request->master_product_category,
                 'name' => $request->master_product_name,
@@ -133,7 +132,7 @@ class ProductController extends Controller
     public function updateProduct(Request $request)
     {
         try {
-            // 
+            DB::beginTransaction();
             $validator = Validator::make($request->all(), [
                 'master_product_name' => 'required|string',
                 'master_product_full_name' => 'required|string',
@@ -266,12 +265,13 @@ class ProductController extends Controller
 
             // master file brocure
             $file_brocure_file = $request->file('brocure_file');
-            $slug_name = Str::slug($file_brocure_file->getClientOriginalName()." ".$existing_product->name." ".$total_current_brocure+1, '-');
+            $slug_name = Str::slug(pathinfo($file_brocure_file->getClientOriginalName(),PATHINFO_FILENAME)." ".$existing_product->name." ".$total_current_brocure+1, '-');
             $file_brocure_file_name = $slug_name.'.'.$file_brocure_file->getClientOriginalExtension();
-            dd($slug_name);
+            // $slug_name_news_blog_main_image_file = Str::slug(pathinfo($file_brocure_file->getClientOriginalName(),PATHINFO_FILENAME), '-');
 
             $data_brocure = [
                 'product_id' => $request->product_id_for_brocure,
+                'file_name' => $file_brocure_file_name,
                 'brocure_file' => 'storage/uploads/brocure/'.$file_brocure_file_name,
                 'status' => 'active',
                 'date' => $request->brocure_date,
@@ -356,12 +356,13 @@ class ProductController extends Controller
 
             // master file price_list
             $file_price_list_file = $request->file('price_list_file');
-            $slug_name = Str::slug($file_price_list_file->getClientOriginalName()." ".$existing_product->name." ".$total_current_price_list+1, '-');
+            $slug_name = Str::slug(pathinfo($file_price_list_file->getClientOriginalName(),PATHINFO_FILENAME)." ".$existing_product->name." ".$total_current_price_list+1, '-');
             $file_price_list_file_name = $slug_name.'.'.$file_price_list_file->getClientOriginalExtension();
             // dd($slug_name);
 
             $data_price_list = [
                 'product_id' => $request->product_id_for_price_list,
+                'file_name' => $file_price_list_file_name,
                 'price_list_file' => 'storage/uploads/price_list/'.$file_price_list_file_name,
                 'status' => 'active',
                 'date' => $request->price_list_date,
