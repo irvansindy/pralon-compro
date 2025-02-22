@@ -29,6 +29,10 @@ class NewsCategoriesSeeder extends Seeder
                 'name' => 'Blog',
                 'created_at'=> date('Y-m-d H:i:s'),
             ],
+            [
+                'name' => 'Project References',
+                'created_at'=> date('Y-m-d H:i:s'),
+            ],
         ]);
     }
 }

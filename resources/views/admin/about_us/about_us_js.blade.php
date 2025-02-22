@@ -1,4 +1,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-fileinput@5.5.4/js/fileinput.min.js" integrity="sha256-eyql5FyEi9+B/fPWI8q0rZRgbYtBuzXmkO0XAqMq+Bg=" crossorigin="anonymous"></script>
+<!-- Include sortable.min.js for drag-and-drop functionality -->
+<script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.0/js/plugins/sortable.min.js" type="text/javascript"></script>
 
 <script>
     $(document).ready(() => {
@@ -968,14 +970,25 @@
                     if (certificate_data == null) {
                         $('#list-certificate').empty()
                         $("#input-multiple-file").fileinput({
-                            // uploadUrl: {{ route('store-certificate-about-us') }},
-                            showUpload: false,
+                            uploadUrl: "/store-certificate-about-us",
+                            showUpload: true,
                             showRemove: false,
                             required: true,
                             validateInitialCount: true,
                             overwriteInitial: false,
                             initialPreviewAsData: true,
-                            allowedFileExtensions: ["jpg", "png", "jpeg"]
+                            dropZoneEnabled: true,
+                            fileActionSettings: { showZoom: true },
+                            allowedFileExtensions: ["jpg", "png", "jpeg"],
+                            ajaxSettings: {
+                                headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                                processData: false,
+                                contentType: false,
+                                enctype: 'multipart/form-data',
+                            },
+                            fileActionSettings: {
+                                showDrag: true // Display the drag handle
+                            },
                         });
                         $(".btn-submit-sertificate").on("click", function() {
                             $("#input-multiple-file").fileinput('upload');
@@ -1002,10 +1015,18 @@
                             initialPreviewAsData: true,
                             initialPreview: initialPreview,
                             initialPreviewConfig: initialPreviewConfig,
+                            dropZoneEnabled: true,
                             allowedFileExtensions: ["jpg", "png", "jpeg"],
+                            fileActionSettings: { showZoom: true },
+                            fileActionSettings: {
+                                showDrag: true // Display the drag handle
+                            },
                             deleteUrl: "/delete-certificate-about-us",
                             ajaxSettings: {
-                                headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' }
+                                headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                                processData: false,
+                                contentType: false,
+                                enctype: 'multipart/form-data',
                             }
                         });
 
@@ -1024,6 +1045,9 @@
 
                         $('#input-freqd-2').on('fileclear', function(event) {
                             console.log('All files cleared.');
+                        });
+                        $(".btn-submit-sertificate").on("click", function() {
+                            $("#input-multiple-file").fileinput('upload');
                         });
                     }
                 }

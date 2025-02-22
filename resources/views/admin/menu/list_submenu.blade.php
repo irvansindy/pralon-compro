@@ -4,7 +4,7 @@
         <div class="modal-content">
             <form action="" id="form_create_submenu">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Create Sub Menu</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">List Sub Menu</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

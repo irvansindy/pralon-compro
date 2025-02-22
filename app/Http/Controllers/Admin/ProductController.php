@@ -133,6 +133,7 @@ class ProductController extends Controller
     {
         try {
             DB::beginTransaction();
+            
             $validator = Validator::make($request->all(), [
                 'master_product_name' => 'required|string',
                 'master_product_full_name' => 'required|string',
@@ -188,6 +189,7 @@ class ProductController extends Controller
             ]);
 
             if($request->master_product_image_detail_1 != null) {
+                // dd($request->master_product_image_detail_1);
                 $existing_detail_image_1 = DetailImageProduct::where('product_id', $request->master_product_id)
                 ->where('image_detail', $request->master_product_image_detail_link_1)
                 ->first();
@@ -200,6 +202,9 @@ class ProductController extends Controller
                 if (file_exists($old_detail_image_1_path)) {
                     unlink($old_detail_image_1_path);
                 }
+                $existing_detail_image_1->update([
+                    'image_detail' => 'storage/uploads/detail_image/'.$file_master_product_image_detail_name,
+                ]);
                 $file_master_product_image_detail->move(public_path('storage/uploads/detail_image/'), $file_master_product_image_detail_name);
             }
             
@@ -216,6 +221,9 @@ class ProductController extends Controller
                 if (file_exists($old_detail_image_2_path)) {
                     unlink($old_detail_image_2_path);
                 }
+                $existing_detail_image_2->update([
+                    'image_detail' => 'storage/uploads/detail_image/'.$file_master_product_image_detail_name,
+                ]);
                 $file_master_product_image_detail->move(public_path('storage/uploads/detail_image/'), $file_master_product_image_detail_name);
             }
 

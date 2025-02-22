@@ -2,81 +2,170 @@
     $(document).ready(function() {
         var offset_data = 0;
         var limit_fetch = 5;
-        // $('#loading_animation_product').hide()
-        fetchNews()
+        // Fungsi untuk mendapatkan parameter dari URL
+        function getParameterByName(name, url = window.location.href) {
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+        // var urlParams = new URLSearchParams(window.location.search);
+        // Ambil data terenkripsi dari parameter URL
+        var encryptedData = getParameterByName('q');
+        var secretKeyFromUrl = getParameterByName('key');
+
+        if (encryptedData && secretKeyFromUrl) {
+            try {
+                // Konversi secretKey ke format yang bisa digunakan oleh CryptoJS
+                var secretKey = CryptoJS.enc.Base64.parse(secretKeyFromUrl);
+
+                // Dekripsi data
+                var decrypted = CryptoJS.AES.decrypt(encryptedData, secretKey, {
+                    mode: CryptoJS.mode.ECB,
+                    padding: CryptoJS.pad.Pkcs7
+                });
+
+                var jsonString = decrypted.toString(CryptoJS.enc.Utf8);
+
+                if (jsonString) {
+                    var data = JSON.parse(jsonString);
+                    console.log("Decrypted Data:", data);
+
+                    // Panggil fetchNews dengan id berita yang telah didekripsi
+                    fetchNews(data.id);
+                }
+            } catch (error) {
+                console.error("Error saat dekripsi:", error);
+            }
+        }
+
         fetchNewsCategories()
         fetchRecentNews()
 
-        function fetchNews() {
+        function fetchNews(id = null) {
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url: '{{ route("fetch-news") }}',
+                url: '{{ route('fetch-news') }}',
                 type: 'GET',
-                data: { 
+                data: id ? {
+                    id: id
+                } : {
                     offset: offset_data,
                     limit: limit_fetch
                 },
                 dataType: 'json',
                 async: true,
                 beforeSend: function() {
-                    $('#loading_animation_product').show()
-                    $('#load_more_news').hide()
+                    $('#loading_animation_product').show();
+                    $('#load_more_news').hide();
                 },
                 success: function(res) {
-                    $('#loading_animation_product').hide()
-                    if (res.data.length != 0) {
-                        $('#load_more_news').show()
-                        $.each(res.data, function(i, news) {
-                            $('#list_news_blog').append(`
-                            <div class="df-blog__box each_news" data-id="${news.id}" style="cursor: pointer !important;">
-                                <div class="df-blog__thumb">
-                                    <a href="">
-                                        <img src="{{ asset('${news.image}') }}" alt="image not found">
-                                    </a>
-                                </div>
-                                <div class="df-blog__content">
-                                    <div class="df-blog__meta">
-                                        <a href="#"><span class="tag">${news.category.name}</span></a>
-                                        <span class="blog-date">${moment(news.date).format('ll')}</span>
-                                    </div>
-                                    <h3 class="df-blog__title">
-                                        <a href="#">
-                                            ${news.title}
-                                        </a>
-                                    </h3>
-                                    <p>${news.short_desc}</p>
-                                    <div class="df-blog__btn">
-                                        <a href="#" class="primary-btn">Read More
-                                            <span class="icon__box">
-                                                <img class="icon__first" src="{{ asset('assets/img/icon/arrow-black.webp') }}"
-                                                    alt="image not found">
-                                                <img class="icon__second" src="{{ asset('assets/img/icon/arrow-theme.png') }}"
-                                                    alt="image not found">
-                                            </span>
-                                        </a>
+                    $('#loading_animation_product').hide();
+
+                    if (id) {
+                        // Tampilkan detail berita
+                        $('#header_news').hide();
+                        $('#list_news_blog').empty();
+                        $('#header_detail_news').empty().append(`
+                    <section class="page-title-area-2 breadcrumb-spacing bg-theme-4 section-spacing">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-xxl-9">
+                                <div class="page-title-wrapper-2 text-center">
+                                    <h1 class="page__title-2 mb-25">${res.data.title}</h1>
+                                    <div class="breadcrumb-menu-2 d-flex justify-content-center">
+                                        <nav aria-label="Breadcrumbs" class="breadcrumb-trail breadcrumbs">
+                                            <ul class="trail-items-2">
+                                                <li class="trail-item-2 trail-begin"><a href="{{ route('home') }}"><span>Beranda</span></a></li>
+                                                <li class="trail-item-2 trail-center"><a href="{{ route('news') }}"><span>Berita</span></a></li>
+                                                <li class="trail-item-2 trail-end"><span>${res.data.title}</span></li>
+                                            </ul>
+                                        </nav>
                                     </div>
                                 </div>
                             </div>
-                            `)
-                        })
-                        offset_data += limit_fetch
-                        
+                        </div>
+                    </div>
+                </section>
+                `);
+                        $('#list_news_blog').append(`
+                    <div class="df-blog-details__wrap">
+                        <div class="df-blog-details__box mb-30 wow fadeInUp animated" data-wow-duration="1.5s" data-wow-delay="0.3">
+                            <div class="df-blog-details__thumb p-relative">
+                                <div class="df-blog-details__thumb-overlay wow"></div>
+                                <img src="{{ asset('${res.data.image}') }}" alt="image not found">
+                            </div>
+                            <div class="df-blog-details__content mb-40">
+                                <div class="df-blog-details__meta mb-25">
+                                    <span><i class="fa-thin fa-calendar-days"></i>
+                                        ${moment(res.data.date).format('ll')}
+                                    </span>
+                                </div>
+                                <p class="df-blog-details__text mb-20">${res.data.header_content}</p>
+                                <div class="df-blog-details__thumb-wrap">
+                                    <div class="df-blog-details__thumb2 p-relative mb-30">
+                                        <div class="df-blog-details__thumb-overlay wow"></div>
+                                        <img src="{{ asset('${res.data.news_image_detail[0].file_name}') }}" alt="image not found">
+                                    </div>
+                                    <div class="df-blog-details__thumb2 p-relative mb-30">
+                                        <div class="df-blog-details__thumb-overlay wow"></div>
+                                        <img src="{{ asset('${res.data.news_image_detail[1].file_name}') }}" alt="image not found">
+                                    </div>
+                                </div>
+                                <p class="df-blog-details__text mb-35">
+                                    ${res.data.content}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                `);
                     } else {
-                        $('#load_more_news').hide()
+                        // Tampilkan daftar berita
+                        if (res.data.length !== 0) {
+                            $('#load_more_news').show();
+                            $.each(res.data, function(i, news) {
+                                $('#list_news_blog').append(`
+                    <div class="df-blog__box each_news" data-id="${news.id}" style="cursor: pointer !important;">
+                        <div class="df-blog__thumb">
+                            <img src="{{ asset('${news.image}') }}" alt="image not found">
+                        </div>
+                        <div class="df-blog__content">
+                            <div class="df-blog__meta">
+                                <span class="tag">${news.category.name}</span>
+                                <span class="blog-date">${moment(news.date).format('ll')}</span>
+                            </div>
+                            <h3 class="df-blog__title">${news.title}</h3>
+                            <p>${news.short_desc}</p>
+                        </div>
+                    </div>
+                `);
+                            });
+                            offset_data += limit_fetch;
+                        } else {
+                            $('#load_more_news').hide();
+                        }
                     }
-                    // alert(offset_data)
                 }
-            })
+            });
         }
-        
+
+        $(document).on('click', '.each_news', function(e) {
+            e.preventDefault();
+            let news_id = $(this).data('id');
+            fetchNews(news_id);
+        });
+
+
         function fetchNewsCategories() {
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url: '{{ route("fetch-news-categories") }}',
+                url: '{{ route('fetch-news-categories') }}',
                 type: 'GET',
                 dataType: 'json',
                 async: true,
@@ -92,13 +181,13 @@
                 }
             })
         }
-        
+
         function fetchRecentNews() {
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url: '{{ route("fetch-news-recent-post") }}',
+                url: '{{ route('fetch-news-recent-post') }}',
                 type: 'GET',
                 dataType: 'json',
                 async: true,
@@ -126,7 +215,7 @@
             })
         }
 
-        $(document).on('click','#load_more_news', function() {
+        $(document).on('click', '#load_more_news', function() {
             fetchNews()
         })
 
@@ -138,9 +227,9 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url: '{{ route("fetch-news") }}',
+                url: '{{ route('fetch-news') }}',
                 type: 'GET',
-                data: { 
+                data: {
                     category: category_id
                 },
                 dataType: 'json',
@@ -186,10 +275,34 @@
                             </div>
                             `)
                         })
-                        
+
                         // $('#load_more_news').show()
                     } else {
-                        $('#list_news_blog').append(`<p class="text-center">Data tidak ditemukan</p>`)
+                        $('#list_news_blog').append(`<section class="df-error__area">
+            <div class="container">
+                <div class="row align-items-center justify-content-center section-title-spacing wow fadeInUp" data-wow-delay=".3s">
+                    <div class="col-xl-8">
+                        <div class="df-error__thumb">
+                            <img src="{{ asset('storage/uploads/html/404-v1-red.png') }}" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="row align-items-center justify-content-center section-title-spacing wow fadeInUp" data-wow-delay=".3s">
+                    <div class="col-lg-5">
+                        <div class="df-error__area-btn text-center wow fadeInUp" data-wow-delay=".3s">
+                            <a href="{{ route('news') }}" class="primary-btn hover-white">Go Back
+                                <span class="icon__box">
+                                    <img class="icon__first" src="{{ asset('assets/img/icon/arrow-white.webp') }}"
+                                        alt="image not found">
+                                    <img class="icon__second" src="{{ asset('assets/img/icon/arrow-black.webp') }}"
+                                        alt="image not found">
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>`)
                     }
                     $('#load_more_news').hide()
                 }
@@ -203,9 +316,9 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url: '{{ route("fetch-news") }}',
+                url: '{{ route('fetch-news') }}',
                 type: 'GET',
-                data: { 
+                data: {
                     search: search,
                     init_search: 1
                 },
@@ -252,96 +365,35 @@
                             </div>
                             `)
                         })
-                        
+
                         // $('#load_more_news').show()
                     } else {
-                        $('#list_news_blog').append(`<p class="text-center">Data tidak ditemukan</p>`)
-                    }
-                    $('#load_more_news').hide()
-                }
-            })
-        })
-
-        $(document).on('click', '.each_news', function(e) {
-            e.preventDefault()
-            let news_id = $(this).data('id')
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                url: '{{ route("fetch-news-detail") }}',
-                type: 'GET',
-                data: { 
-                    id: news_id
-                },
-                dataType: 'json',
-                async: true,
-                beforeSend: function() {
-                    $('#loading_animation_product').show()
-                    $('#load_more_news').hide()
-                },
-                success: function(res) {
-                    $('#header_news').hide()
-                    $('#list_news_blog').empty()
-                    $('#header_detail_news').empty()
-                    $('#header_detail_news').append(`
-                    <section class="page-title-area-2 breadcrumb-spacing bg-theme-4 section-spacing">
-                        <div class="container">
-                            <div class="row justify-content-center">
-                                <div class="col-xxl-9">
-                                    <div class="page-title-wrapper-2 text-center">
-                                        <h1 class="page__title-2 mb-25">${res.data.title}</h1>
-                                        <div class="breadcrumb-menu-2 d-flex justify-content-center">
-                                            <nav aria-label="Breadcrumbs" class="breadcrumb-trail breadcrumbs">
-                                                <ul class="trail-items-2">
-                                                    <li class="trail-item-2 trail-begin"><a href="{{ route('home') }}"><span>Beranda</span></a></li>
-                                                    <li class="trail-item-2 trail-center"><a href="{{ route('news') }}"><span>Berita</span></a></li>
-                                                    <li class="trail-item-2 trail-end"><span>${res.data.title}</span></li>
-                                                </ul>
-                                            </nav>
+                        $('#list_news_blog').append(`<section class="df-error__area section-spacing">
+                            <div class="container">
+                                <div class="row align-items-center justify-content-center section-title-spacing wow fadeInUp" data-wow-delay=".3s">
+                                    <div class="col-xl-8">
+                                        <div class="df-error__thumb">
+                                            <img src="{{ asset('storage/uploads/html/404-v1-red.png') }}" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center justify-content-center section-title-spacing wow fadeInUp" data-wow-delay=".3s">
+                                    <div class="col-lg-5">
+                                        
+                                        <div class="df-error__area-btn text-center wow fadeInUp" data-wow-delay=".3s">
+                                            <a href="{{ route('news') }}" class="primary-btn hover-white">Go Back
+                                                <span class="icon__box">
+                                                    <img class="icon__first" src="{{ asset('assets/img/icon/arrow-white.webp') }}"
+                                                        alt="image not found">
+                                                    <img class="icon__second" src="{{ asset('assets/img/icon/arrow-black.webp') }}"
+                                                        alt="image not found">
+                                                </span>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </section>
-                    `)
-                    $('#loading_animation_product').hide()
-                    if (res.data.length != 0) {
-                        // alert(res.data.image_detail.length)
-                        $('#list_news_blog').append(`
-                            <div class="df-blog-details__wrap">
-                                <div class="df-blog-details__box mb-30 wow fadeInUp animated" data-wow-duration="1.5s" data-wow-delay="0.3">
-                                    <div class="df-blog-details__thumb p-relative">
-                                        <div class="df-blog-details__thumb-overlay wow"></div>
-                                        <img src="{{ asset('${res.data.image}') }}" alt="image not found">
-                                    </div>
-                                    <div class="df-blog-details__content mb-40">
-                                        <div class="df-blog-details__meta mb-25">
-                                            <span><i class="fa-thin fa-calendar-days"></i>
-                                                ${moment(res.data.date).format('ll')}
-                                            </span>
-                                        </div>
-                                        <p class="df-blog-details__text mb-20">${res.data.header_content}</p>
-                                        <div class="df-blog-details__thumb-wrap">
-                                            <div class="df-blog-details__thumb2 p-relative mb-30">
-                                                <div class="df-blog-details__thumb-overlay wow"></div>
-                                                <img src="{{ asset('${res.data.news_image_detail[0].file_name}') }}" alt="image not found">
-                                            </div>
-                                            <div class="df-blog-details__thumb2 p-relative mb-30">
-                                                <div class="df-blog-details__thumb-overlay wow"></div>
-                                                <img src="{{ asset('${res.data.news_image_detail[1].file_name}') }}" alt="image not found">
-                                            </div>
-                                        </div>
-                                        <p class="df-blog-details__text mb-35">
-                                            ${res.data.content}
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        `)
-                    } else {
-                        $('#list_news_blog').append(`<p class="text-center">Data tidak ditemukan</p>`)
+                        </section>`)
                     }
                     $('#load_more_news').hide()
                 }
@@ -354,9 +406,9 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url: '{{ route("fetch-news-detail") }}',
+                url: '{{ route('fetch-news-detail') }}',
                 type: 'GET',
-                data: { 
+                data: {
                     id: news_id
                 },
                 dataType: 'json',
@@ -370,26 +422,26 @@
                     $('#list_news_blog').empty()
                     $('#header_detail_news').empty()
                     $('#header_detail_news').append(`
-                    <section class="page-title-area-2 breadcrumb-spacing bg-theme-4 section-spacing">
-                        <div class="container">
-                            <div class="row justify-content-center">
-                                <div class="col-xxl-9">
-                                    <div class="page-title-wrapper-2 text-center">
-                                        <h1 class="page__title-2 mb-25">${res.data.title}</h1>
-                                        <div class="breadcrumb-menu-2 d-flex justify-content-center">
-                                            <nav aria-label="Breadcrumbs" class="breadcrumb-trail breadcrumbs">
-                                                <ul class="trail-items-2">
-                                                    <li class="trail-item-2 trail-begin"><a href="{{ route('home') }}"><span>Beranda</span></a></li>
-                                                    <li class="trail-item-2 trail-center"><a href="{{ route('news') }}"><span>Berita</span></a></li>
-                                                    <li class="trail-item-2 trail-end"><span>${res.data.title}</span></li>
-                                                </ul>
-                                            </nav>
+                        <section class="page-title-area-2 breadcrumb-spacing bg-theme-4 section-spacing">
+                            <div class="container">
+                                <div class="row justify-content-center">
+                                    <div class="col-xxl-9">
+                                        <div class="page-title-wrapper-2 text-center">
+                                            <h1 class="page__title-2 mb-25">${res.data.title}</h1>
+                                            <div class="breadcrumb-menu-2 d-flex justify-content-center">
+                                                <nav aria-label="Breadcrumbs" class="breadcrumb-trail breadcrumbs">
+                                                    <ul class="trail-items-2">
+                                                        <li class="trail-item-2 trail-begin"><a href="{{ route('home') }}"><span>Beranda</span></a></li>
+                                                        <li class="trail-item-2 trail-center"><a href="{{ route('news') }}"><span>Berita</span></a></li>
+                                                        <li class="trail-item-2 trail-end"><span>${res.data.title}</span></li>
+                                                    </ul>
+                                                </nav>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </section>
+                        </section>
                     `)
                     $('#loading_animation_product').hide()
                     if (res.data.length != 0) {
@@ -426,7 +478,32 @@
                             </div>
                         `)
                     } else {
-                        $('#list_news_blog').append(`<p class="text-center">Data tidak ditemukan</p>`)
+                        $('#list_news_blog').append(`<section class="df-error__area section-spacing">
+                            <div class="container">
+                                <div class="row align-items-center justify-content-center section-title-spacing wow fadeInUp" data-wow-delay=".3s">
+                                    <div class="col-xl-8">
+                                        <div class="df-error__thumb">
+                                            <img src="{{ asset('storage/uploads/html/404-v1-red.png') }}" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center justify-content-center section-title-spacing wow fadeInUp" data-wow-delay=".3s">
+                                    <div class="col-lg-5">
+                                        
+                                        <div class="df-error__area-btn text-center wow fadeInUp" data-wow-delay=".3s">
+                                            <a href="{{ route('news') }}" class="primary-btn hover-white">Go Back
+                                                <span class="icon__box">
+                                                    <img class="icon__first" src="{{ asset('assets/img/icon/arrow-white.webp') }}"
+                                                        alt="image not found">
+                                                    <img class="icon__second" src="{{ asset('assets/img/icon/arrow-black.webp') }}"
+                                                        alt="image not found">
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>`)
                     }
                     $('#load_more_news').hide()
                 }

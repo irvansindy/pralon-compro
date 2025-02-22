@@ -16,43 +16,43 @@ class NewsImageDetailSeeder extends Seeder
         DB::table("news_image_details")->insert([
             [
                 'news_id'=> 1,
-                'file_name'=> 'detail_1_1.jpg',
+                'file_name'=> 'storage/uploads/news_blog/detail/detail-1-1.jpg',
             ],
             [
                 'news_id'=> 1,
-                'file_name'=> 'detail_1_2.jpg',
+                'file_name'=> 'storage/uploads/news_blog/detail/detail-1-2.jpg',
             ],
             [
                 'news_id'=> 2,
-                'file_name'=> 'detail_2_1.jpg',
+                'file_name'=> 'storage/uploads/news_blog/detail/detail-2-1.jpg',
             ],
             [
                 'news_id'=> 2,
-                'file_name'=> 'detail_2_2.jpg',
+                'file_name'=> 'storage/uploads/news_blog/detail/detail-2-2.jpg',
             ],
             [
                 'news_id'=> 3,
-                'file_name'=> 'detail_3_1.jpg',
+                'file_name'=> 'storage/uploads/news_blog/detail/detail-3-1.jpg',
             ],
             [
                 'news_id'=> 3,
-                'file_name'=> 'detail_3_2.jpg',
+                'file_name'=> 'storage/uploads/news_blog/detail/detail-3-2.jpg',
             ],
             [
                 'news_id'=> 4,
-                'file_name'=> 'detail_4_1.png',
+                'file_name'=> 'storage/uploads/news_blog/detail/detail-4-1.png',
             ],
             [
                 'news_id'=> 4,
-                'file_name'=> 'detail_4_2.png',
+                'file_name'=> 'storage/uploads/news_blog/detail/detail-4-2.png',
             ],
             [
                 'news_id'=> 5,
-                'file_name'=> 'detail_5_1.jpg',
+                'file_name'=> 'storage/uploads/news_blog/detail/detail-5-1.jpg',
             ],
             [
                 'news_id'=> 5,
-                'file_name'=> 'detail_5_2.jpg',
+                'file_name'=> 'storage/uploads/news_blog/detail/detail-5-2.jpg',
             ],
         ]);
     }

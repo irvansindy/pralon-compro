@@ -107,6 +107,7 @@ class MenuController extends Controller
     public function storeSubMenu(Request $request)
     {
         try {
+            // dd($request->all());
             DB::beginTransaction();
             $validator = Validator::make($request->all(), [
                 'name' => 'required|string',
@@ -121,16 +122,18 @@ class MenuController extends Controller
                 throw new ValidationException($validator);
             }
             $slug_name = Str::slug($request->name, '-');
-            $menu = Menu::create([
-                'menu_id' => $request->menu_id,
+            $submenu_data = [
+                'menu_id'=> $request->id,
                 'name'=> $request->name,
                 'url'=> $request->url,
-                'slug' => $slug_name,
+                'slug'=> $slug_name,
                 'icon'=> $request->icon,
-            ]);
+                'active'=> $request->active,
+            ];
+            $create_submenu = SubMenu::create($submenu_data);
 
             DB::commit();
-            return FormatResponseJson::success($menu, 'menu berhasil dibuat');
+            return FormatResponseJson::success($create_submenu, 'submenu berhasil dibuat');
         } catch (ValidationException $e) {
             // Return validation errors as JSON response
             DB::rollback();
@@ -143,9 +146,11 @@ class MenuController extends Controller
     public function detailSubMenu(Request $request)
     {
         try {
-            $submenus = SubMenu::where('', $request->id)->get();
+            // dd($request->id);
+            $submenus = SubMenu::where('menu_id', $request->id)->get();
+            return FormatResponseJson::success($submenus,'submenu berhasil dimuat');
         } catch (\Throwable $th) {
-            //throw $th;
+            return FormatResponseJson::error(null, $th->getMessage(), 500);
         }
     }
 }

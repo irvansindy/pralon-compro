@@ -66,11 +66,9 @@
             let menu_name = $('#menu_name').val()
             let menu_url = $('#menu_url').val()
             let menu_icon = $('#menu_icon').val()
-            // let menu_status = $('#menu_status').val()
             let is_active = '';
             if ($('#menu_status').is(':checked')) {
                 is_active = 1
-                // alert(is_active)
             } else {
                 is_active = 0
             }
@@ -112,7 +110,61 @@
         $(document).on('click', '.add_submenu', function(e) {
             e.preventDefault()
             let id = $(this).data('add_submenu_id')
-            alert(id)
+            $('#form_create_submenu')[0].reset()
+            $('#master_menu_id').val(id)
+            $('#message_submenu_name').text('')
+            $('#message_submenu_url').text('')
+            $('#message_submenu_icon').text('')
+            $('#button-footer-submenu').empty()
+            $('#button-footer-submenu').append(`
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="create_data_submenu">Save</button>
+            `)
+        })
+
+        $(document).on('click', '#create_data_submenu', function(e) {
+            e.preventDefault()
+            let master_menu_id = $('#master_menu_id').val()
+            let submenu_name = $('#submenu_name').val()
+            let submenu_url = $('#submenu_url').val()
+            let submenu_icon = $('#submenu_icon').val()
+            let is_active = '';
+            $('#submenu_status').is(':checked', true) ? is_active = 1 : is_active = 0
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: '{{ route('store-submenu') }}',
+                method: 'POST',
+                data: {
+                    id: master_menu_id,
+                    name: submenu_name,
+                    url: submenu_url,
+                    icon: submenu_icon,
+                    active: is_active
+                },
+                dataType: 'json',
+                success: function(res) {
+                    fetchListMenu()
+                    $('#createSubMenu').modal('hide')
+                    Swal.fire({
+                        icon: "success",
+                        title: 'Success!',
+                        text: res.meta.message,
+                    })
+                },
+                error: function(xhr) {
+                    let response_error = JSON.parse(xhr.responseText)
+                    if (response_error.meta.code == 422) {
+                        $('#message_submenu_name').text('')
+                        $('#message_submenu_url').text('')
+                        $('#message_submenu_icon').text('')
+                        $.each(response_error.meta.message.errors, function(i, value) {
+                            $('#message_submenu_' + i.replace('.', '_')).text(value)
+                        })
+                    }
+                }
+            })
         })
 
         $(document).on('click', '.detail_menu', function(e) {
@@ -204,18 +256,49 @@
         $(document).on('click', '.check_list_submenu', function(e) {
             e.preventDefault()
             let id = $(this).data('master_id')
-            alert("aduh")
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url: '{{ route('detail-menu') }}',
+                url: '{{ route('detail-submenu') }}',
                 type: 'get',
                 data: {
                     id: id
                 },
                 dataType: 'json',
                 async: true,
+                success: function(res) {
+                    let submenus = res.data
+                    $('#list_submenu').DataTable().clear().destroy();
+                    $('#list_submenu tbody').empty();
+                    let status_active = ''
+                    submenus.forEach((submenu, i) => {
+                        status_active = submenu.active == 1 ? 'active' : 'non-active'
+                        $('#list_submenu tbody').append(`
+                            <tr>
+                                <td>${i + 1}</td>
+                                <td>${submenu.name != null ? submenu.name : 'not set'}</td>
+                                <td>${submenu.url != null ? submenu.url : 'not set'}</td>
+                                <td>${status_active}</td>
+                                <td>
+                                    <button class="btn btn-outline-info mr-1 add_submenu" id="" style="float: right !important;" data-toggle="modal" data-target="#createSubMenu" data-add_submenu_id="${submenu.id}" title="add submenu">
+                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                    </button>
+                                    <button class="btn btn-outline-danger mr-1 delete_menu" id="" style="float: right !important;" data-toggle="" data-target="#" data-delete_id="${submenu.id}" title="delete menu">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                    <button class="btn btn-outline-secondary mr-1 check_list_submenu" id="" style="float: right !important;" data-toggle="modal" data-target="#listSubMenu" data-master_id="${submenu.id}" title="list submenu">
+                                        <i class="fa fa-list-alt" aria-hidden="true"></i>
+                                    </button>
+                                    <button class="btn btn-outline-info mr-1 detail_menu" id="" style="float: right !important;" data-toggle="modal" data-target="#createMenu" data-detail_id="${submenu.id}" title="detail menu">
+                                        <i class="fas fa-eye" aria-hidden="true"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        `);
+                    })
+                    $('#list_submenu').DataTable()
+                }
             })
         })
     })

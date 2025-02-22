@@ -320,7 +320,7 @@ class AboutUsController extends Controller
                 'why_pralon_title' => 'required|string',
                 'why_pralon_subtitle' => 'required|string',
                 'why_pralon_desc' => 'required|string',
-                'why_pralon_image' => 'required|image|max:10000|mimes:jpg,jpeg,png',
+                // 'why_pralon_image' => 'required|image|max:10000|mimes:jpg,jpeg,png',
                 'detail_why_pralon_title.*' => 'required|string',
                 'detail_why_pralon_icon.*' => 'required|string',
                 'detail_why_pralon_desc.*' => 'required|string',
@@ -631,14 +631,14 @@ class AboutUsController extends Controller
                 for ($i=0; $i < count($request->file('input-multiple-file')); $i++) { 
                     # code...
                     $file_certificate_icon = $request->file('input-multiple-file')[$i];
-                    $slug_name = Str::slug($file_certificate_icon->getClientOriginalName().' certificate_icon', '-');
+                    $slug_name = Str::slug(pathinfo($file_certificate_icon->getClientOriginalName(),PATHINFO_FILENAME).' certificate_icon', '-');
                     $file_certificate_icon_name = $slug_name.'.'.$file_certificate_icon->getClientOriginalExtension();
-                    // dd($file_certificate_icon->getClientOriginalName());
                     $data_certificate = [
                         'title' => $file_certificate_icon_name,
                         'desc' => null,
                         'icon' => 'storage/uploads/certificate_icon/'.$file_certificate_icon_name
                     ];
+                    // dd($data_certificate);
                     $create_certificate = Certificate::create($data_certificate);
                     if ($create_certificate) {
                         $file_certificate_icon->move(public_path('storage/uploads/certificate_icon/'), $file_certificate_icon_name);
@@ -646,16 +646,18 @@ class AboutUsController extends Controller
                 }
             } else {
                 DB::rollBack();
-                return redirect()->back()->with('error', 'File yang diupload minimal 1');
+                // return redirect()->back()->with('error', 'File yang diupload minimal 1');
+                return FormatResponseJson::error(null,'Icon sertifikat minimal harus satu');
                 // return FormatResponseJson::error(null,'File yang diupload minimal 1');
             }
             DB::commit();
-            // return FormatResponseJson::success($create_certificate, 'Certificate created');
-            return redirect()->route('about-us-setting')->with('success', 'Certificate created successfully');
+            return FormatResponseJson::success($create_certificate, 'Certificate created');
+            // return redirect()->route('about-us-setting')->with('success', 'Certificate created successfully');
+            
         } catch (ValidationException $e) {
             DB::rollback();
-            // return FormatResponseJson::error(null, ['errors' => $e->errors()], 422);
-            return redirect()->back()->withErrors($e->errors())->withInput();
+            return FormatResponseJson::error(null, ['errors' => $e->errors()], 422);
+            // return redirect()->back()->withErrors($e->errors())->withInput();
         } catch (\Exception $e) {
             DB::rollback();
             // return FormatResponseJson::error(null, $e->getMessage(), 500);

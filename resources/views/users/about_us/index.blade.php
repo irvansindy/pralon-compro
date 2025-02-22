@@ -104,16 +104,6 @@
                         <div class="df-benifits__wrapper">
                             <div class="row justify-content-between" id="pralon_point_plus_list">
                             </div>
-                            <div class="bf-benifits__btn text-xl-start text-md-center mt-50">
-                                <a href="#" class="primary-btn hover-white">Selengkapnya
-                                    <span class="icon__box">
-                                        <img class="icon__first" src="assets/img/icon/arrow-white.webp"
-                                            alt="image not found">
-                                        <img class="icon__second" src="assets/img/icon/arrow-black.webp"
-                                            alt="image not found">
-                                    </span>
-                                </a>
-                            </div>
                         </div>
                     </div>
                     <div class="col-xl-5">
@@ -174,11 +164,11 @@
                             <h2 class="section__title">Pralon Values</h2>
                         </div>
                         <div class="df-requirement__button-wrapper">
-                            <a href="contact.html" class="primary-btn">Contact Us
+                            <a href="{{ route('contact-us') }}" class="primary-btn hover-white">Contact Us
                                 <span class="icon__box">
-                                    <img class="icon__first" src="assets/img/icon/arrow-white.webp"
+                                    <img class="icon__first" src="{{ asset('assets/img/icon/arrow-white.webp') }}"
                                         alt="image not found">
-                                    <img class="icon__second" src="assets/img/icon/arrow-white.webp"
+                                    <img class="icon__second" src="{{ asset('assets/img/icon/arrow-black.webp') }}"
                                         alt="image not found">
                                 </span>
                             </a>
@@ -200,7 +190,7 @@
                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="margin-bottom: 60px">
                     <div class="section__title-wrapper">
                         <span class="section__subtitle bg-lighter">Sertifikasi </span>
-                        <h2 class="section__title">Daftar List Sertifikat</h2>
+                        <h2 class="section__title">Sertifikasi & Penghargaan</h2>
                     </div>
                 </div>
                 <div class="brands__wrapper wow fadeInUp mt-6" data-wow-delay=".3s">

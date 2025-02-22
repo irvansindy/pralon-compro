@@ -76,7 +76,7 @@
                                     <span class="badge badge-pill badge-primary py-1" id="btn-value-with-contact-us-about-us" data-value_pralon_id=""><i class="fas fa-solid fa-eye"></i> View</span>
                                 </div>
                                 <div class="card-body">
-                                    <p>Dummy Value Pralon</p>
+                                    <p>Value Pralon</p>
                                 </div>
                             </div>
                         </section>
@@ -89,7 +89,7 @@
                                     <span class="badge badge-pill badge-primary py-1"  id="btn-sertifikat-about-us" data-certificate_id=""><i class="fas fa-solid fa-eye"></i> View</span>
                                 </div>
                                 <div class="card-body">
-                                    <p>Dummy List Sertifikat</p>
+                                    <p>List Sertifikat</p>
                                 </div>
                             </div>
                         </section>
@@ -106,7 +106,7 @@
         @include('admin.about_us.modal_visi_misi')
         @include('admin.about_us.modal_value')
         @include('admin.about_us.modal_certificate')
-        @include('admin.about_us.modal_detail_certificate')
+        {{-- @include('admin.about_us.modal_detail_certificate') --}}
     </div>
 @endsection
 @push('css')

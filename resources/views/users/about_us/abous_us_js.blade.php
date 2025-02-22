@@ -77,6 +77,10 @@
                             </div>
                         `);
                     })
+                    setTimeout(() => {
+                        console.log("Swiper initializing...");
+                        initSwiper();
+                    }, 300);
                 }
             })
         }
@@ -91,12 +95,12 @@
         breakpoints: {
             // Breakpoint untuk layar kecil (mobile)
             480: {
-                slidesPerView: 1,
+                slidesPerView: 2,
                 spaceBetween: 10,
             },
             // Breakpoint untuk tablet
             768: {
-                slidesPerView: 2,
+                slidesPerView: 3,
                 spaceBetween: 15,
             },
             // Breakpoint untuk layar besar (desktop)
@@ -106,12 +110,13 @@
             },
         },
         slidesPerView: 5,
-        direction: getDirection(),
-        on: {
-            resize: function() {
-                swiper.changeDirection(getDirection());
-            },
-        },
+        direction: 'horizontal',
+        // direction: getDirection(),
+        // on: {
+        //     resize: function() {
+        //         swiper.changeDirection(getDirection());
+        //     },
+        // },
     });
 
     function getDirection() {
@@ -120,5 +125,5 @@
 
         return direction;
     }
-    swiper.autoplay.reverseDirection = true;
+    // swiper.autoplay.reverseDirection = true;
 </script>

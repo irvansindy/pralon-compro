@@ -42,55 +42,7 @@ class NewsController extends Controller
             return FormatResponseJson::error(null, $th->getMessage(), 404);
         }
     }
-    public function fetchNews(Request $request)
-    {
-        try {
-            // Ambil parameter dari request
-            $offset = $request->offset ?? 0; // Offset awal, default 0
-            $limit = $request->limit ?? 5;   // Default 5 data per load
-            $category = $request->category; // Kategori, opsional
-            $search = $request->search;     // Pencarian, opsional
-            
-            // Query dasar
-            $news_query = News::with(['category']);
-
-            if ($offset >= 15) {
-                return FormatResponseJson::success([], 'Tidak ada data lagi untuk dimuat');
-            }
-
-            // Filter kategori jika ada
-            if (!empty($category)) {
-                $news_query->whereHas('category', function ($q) use ($category) {
-                    $q->where('id', $category);
-                })->orWhere('news_category_id', $category);
-            }
-
-            // Filter pencarian jika ada
-            if (!empty($search)) {
-                $news_query->where(function ($q) use ($search) {
-                    $q->whereHas('category', function ($q) use ($search) {
-                        $q->where('name', 'like', '%' . $search . '%');
-                    })
-                    ->orWhere('title', 'like', '%' . $search . '%')
-                    ->orWhere('date', 'like', '%' . $search . '%');
-                });
-            }
-
-            // Ambil data berdasarkan offset dan limit
-            $news = $news_query
-                ->orderBy('date', 'desc')
-                ->offset($offset)
-                ->limit($limit)
-                ->get();
-            
-            return FormatResponseJson::success($news, 'Berita berhasil dimuat');
-        } catch (\Throwable $th) {
-            // Tangani error
-            return FormatResponseJson::error(null, $th->getMessage(), 404);
-        }
-    }
-
-    public function fetchNewsWithCache(Request $request)
+    public function fetchNewsWithCacheOld(Request $request)
     {
         try {
             // Ambil parameter dari request
@@ -141,6 +93,65 @@ class NewsController extends Controller
             return FormatResponseJson::success($news, 'Berita berhasil dimuat');
         } catch (\Throwable $th) {
             // Tangani error
+            return FormatResponseJson::error(null, $th->getMessage(), 404);
+        }
+    }
+    public function fetchNewsWithCache(Request $request)
+    {
+        try {
+            $offset = $request->offset ?? 0;
+            $limit = $request->limit ?? 5;
+            $category = $request->category;
+            $search = $request->search;
+            $id = $request->id;
+
+            // Jika ada id, ambil data berita berdasarkan id dan return hasilnya
+            if (!empty($id)) {
+                $cacheKey = "news_detail_{$id}";
+
+                $news = Cache::remember($cacheKey, 60, function () use ($id) {
+                    return News::with(['category', 'newsImageDetail'])->find($id);
+                });
+
+                if ($news) {
+                    return FormatResponseJson::success($news, 'Detail berita berhasil dimuat');
+                } else {
+                    return FormatResponseJson::error(null, 'Berita tidak ditemukan', 404);
+                }
+            }
+
+            // Cek batas offset
+            if ($offset >= 15) {
+                return FormatResponseJson::success([], 'Tidak ada data lagi untuk dimuat');
+            }
+
+            // Buat cache key unik untuk daftar berita
+            $cacheKey = "news_offset_{$offset}_limit_{$limit}_category_" . ($category ?? 'all') . "_search_" . ($search ?? 'none');
+
+            $news = Cache::remember($cacheKey, 60, function () use ($offset, $limit, $category, $search) {
+                $news_query = News::with(['category']);
+
+                if (!empty($category)) {
+                    $news_query->whereHas('category', function ($q) use ($category) {
+                        $q->where('id', $category);
+                    })->orWhere('news_category_id', $category);
+                }
+
+                if (!empty($search)) {
+                    $news_query->where(function ($q) use ($search) {
+                        $q->whereHas('category', function ($q) use ($search) {
+                            $q->where('name', 'like', '%' . $search . '%');
+                        })
+                        ->orWhere('title', 'like', '%' . $search . '%')
+                        ->orWhere('date', 'like', '%' . $search . '%');
+                    });
+                }
+
+                return $news_query->orderBy('date', 'desc')->offset($offset)->limit($limit)->get();
+            });
+
+            return FormatResponseJson::success($news, 'Berita berhasil dimuat');
+        } catch (\Throwable $th) {
             return FormatResponseJson::error(null, $th->getMessage(), 404);
         }
     }

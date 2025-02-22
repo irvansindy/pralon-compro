@@ -17,7 +17,7 @@ class NewsSeeder extends Seeder
             [
                 'news_category_id' => 1,
                 'title'=> '3 LANGKAH CEPAT INSTALASI HIDROPONIK DI RUMAHMU!',
-                'image' => 'HEAD_1.jpg',
+                'image' => 'storage/uploads/news_blog/head-1.jpg',
                 'short_desc' => 'Ingin menanam sayuran segar di rumah tanpa perlu kebun yang luas? Hidroponik bisa menjadi solusinya! 
                 ',
                 'content'=> 'Ingin menanam sayuran segar di rumah tanpa perlu kebun yang luas? Hidroponik bisa menjadi solusinya! 
@@ -50,7 +50,7 @@ class NewsSeeder extends Seeder
             [
                 'news_category_id' => 1,
                 'title'=> 'TIPS : Cara Mengatasi Wastafel Pipa Yang Bocor',
-                'image' => 'HEAD_2.jpg',
+                'image' => 'storage/uploads/news_blog/head-2.jpg',
                 'short_desc'=> 'Wastafel yang bocor bisa menjadi masalah banget, berikut adalah tips untuk mengatasi wastafel yang bocor
 .                ',
                 'content'=> 'Wastafel yang bocor bisa menjadi masalah yang menjengkelkan di rumah. Kebocoran ini tidak hanya mengganggu, tetapi juga dapat menyebabkan pemborosan air dan merusak struktur wastafel dan area sekitarnya jika dibiarkan terlalu lama. Namun, jangan khawatir, kebocoran wastafel bisa diatasi dengan beberapa langkah sederhana. Berikut adalah tips untuk mengatasi wastafel yang bocor:
@@ -84,7 +84,7 @@ class NewsSeeder extends Seeder
             [
                 'news_category_id' => 1,
                 'title'=> 'AWAS KORSLETING DI RUMAHMU!',
-                'image' => 'HEAD_3.jpg',
+                'image' => 'storage/uploads/news_blog/head-3.jpg',
                 'short_desc'=> 'Korsleting listrik merupakan salah satu bahaya yang sering terjadi di rumah dan dapat menyebabkan kebakaran, kerusakan, bahkan cedera fisik.
                 ',
                 'content'=> 'Korsleting listrik merupakan salah satu bahaya yang sering terjadi di rumah dan dapat menyebabkan kebakaran, kerusakan, bahkan cedera fisik. 
@@ -118,7 +118,7 @@ class NewsSeeder extends Seeder
             [
                 'news_category_id' => 2,
                 'title'=> 'ALASAN HARUS KENAPA PAKAI PIPA PRALON',
-                'image' => 'HEAD_4.jpg',
+                'image' => 'storage/uploads/news_blog/head-4.jpg',
                 'short_desc' => 'Pipa Pralon telah menjadi pilihan utama bagi banyak orang dalam proyek konstruksi dan renovasi.',
                 'content'=> 'Pipa Pralon telah menjadi pilihan utama bagi banyak orang dalam proyek konstruksi dan renovasi. Dikenal karena keandalannya dan kemudahan penggunaannya, pipa Pralon menawarkan sejumlah keuntungan yang membuatnya layak dipertimbangkan dalam berbagai proyek pipa. 
 
@@ -146,7 +146,7 @@ class NewsSeeder extends Seeder
             [
                 'news_category_id' => 4,
                 'title'=> 'CIRI-CIRI TUKANG GREEN FLAG',
-                'image' => 'HEAD_5.jpg',
+                'image' => 'storage/uploads/news_blog/head-5.jpg',
                 'short_desc' => 'Bingung banget kalau ada kebutuhan untuk instalasi pipa di rumah tapi cari tukang yang cocok & bagus itu seperti apa?',
                 'content'=> 'Banyak orang mencari solusi ramah lingkungan untuk berbagai kebutuhan, termasuk dalam bidang konstruksi dan perbaikan rumah. 
 

@@ -31,7 +31,8 @@ use App\Http\Controllers\Admin\EmailTemplateController as AdminEmailTemplateCont
 // });
 
 Route::get("/", [HomeController::class,"index"])->name("home");
-Route::get("/about-us", [AboutUsController::class,"index"])->name("about-us");
+Route::get("/about-us", action: [AboutUsController::class,"index"])->name("about-us");
+Route::get("/fetch-content-home", [HomeController::class,"fetchContent"])->name("fetch-content-home");
 Route::get("/fetch-content-about-us", [AboutUsController::class,"fetchContentAboutUs"])->name("fetch-content-about-us");
 
 Route::get("/product", [ProductController::class,"index"])->name("product");
@@ -45,8 +46,8 @@ Route::get('send-email-downloaded', [ProductController::class,'sendEmailDownload
 Route::post("/log-user", [ProductController::class,"storeLogUserDownload"])->name("log-user");
 
 Route::get('/news', [NewsController::class,'index'])->name('news');
-Route::get('/fetch-news', [NewsController::class,'fetchNews'])->name('fetch-news');
-Route::get('/fetch-news-cache', [NewsController::class,'fetchNewsWithCache'])->name('fetch-news-cache');
+// Route::get('/fetch-news', [NewsController::class,'fetchNews'])->name('fetch-news');
+Route::get('/fetch-news', [NewsController::class,'fetchNewsWithCache'])->name('fetch-news');
 Route::get('/fetch-news-categories', [NewsController::class,'fetchNewsCategories'])->name('fetch-news-categories');
 Route::get('/fetch-news-recent-post', [NewsController::class,'fetchRecentPost'])->name('fetch-news-recent-post');
 Route::get('fetch-news-detail', [NewsController::class,'fetchNewsDetail'])->name('fetch-news-detail');
@@ -63,7 +64,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/menu-setting', [MenuController::class,'index'])->name('menu-setting');
     Route::get('/fetch-menu', [MenuController::class,'fetchMenu'])->name('fetch-menu');
     Route::get('/detail-menu', [MenuController::class,'detailMenu'])->name('detail-menu');
+    Route::get('/detail-submenu', [MenuController::class,'detailSubMenu'])->name('detail-submenu');
     Route::post('/store-menu', [MenuController::class,'storeMenu'])->name('store-menu');
+    Route::post('/store-submenu', [MenuController::class,'storeSubMenu'])->name('store-submenu');
     Route::post('/update-menu', [MenuController::class,'updateMenu'])->name('update-menu');
     // product category
     Route::get('product-categories', [ProductCategoryController::class,'index'])->name('product-categories');
