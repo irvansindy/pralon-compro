@@ -12,7 +12,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="submenu_name">Name</label>
-                        <input type="text" class="form-control" id="master_menu_id" placeholder="Name">
+                        <input type="hidden" class="form-control" id="master_menu_id" placeholder="Name">
                         <input type="text" class="form-control" id="submenu_name" name="submenu_name" placeholder="Name">
                         <span class="text-sm text-danger mt-2 message_submenu_name" id="message_submenu_name" role="alert" style="font-size: 12px !important;"></span>
                     </div>

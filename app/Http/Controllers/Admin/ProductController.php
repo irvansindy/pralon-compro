@@ -152,6 +152,7 @@ class ProductController extends Controller
             }
 
             $existing_product = Product::find($request->master_product_id);
+            // dd($existing_product);
             
             if ($existing_product) {
                 $existing_product->update([
@@ -166,6 +167,7 @@ class ProductController extends Controller
 
             if($request->master_product_image != null) {
                 // check existing master image
+                // dd($request->master_product_image);
                 $old_master_image_path = public_path($existing_product->image);
                 if (file_exists($old_master_image_path)) {
                     unlink($old_master_image_path);
@@ -175,7 +177,7 @@ class ProductController extends Controller
                 $slug_name = Str::slug($request->master_product_full_name.' master_image', '-');
                 $file_master_product_image_name = $slug_name.'.'.$file_master_product_image->getClientOriginalExtension();
                 $existing_product->update([
-                    'update' => 'storage/uploads/master_image/'.$file_master_product_image_name,
+                    'image' => 'storage/uploads/master_image/'.$file_master_product_image_name,
                 ]);
                 $file_master_product_image->move(public_path('storage/uploads/master_image/'), $file_master_product_image_name);
             }
