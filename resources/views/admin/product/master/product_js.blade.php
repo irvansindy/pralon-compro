@@ -157,30 +157,46 @@
 
                     let detail_image = product.detail_image
                     $('#form_field_detail_image').empty()
-                    $.each(detail_image, (i, image) => {
-                        // let data_detail_image = "{{ asset('assets/img/pralon/list_product/detail_product') }}" + "/" + image.image_detail
-                        let data_detail_image = image.image_detail
-                        $('#form_field_detail_image').append(`
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="detail_product_image_${i+1}">Detail Image ${i+1}</label>
-                                    <div class="form_field_product_image_detail" id="form_field_product_image_detail_${i+1}">
-                                        <input type="text" class="form-control" name="detail_product_image[]" id="detail_product_image_${i+1}" required>
+                    if (detail_image <= 0) {
+                        let image_detail_length = 2
+                        for (let i = 0; i < image_detail_length; i++) {
+                            $('#form_field_detail_image').append(`
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="master_product_image_detail_${i+1}">Detail Image ${i+1}</label>
+                                        <div class="form_field_product_image_detail" id="form_field_product_image_detail_${i+1}">
+                                            <input type="file" class="form-control" name="master_product_image_detail[]" id="master_product_image_detail_${i+1}" required>
+                                        </div>
                                     </div>
-                                    <a id="link_product_image" target="_blank" href="${data_detail_image}">
-                                        <i class="fas fa-file"></i> Your Image Product
-                                    </a>
-                                    <input type="hidden" name="master_product_image_detail_link_${i+1}" id="master_product_image_detail_link_${i+1}" value="${data_detail_image}" disabled/>
-                                    <div class="button-change-product-image" id="button-change-product-image-detail_${i+1}" style="cursor: pointer;"></div>
                                 </div>
-                            </div>
-                        `)
-                        let number = i + 1
-                        $('#button-change-product-image-detail_' + number).append(`
-                            <i class="fas fa-edit change_product_image_detail_${i+1}" title="Ubah data image" for="change_product_image_detail_${i+1}"></i>
-                            <span class="info-box-text change_product_image_detail_${i+1}" id="change_product_image_detail_${i+1}" title="Ubah data image"><small>Ubah data image</small></span>
-                        `)
-                    })
+                            `)
+                        }
+                    } else {
+                        $.each(detail_image, (i, image) => {
+                            // let data_detail_image = "{{ asset('assets/img/pralon/list_product/detail_product') }}" + "/" + image.image_detail
+                            let data_detail_image = image.image_detail
+                            $('#form_field_detail_image').append(`
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="detail_product_image_${i+1}">Detail Image ${i+1}</label>
+                                        <div class="form_field_product_image_detail" id="form_field_product_image_detail_${i+1}">
+                                            <input type="text" class="form-control" name="detail_product_image[]" id="detail_product_image_${i+1}" required>
+                                        </div>
+                                        <a id="link_product_image" target="_blank" href="${data_detail_image}">
+                                            <i class="fas fa-file"></i> Your Image Product
+                                        </a>
+                                        <input type="hidden" name="master_product_image_detail_link_${i+1}" id="master_product_image_detail_link_${i+1}" value="${data_detail_image}" disabled/>
+                                        <div class="button-change-product-image" id="button-change-product-image-detail_${i+1}" style="cursor: pointer;"></div>
+                                    </div>
+                                </div>
+                            `)
+                            let number = i + 1
+                            $('#button-change-product-image-detail_' + number).append(`
+                                <i class="fas fa-edit change_product_image_detail_${i+1}" title="Ubah data image" for="change_product_image_detail_${i+1}"></i>
+                                <span class="info-box-text change_product_image_detail_${i+1}" id="change_product_image_detail_${i+1}" title="Ubah data image"><small>Ubah data image</small></span>
+                            `)
+                        })
+                    }
                     $('.form_field_product_image_detail').empty()
                     $('#button_action_form_master_product').empty()
                     $('#button_action_form_master_product').append(`
