@@ -43,7 +43,7 @@
 
         fetchNewsCategories()
         fetchRecentNews()
-
+        fetchNews()
         function fetchNews(id = null) {
             $.ajax({
                 headers: {
@@ -64,8 +64,8 @@
                     $('#load_more_news').hide();
                 },
                 success: function(res) {
+                    alert(id)
                     $('#loading_animation_product').hide();
-
                     if (id) {
                         // Tampilkan detail berita
                         $('#header_news').hide();

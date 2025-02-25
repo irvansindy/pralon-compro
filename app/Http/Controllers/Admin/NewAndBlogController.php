@@ -178,10 +178,11 @@ class NewAndBlogController extends Controller
             }
 
             $existing_news_blog = News::find($request->get('news_blog_id'));
+            // dd($existing_news_blog);
 
             $ordering_1 = $request->news_blog_detail_image_1 != null ? 1 : null;
             $ordering_2 = $request->news_blog_detail_image_2 != null ? 2 : null;
-
+            // dd($ordering_2);
             $data_news_blog = [
                 'news_category_id'=> $request->news_blog_category,
                 'title'=> $request->news_blog_title,
@@ -189,8 +190,6 @@ class NewAndBlogController extends Controller
                 'header_content'=> $request->news_blog_header_content,
                 'content'=> $request->news_blog_content,
             ];
-
-            $existing_news_blog->update($data_news_blog);
 
             if ($ordering_1 != null) {
                 # code...

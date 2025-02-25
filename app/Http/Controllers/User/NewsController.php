@@ -104,7 +104,7 @@ class NewsController extends Controller
             $category = $request->category;
             $search = $request->search;
             $id = $request->id;
-
+            // dd($id);
             // Jika ada id, ambil data berita berdasarkan id dan return hasilnya
             if (!empty($id)) {
                 $cacheKey = "news_detail_{$id}";

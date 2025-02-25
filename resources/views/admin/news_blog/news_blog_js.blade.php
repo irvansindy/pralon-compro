@@ -186,6 +186,7 @@
                         }
                     })
                     $('#news_blog_short_desc').val(res.data.short_desc)
+                    $('#news_blog_header_content').val(res.data.header_content)
                     $('#news_blog_content').val(res.data.content)
                     // reset form field detail image
                     $('.detail_image_news_blog').empty()
