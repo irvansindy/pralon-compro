@@ -97,6 +97,15 @@
         $(document).on('click', '#submit_news_blog', function(e) {
             e.preventDefault()
             let formData = new FormData($('#form_master_news_blog')[0]);
+            // Tampilkan loading sebelum AJAX berjalan
+            Swal.fire({
+                title: 'Please wait...',
+                text: 'Processing your request',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -107,6 +116,7 @@
                 contentType: false,
                 processData: false,
                 success: function(res) {
+                    Swal.close();
                     $('#ModalMasterNewsBlog').modal('hide');
                     $('#news_blog_table').DataTable().ajax.reload();
                     Swal.fire({
@@ -115,6 +125,7 @@
                         text: res.meta.message,
                     })
                 }, error: function(xhr) {
+                    Swal.close();
                     let response_error = JSON.parse(xhr.responseText)
                     if (response_error.meta.code == 422) {
                         $('#message_news_blog_title').text('')

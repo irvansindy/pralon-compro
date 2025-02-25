@@ -444,7 +444,6 @@
                     `)
                     $('#loading_animation_product').hide()
                     if (res.data.length != 0) {
-                        // alert(res.data.image_detail.length)
                         $('#list_news_blog').append(`
                             <div class="df-blog-details__wrap">
                                 <div class="df-blog-details__box mb-30 wow fadeInUp animated" data-wow-duration="1.5s" data-wow-delay="0.3">
