@@ -157,7 +157,7 @@ class NewAndBlogController extends Controller
     {
         try {
             DB::beginTransaction();
-            // dd($request->all());
+            // dd($request->file('news_blog_main_image'));
             $validator = Validator::make($request->all(), [
                 'news_blog_title' => 'required|string',
                 'news_blog_category' => 'required|string',
@@ -191,6 +191,26 @@ class NewAndBlogController extends Controller
                 'content'=> $request->news_blog_content,
             ];
 
+            $existing_news_blog->update($data_news_blog);
+            
+            if ($request->file('news_blog_main_image') != null) {
+                // master file news_blog_main_image
+                $file_news_blog_main_image_file = $request->file('news_blog_main_image');
+                $slug_name_news_blog_main_image_file = Str::slug(pathinfo($file_news_blog_main_image_file->getClientOriginalName(),PATHINFO_FILENAME), '-');
+                $file_news_blog_main_image_file_name = $slug_name_news_blog_main_image_file.'.'.$file_news_blog_main_image_file->getClientOriginalExtension();
+                
+                $old_master_image_path = public_path($existing_news_blog->image);
+                if (file_exists($old_master_image_path)) {
+                    unlink($old_master_image_path);
+                }
+
+                $existing_news_blog->update([
+                    'image'=> 'storage/uploads/news_blog/'.$file_news_blog_main_image_file_name,
+                ]);
+
+                $file_news_blog_main_image_file->move(public_path('storage/uploads/news_blog/'), $file_news_blog_main_image_file_name);
+            }
+
             if ($ordering_1 != null) {
                 # code...
                 $existing_news_blog_image_detail_1 = NewsImageDetail::where('news_id', $existing_news_blog->id)
@@ -199,8 +219,7 @@ class NewAndBlogController extends Controller
 
                 $file_news_blog_detail_image_1_file = $request->file('news_blog_detail_image_1');
                 $slug_name_news_blog_detail_image_1_file = Str::slug(pathinfo($file_news_blog_detail_image_1_file->getClientOriginalName(),PATHINFO_FILENAME), '-');
-                $file_news_blog_detail_image_1_file_name = $slug_name_news_blog_detail_image_1_file.'.'.$file_news_blog_detail_image_1_file->getClientOriginalExtension();
-                
+                $file_news_blog_detail_image_1_file_name = $slug_name_news_blog_detail_image_1_file.'_1.'.$file_news_blog_detail_image_1_file->getClientOriginalExtension();
                 $old_detail_image_1_path = public_path($existing_news_blog_image_detail_1->file_name);
                 if (file_exists($old_detail_image_1_path)) {
                     unlink($old_detail_image_1_path);
@@ -219,7 +238,7 @@ class NewAndBlogController extends Controller
 
                 $file_news_blog_detail_image_2_file = $request->file('news_blog_detail_image_2');
                 $slug_name_news_blog_detail_image_1_file = Str::slug(pathinfo($file_news_blog_detail_image_2_file->getClientOriginalName(),PATHINFO_FILENAME), '-');
-                $file_news_blog_detail_image_2_file_name = $slug_name_news_blog_detail_image_1_file.'.'.$file_news_blog_detail_image_2_file->getClientOriginalExtension();
+                $file_news_blog_detail_image_2_file_name = $slug_name_news_blog_detail_image_1_file.'_2.'.$file_news_blog_detail_image_2_file->getClientOriginalExtension();
 
                 $old_detail_image_2_path = public_path('storage/uploads/news_blog/detail/'.$existing_news_blog_image_detail_2->file_name);
                 if (file_exists($old_detail_image_2_path)) {
