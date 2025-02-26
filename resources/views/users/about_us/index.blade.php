@@ -208,5 +208,5 @@
     @include('layouts.users.footer')
 @endsection
 @push('js')
-    @include('users\about_us\abous_us_js')
+    @include('users.about_us.abous_us_js')
 @endpush
