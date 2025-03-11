@@ -173,7 +173,6 @@
                         }
                     } else {
                         $.each(detail_image, (i, image) => {
-                            // let data_detail_image = "{{ asset('assets/img/pralon/list_product/detail_product') }}" + "/" + image.image_detail
                             let data_detail_image = image.image_detail
                             $('#form_field_detail_image').append(`
                                 <div class="col-md-6">

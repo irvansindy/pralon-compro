@@ -8,6 +8,9 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+            
+            <div id="loading_master_news_blog"></div>
+            
             <form id="form_master_news_blog">
                 <div class="modal-body">
                     <div class="row">

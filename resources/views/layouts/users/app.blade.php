@@ -43,6 +43,23 @@
     <!-- Scripts -->
     {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
     @stack('css')
+    <style>
+        .service__title {
+            display: -webkit-box;        /* Gunakan Flexbox khusus untuk teks */
+            -webkit-line-clamp: 1;       /* Tentukan jumlah maksimum baris */
+            -webkit-box-orient: vertical;
+            overflow: hidden;            /* Potong konten yang melampaui batas */
+            text-overflow: ellipsis;     /* Tambahkan "..." jika teks dipotong */
+        }
+        .service__text {
+            display: -webkit-box;        /* Gunakan Flexbox khusus untuk teks */
+            -webkit-line-clamp: 2;       /* Tentukan jumlah maksimum baris */
+            -webkit-box-orient: vertical;
+            overflow: hidden;            /* Potong konten yang melampaui batas */
+            text-overflow: ellipsis;     /* Tambahkan "..." jika teks dipotong */
+        }
+
+    </style>
 </head>
 
 <body>

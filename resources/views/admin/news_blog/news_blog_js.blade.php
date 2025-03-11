@@ -97,15 +97,15 @@
         $(document).on('click', '#submit_news_blog', function(e) {
             e.preventDefault()
             let formData = new FormData($('#form_master_news_blog')[0]);
-            // Tampilkan loading sebelum AJAX berjalan
-            Swal.fire({
-                title: 'Please wait...',
-                text: 'Processing your request',
-                allowOutsideClick: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                }
-            });
+            $('#form_master_news_blog').hide()
+            $('#loading_master_news_blog').empty()
+            $('#loading_master_news_blog').append(`
+                <div class="d-flex justify-content-center my-4">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden"></span>
+                    </div>
+                </div>
+            `)
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -116,7 +116,8 @@
                 contentType: false,
                 processData: false,
                 success: function(res) {
-                    Swal.close();
+                    $('#loading_master_news_blog').empty()
+                    $('#form_master_news_blog').show()
                     $('#ModalMasterNewsBlog').modal('hide');
                     $('#news_blog_table').DataTable().ajax.reload();
                     Swal.fire({
@@ -125,7 +126,8 @@
                         text: res.meta.message,
                     })
                 }, error: function(xhr) {
-                    Swal.close();
+                    $('#loading_master_news_blog').empty()
+                    $('#form_master_news_blog').show()
                     let response_error = JSON.parse(xhr.responseText)
                     if (response_error.meta.code == 422) {
                         $('#message_news_blog_title').text('')
@@ -248,6 +250,15 @@
         $(document).on('click', '#update_news_blog', function(e) {
             e.preventDefault()
             let formData = new FormData($('#form_master_news_blog')[0]);
+            $('#form_master_news_blog').hide()
+            $('#loading_master_news_blog').empty()
+            $('#loading_master_news_blog').append(`
+                <div class="d-flex justify-content-center my-4">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden"></span>
+                    </div>
+                </div>
+            `)
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -258,7 +269,9 @@
                 contentType: false,
                 processData: false,
                 success: function(res) {
+                    $('#loading_master_news_blog').empty()
                     $('#ModalMasterNewsBlog').modal('hide');
+                    $('#form_master_news_blog').show()
                     $('#news_blog_table').DataTable().ajax.reload();
                     Swal.fire({
                         icon: "success",
@@ -266,6 +279,8 @@
                         text: res.meta.message,
                     })
                 }, error: function(xhr) {
+                    $('#loading_master_news_blog').empty()
+                    $('#form_master_news_blog').show()
                     let response_error = JSON.parse(xhr.responseText)
                     if (response_error.meta.code == 422) {
                         $('#message_news_blog_title').text('')

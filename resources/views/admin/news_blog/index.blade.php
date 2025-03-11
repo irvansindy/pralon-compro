@@ -13,6 +13,7 @@
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-dark">List News and Blog</h6>
             </div>
+            
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-bordered" id="news_blog_table" width="100%" cellspacing="0">
