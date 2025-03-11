@@ -50,9 +50,37 @@
             // clear summernote
             $('#master_product_main_desc').summernote('reset');
             $('#master_product_main_desc').summernote('fullscreen.isFullscreen');
+            $('#master_product_main_desc').summernote({
+                fontSizes: ['8', '9', '10', '11', '12', '13', '14', '15', '16', '18', '20', '22' , '24', '28', '32', '36', '40', '48'],
+                toolbar: [
+                    // [groupName, [list of button]]
+                    ['style'],
+                    ['style', ['clear', 'bold', 'italic', 'underline']],
+                    ['fontname', ['fontname']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],       
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['view', ['codeview']]
+                ],
+            });
             // clear summernote
             $('#master_product_detail_desc').summernote('reset');
             $('#master_product_detail_desc').summernote('fullscreen.isFullscreen');
+            $('#master_product_detail_desc').summernote({
+                fontSizes: ['8', '9', '10', '11', '12', '13', '14', '15', '16', '18', '20', '22' , '24', '28', '32', '36', '40', '48'],
+                toolbar: [
+                    // [groupName, [list of button]]
+                    ['style'],
+                    ['style', ['clear', 'bold', 'italic', 'underline']],
+                    ['fontname', ['fontname']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],       
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['view', ['codeview']]
+                ]
+            });
             $('#form_field_link_product_image').empty()
             $.ajax({
                 headers: {
@@ -107,10 +135,37 @@
             // clear summernote
             $('#master_product_main_desc').summernote('reset');
             $('#master_product_main_desc').summernote('fullscreen.isFullscreen');
+            $('#master_product_main_desc').summernote({
+                fontSizes: ['8', '9', '10', '11', '12', '13', '14', '15', '16', '18', '20', '22' , '24', '28', '32', '36', '40', '48'],
+                toolbar: [
+                    // [groupName, [list of button]]
+                    ['style'],
+                    ['style', ['clear', 'bold', 'italic', 'underline']],
+                    ['fontname', ['fontname']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],       
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['view', ['codeview']]
+                ],
+            });
             // clear summernote
             $('#master_product_detail_desc').summernote('reset');
             $('#master_product_detail_desc').summernote('fullscreen.isFullscreen');
-
+            $('#master_product_detail_desc').summernote({
+                fontSizes: ['8', '9', '10', '11', '12', '13', '14', '15', '16', '18', '20', '22' , '24', '28', '32', '36', '40', '48'],
+                toolbar: [
+                    // [groupName, [list of button]]
+                    ['style'],
+                    ['style', ['clear', 'bold', 'italic', 'underline']],
+                    ['fontname', ['fontname']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],       
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['view', ['codeview']]
+                ],
+            });
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -190,7 +245,8 @@
                                 </div>
                             `)
                             let number = i + 1
-                            $('#button-change-product-image-detail_' + number).append(`
+                            $('#button-change-product-image-detail_' + number)
+                                .append(`
                                 <i class="fas fa-edit change_product_image_detail_${i+1}" title="Ubah data image" for="change_product_image_detail_${i+1}"></i>
                                 <span class="info-box-text change_product_image_detail_${i+1}" id="change_product_image_detail_${i+1}" title="Ubah data image"><small>Ubah data image</small></span>
                             `)
@@ -436,7 +492,7 @@
                                     headers: {
                                         'X-CSRF-TOKEN': $(
                                             'meta[name="csrf-token"]'
-                                            ).attr(
+                                        ).attr(
                                             'content')
                                     },
                                     url: '{{ route('fetch-brocure-product-by-id') }}',
@@ -450,7 +506,8 @@
                                             title: 'Success!',
                                             text: 'Status berhasil diperbaharui.',
                                         })
-                                        refreshDataTableBrocure(res.data)
+                                        refreshDataTableBrocure
+                                            (res.data)
 
                                     },
                                     error: function(err) {
@@ -578,7 +635,7 @@
             var productId = $(this).data('product_id');
             // Set data-product_id_for_brocure ke tombol btn_create_product_price_list
             $('#btn_create_product_price_list').data('product_id_for_price_list', productId);
-            
+
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -634,7 +691,7 @@
                                     headers: {
                                         'X-CSRF-TOKEN': $(
                                             'meta[name="csrf-token"]'
-                                            ).attr(
+                                        ).attr(
                                             'content')
                                     },
                                     url: '{{ route('fetch-pricelist-product-by-id') }}',
@@ -648,7 +705,8 @@
                                             title: 'Success!',
                                             text: 'Status berhasil diperbaharui.',
                                         })
-                                        refreshDataTablePriceList(res.data)
+                                        refreshDataTablePriceList
+                                            (res.data)
 
                                     },
                                     error: function(err) {
