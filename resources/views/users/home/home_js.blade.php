@@ -125,7 +125,7 @@
                                             <span class="separate"></span>
                                             <span class="blog-date">${moment(news.date).format('LL')}</span>
                                         </div>
-                                        <h3 class="df-blog5__title">${news.title}</h3>
+                                        <h3 class="df-blog5__title" data-project_id="${news.id}" data-project_title="${news.title}">${news.title}</h3>
                                         <div class="meta-item">
                                             <button class="primary-btn hover-white link_news_blog" data-project_id="${news.id}" data-project_title="${news.title}">Read more
                                                 <span class="icon__box">
