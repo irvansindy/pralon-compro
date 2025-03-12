@@ -73,6 +73,7 @@
 
                     // fetch data project reference
                     $('#list_project').empty()
+                    $('.all_data_project').empty()
                     $.each(project_references, function(i, project) {
                         $('#list_project').append(`
                             <div class="swiper-slide">
@@ -99,6 +100,15 @@
                         `)
                     })
 
+                    $('.all_data_project').html(`
+                        <button class="primary-btn hover-white link_data_project" data-category="Project References">Selengkapnya
+                            <span class="icon__box">
+                                <img class="icon__first" src="{{ asset('assets/img/icon/arrow-white.webp') }}" alt="image not found">
+                                <img class="icon__second" src="{{ asset('assets/img/icon/arrow-black.webp') }}" alt="image not found">
+                            </span>
+                        </button>
+                    `)
+
                     // fetch data news blog
                     $('#list_berita').empty()
                     $.each(news_blog, function(i, news) {
@@ -106,8 +116,8 @@
                         $('#list_berita').append(`
                             <div class="swiper-slide">
                                 <div class="df-blog5__box wow fadeInUp" data-wow-delay=".5s">
-                                    <div class="df-blog5__thumb">
-                                        <a href="#"><img src="${news.image}" alt="image not found"></a>
+                                    <div class="df-blog5__thumb image_news_blog" data-project_id="${news.id}" data-project_title="${news.title}">
+                                        <img src="${news.image}" alt="image not found">
                                     </div>
                                     <div class="df-blog5__content">
                                         <div class="df-blog5__meta">
@@ -117,12 +127,12 @@
                                         </div>
                                         <h3 class="df-blog5__title"><a href="#" id="project_detail">${news.title}</a></h3>
                                         <div class="meta-item">
-                                            <a href="#" target="_blank" class="primary-btn hover-white">Read more
+                                            <button class="primary-btn hover-white link_news_blog" data-project_id="${news.id}" data-project_title="${news.title}">Read more
                                                 <span class="icon__box">
                                                     <img class="icon__first" src="{{ asset('assets/img/icon/arrow-white.webp') }}" alt="image not found">
                                                     <img class="icon__second" src="{{ asset('assets/img/icon/arrow-black.webp') }}" alt="image not found">
                                                 </span>
-                                            </a>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -134,10 +144,45 @@
             });
         }
 
-        $(document).on('click', '.df-portfolio__item-thumb a, .df-portfolio__item-btn a, .df-portfolio__item-content',function(e) {
+        $(document).on('click', '.df-portfolio__item-thumb a, .df-portfolio__item-btn a, .df-portfolio__item-content, .image_news_blog, .link_news_blog, .link_data_project',function(e) {
             e.preventDefault();
             var projectId = $(this).data('project_id');
             var projectTitle = $(this).data('project_title');
+            var category = $(this).data('category');
+
+            // Jika kategori tidak kosong, enkripsi data-category saja
+            if (category) {
+                console.log("Kategori terdeteksi: " + category + ". Memproses enkripsi...");
+
+                // Buat kunci rahasia acak
+                var secretKey = CryptoJS.lib.WordArray.random(32);
+                var secretKeyBase64 = CryptoJS.enc.Base64.stringify(secretKey);
+
+                // Data yang akan dienkripsi
+                var data = { category: category };
+
+                // Konversi data ke JSON
+                var jsonString = JSON.stringify(data);
+
+                // Enkripsi data menggunakan AES
+                var encrypted = CryptoJS.AES.encrypt(jsonString, secretKey, {
+                    mode: CryptoJS.mode.ECB,
+                    padding: CryptoJS.pad.Pkcs7
+                }).toString();
+
+                // Encode agar aman di URL
+                var encodedEncrypted = encodeURIComponent(encrypted);
+                var encodedKey = encodeURIComponent(secretKeyBase64);
+
+                // Buat URL dengan parameter terenkripsi
+                var newUrl = "/news?category=" + encodedEncrypted + "&key=" + encodedKey;
+
+                console.log("Encrypted URL (Category):", newUrl);
+
+                // Arahkan ke halaman baru
+                window.location.href = newUrl;
+                return; // Hentikan eksekusi agar tidak lanjut ke proses lainnya
+            }
 
             if (!projectId || !projectTitle) {
                 console.error("Project ID atau Project Title tidak ditemukan.");
@@ -173,6 +218,11 @@
 
             window.location.href = newUrl;
         });
+
+        // $(document).on('click', '.link_data_project', function(e) {
+        //     e.preventDefault();
+        //     var category = $(this).data('category');
+        // });
     })
     // Generate kunci rahasia secara acak (32 karakter untuk AES-256)
     function generateKey() {

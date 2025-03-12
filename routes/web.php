@@ -46,7 +46,6 @@ Route::get('send-email-downloaded', [ProductController::class,'sendEmailDownload
 Route::post("/log-user", [ProductController::class,"storeLogUserDownload"])->name("log-user");
 
 Route::get('/news', [NewsController::class,'index'])->name('news');
-// Route::get('/fetch-news', [NewsController::class,'fetchNews'])->name('fetch-news');
 Route::get('/fetch-news', [NewsController::class,'fetchNewsWithCache'])->name('fetch-news');
 Route::get('/fetch-news-categories', [NewsController::class,'fetchNewsCategories'])->name('fetch-news-categories');
 Route::get('/fetch-news-recent-post', [NewsController::class,'fetchRecentPost'])->name('fetch-news-recent-post');

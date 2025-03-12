@@ -171,13 +171,8 @@ text-align-last: left;">Selama 62 tahun,
 
                 </div>
             </div>
-            <div class="df-portfolio__area-btn text-center mt-60 wow fadeInUp" data-wow-delay=".3s">
-                <a href="#" class="primary-btn hover-white">Selengkapnya
-                    <span class="icon__box">
-                        <img class="icon__first" src="assets/img/icon/arrow-white.webp" alt="image not found">
-                        <img class="icon__second" src="assets/img/icon/arrow-black.webp" alt="image not found">
-                    </span>
-                </a>
+            <div class="df-portfolio__area-btn text-center mt-60 wow fadeInUpm all_data_project" data-wow-delay=".3s">
+                
             </div>
         </section>
         <!-- portfolio area end  -->

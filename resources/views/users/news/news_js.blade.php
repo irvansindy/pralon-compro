@@ -70,78 +70,78 @@
                         $('#header_news').hide();
                         $('#list_news_blog').empty();
                         $('#header_detail_news').empty().append(`
-                    <section class="page-title-area-2 breadcrumb-spacing bg-theme-4 section-spacing">
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            <div class="col-xxl-9">
-                                <div class="page-title-wrapper-2 text-center">
-                                    <h1 class="page__title-2 mb-25">${res.data.title}</h1>
-                                    <div class="breadcrumb-menu-2 d-flex justify-content-center">
-                                        <nav aria-label="Breadcrumbs" class="breadcrumb-trail breadcrumbs">
-                                            <ul class="trail-items-2">
-                                                <li class="trail-item-2 trail-begin"><a href="{{ route('home') }}"><span>Beranda</span></a></li>
-                                                <li class="trail-item-2 trail-center"><a href="{{ route('news') }}"><span>Berita</span></a></li>
-                                                <li class="trail-item-2 trail-end"><span>${res.data.title}</span></li>
-                                            </ul>
-                                        </nav>
+                            <section class="page-title-area-2 breadcrumb-spacing bg-theme-4 section-spacing">
+                            <div class="container">
+                                <div class="row justify-content-center">
+                                    <div class="col-xxl-9">
+                                        <div class="page-title-wrapper-2 text-center">
+                                            <h1 class="page__title-2 mb-25">${res.data.title}</h1>
+                                            <div class="breadcrumb-menu-2 d-flex justify-content-center">
+                                                <nav aria-label="Breadcrumbs" class="breadcrumb-trail breadcrumbs">
+                                                    <ul class="trail-items-2">
+                                                        <li class="trail-item-2 trail-begin"><a href="{{ route('home') }}"><span>Beranda</span></a></li>
+                                                        <li class="trail-item-2 trail-center"><a href="{{ route('news') }}"><span>Berita</span></a></li>
+                                                        <li class="trail-item-2 trail-end"><span>${res.data.title}</span></li>
+                                                    </ul>
+                                                </nav>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </section>
-                `);
+                        </section>
+                        `);
                         $('#list_news_blog').append(`
-                    <div class="df-blog-details__wrap">
-                        <div class="df-blog-details__box mb-30 wow fadeInUp animated" data-wow-duration="1.5s" data-wow-delay="0.3">
-                            <div class="df-blog-details__thumb p-relative">
-                                <div class="df-blog-details__thumb-overlay wow"></div>
-                                <img src="{{ asset('${res.data.image}') }}" alt="image not found">
-                            </div>
-                            <div class="df-blog-details__content mb-40">
-                                <div class="df-blog-details__meta mb-25">
-                                    <span><i class="fa-thin fa-calendar-days"></i>
-                                        ${moment(res.data.date).format('ll')}
-                                    </span>
-                                </div>
-                                <p class="df-blog-details__text mb-20">${res.data.header_content}</p>
-                                <div class="df-blog-details__thumb-wrap">
-                                    <div class="df-blog-details__thumb2 p-relative mb-30">
+                            <div class="df-blog-details__wrap">
+                                <div class="df-blog-details__box mb-30 wow fadeInUp animated" data-wow-duration="1.5s" data-wow-delay="0.3">
+                                    <div class="df-blog-details__thumb p-relative">
                                         <div class="df-blog-details__thumb-overlay wow"></div>
-                                        <img src="{{ asset('${res.data.news_image_detail[0].file_name}') }}" alt="image not found">
+                                        <img src="{{ asset('${res.data.image}') }}" alt="image not found">
                                     </div>
-                                    <div class="df-blog-details__thumb2 p-relative mb-30">
-                                        <div class="df-blog-details__thumb-overlay wow"></div>
-                                        <img src="{{ asset('${res.data.news_image_detail[1].file_name}') }}" alt="image not found">
+                                    <div class="df-blog-details__content mb-40">
+                                        <div class="df-blog-details__meta mb-25">
+                                            <span><i class="fa-thin fa-calendar-days"></i>
+                                                ${moment(res.data.date).format('ll')}
+                                            </span>
+                                        </div>
+                                        <p class="df-blog-details__text mb-20">${res.data.header_content}</p>
+                                        <div class="df-blog-details__thumb-wrap">
+                                            <div class="df-blog-details__thumb2 p-relative mb-30">
+                                                <div class="df-blog-details__thumb-overlay wow"></div>
+                                                <img src="{{ asset('${res.data.news_image_detail[0].file_name}') }}" alt="image not found">
+                                            </div>
+                                            <div class="df-blog-details__thumb2 p-relative mb-30">
+                                                <div class="df-blog-details__thumb-overlay wow"></div>
+                                                <img src="{{ asset('${res.data.news_image_detail[1].file_name}') }}" alt="image not found">
+                                            </div>
+                                        </div>
+                                        <p class="df-blog-details__text mb-35">
+                                            ${res.data.content}
+                                        </p>
                                     </div>
                                 </div>
-                                <p class="df-blog-details__text mb-35">
-                                    ${res.data.content}
-                                </p>
                             </div>
-                        </div>
-                    </div>
-                `);
+                        `);
                     } else {
                         // Tampilkan daftar berita
                         if (res.data.length !== 0) {
                             $('#load_more_news').show();
                             $.each(res.data, function(i, news) {
                                 $('#list_news_blog').append(`
-                    <div class="df-blog__box each_news" data-id="${news.id}" style="cursor: pointer !important;">
-                        <div class="df-blog__thumb">
-                            <img src="{{ asset('${news.image}') }}" alt="image not found">
-                        </div>
-                        <div class="df-blog__content">
-                            <div class="df-blog__meta">
-                                <span class="tag">${news.category.name}</span>
-                                <span class="blog-date">${moment(news.date).format('ll')}</span>
-                            </div>
-                            <h3 class="df-blog__title">${news.title}</h3>
-                            <p>${news.short_desc}</p>
-                        </div>
-                    </div>
-                `);
+                                    <div class="df-blog__box each_news" data-id="${news.id}" style="cursor: pointer !important;">
+                                        <div class="df-blog__thumb">
+                                            <img src="{{ asset('${news.image}') }}" alt="image not found">
+                                        </div>
+                                        <div class="df-blog__content">
+                                            <div class="df-blog__meta">
+                                                <span class="tag">${news.category.name}</span>
+                                                <span class="blog-date">${moment(news.date).format('ll')}</span>
+                                            </div>
+                                            <h3 class="df-blog__title">${news.title}</h3>
+                                            <p>${news.short_desc}</p>
+                                        </div>
+                                    </div>
+                                `);
                             });
                             offset_data += limit_fetch;
                         } else {
