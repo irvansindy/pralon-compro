@@ -125,7 +125,7 @@
                                             <span class="separate"></span>
                                             <span class="blog-date">${moment(news.date).format('LL')}</span>
                                         </div>
-                                        <h3 class="df-blog5__title"><a href="#" id="project_detail">${news.title}</a></h3>
+                                        <h3 class="df-blog5__title">${news.title}</h3>
                                         <div class="meta-item">
                                             <button class="primary-btn hover-white link_news_blog" data-project_id="${news.id}" data-project_title="${news.title}">Read more
                                                 <span class="icon__box">
@@ -144,7 +144,7 @@
             });
         }
 
-        $(document).on('click', '.df-portfolio__item-thumb a, .df-portfolio__item-btn a, .df-portfolio__item-content, .image_news_blog, .link_news_blog, .link_data_project',function(e) {
+        $(document).on('click', '.df-portfolio__item-thumb a, .df-portfolio__item-btn a, .df-portfolio__item-content, .image_news_blog, .link_news_blog, .df-blog5__title, .link_data_project',function(e) {
             e.preventDefault();
             var projectId = $(this).data('project_id');
             var projectTitle = $(this).data('project_title');
