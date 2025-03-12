@@ -260,7 +260,7 @@ text-align-last: left;">Selama 62 tahun,
                                 </div>
                             </div>
                             <div class="bf-benifits__btn text-xl-start text-md-center mt-50">
-                                <a href="about-v2.html" class="primary-btn hover-white">Selengkapnya
+                                <a href="{{ route('about-us') }}" class="primary-btn hover-white">Selengkapnya
                                     <span class="icon__box">
                                         <img class="icon__first" src="assets/img/icon/arrow-white.webp"
                                             alt="image not found">

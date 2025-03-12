@@ -50,6 +50,7 @@
 
         $('#add_email_template').click(function() {
             $('#form_email_template').trigger('reset');
+            $('#body_email_template').summernote('reset');
             // $('#form_email_template').attr('action', '{{ route('store-email-template') }}');
             $('#ModalEmailTemplateLabel').text('Add Email Template');
             $('#button_action_email_template').empty()

@@ -53,10 +53,11 @@
                                 <div class="col-md-6">
                                     <div class="df-input-field">
                                         <select name="type_service" id="type_service">
-                                            <option value="penjualan">Penjualan</option>
-                                            <option value="informasi produk">Informasi Produk</option>
-                                            <option value="karir">Karir</option>
-                                            <option value="kerjasama_dan_sponsorship">Kerjasama & Sponsorship</option>
+                                            @php
+                                                DB::table('email_templates')->get()->map(function ($type_service) {
+                                                    echo '<option value="' . $type_service->email_type . '">' . $type_service->email_type . '</option>';
+                                                });
+                                            @endphp
                                         </select>
                                         <span class="text-sm text-danger mt-2 message_type_service" id="message_type_service" role="alert" style="font-size: 12px !important;"></span>
                                     </div>
