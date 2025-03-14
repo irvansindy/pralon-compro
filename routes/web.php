@@ -11,7 +11,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
-use App\Http\Controllers\admin\HistoryDownloadProductBrocurePricelistController;
+use App\Http\Controllers\Admin\HistoryDownloadProductBrocurePricelistController;
 use App\Http\Controllers\Admin\HomePageController as AdminHomePageController;
 use App\Http\Controllers\Admin\AboutUsController as AdminAboutUsController;
 use App\Http\Controllers\Admin\NewAndBlogController as AdminNewAndBlogController;
