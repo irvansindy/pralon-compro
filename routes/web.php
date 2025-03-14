@@ -11,10 +11,12 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
+use App\Http\Controllers\admin\HistoryDownloadProductBrocurePricelistController as HistoryDownload;
 use App\Http\Controllers\Admin\HomePageController as AdminHomePageController;
 use App\Http\Controllers\Admin\AboutUsController as AdminAboutUsController;
 use App\Http\Controllers\Admin\NewAndBlogController as AdminNewAndBlogController;
 use App\Http\Controllers\Admin\EmailTemplateController as AdminEmailTemplateController;
+use App\Http\Controllers\Admin\EmailMessageController as EmailMessageController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -78,6 +80,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('fetch-master-product-by-id', [AdminProductController::class,'fetchProductById'])->name('fetch-master-product-by-id');
     Route::get('fetch-brocure-product-by-id', [AdminProductController::class,'fetchBrocureByProductId'])->name('fetch-brocure-product-by-id');
     Route::get('fetch-pricelist-product-by-id', [AdminProductController::class,'fetchPriceListByProductId'])->name('fetch-pricelist-product-by-id');
+    
+    Route::get('history-download', [HistoryDownload::class,'index'])->name('history-download');
+    Route::get('fetch-history-download-brocure', [HistoryDownload::class,'fetchHistoryDownloadBrocure'])->name('fetch-history-download-brocure');
+    Route::get('fetch-history-download-pricelist', [HistoryDownload::class,'fetchHistoryDownloadPricelist'])->name('fetch-history-download-pricelist');
 
     Route::post('store-master-product', [AdminProductController::class,'storeProduct'])->name('store-master-product');
     Route::post('update-master-product', [AdminProductController::class,'updateProduct'])->name('update-master-product');
@@ -126,6 +132,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('detail-email-template', [AdminEmailTemplateController::class,'detail'])->name('detail-email-template');
     Route::post('store-email-template', [AdminEmailTemplateController::class,'store'])->name('store-email-template');
     Route::post('update-email-template', [AdminEmailTemplateController::class,'update'])->name('update-email-template');
+
+    Route::get('email-message', [EmailMessageController::class,'index'])->name('email-message');
+    Route::get('fetch-email-message', [EmailMessageController::class,'fetchEmailMessages'])->name('fetch-email-message');
 });
 
 Auth::routes();

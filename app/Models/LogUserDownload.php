@@ -9,9 +9,5 @@ class LogUserDownload extends Model
 {
     use HasFactory;
     protected $table = 'log_user_downloads';
-    protected $fillable = [
-        'name',
-        'phone_number',
-        'email',
-    ];
+    protected $guarded = [];
 }

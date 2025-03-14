@@ -10,11 +10,11 @@
                 url: '{{ route('fetch-content-about-us') }}',
                 type: 'GET',
                 success: function(res) {
-                    let history = res.data.history;
-                    let why_pralon = res.data.why;
-                    let vision = res.data.visi_misi;
-                    let value_pralon = res.data.value;
-                    let certificates = res.data.certificates;
+                    let history = res.data.history != null ? res.data.history : '';
+                    let why_pralon = res.data.why != null ? res.data.why : '';
+                    let vision = res.data.visi_misi != null ? res.data.visi_misi : '';
+                    let value_pralon = res.data.value != null ? res.data.value : '';
+                    let certificates = res.data.certificates != null ? res.data.certificates : '';
                     // header
                     $('#thumbnail_video').attr('src', history.source_thumbnail_video)
                     $('#link_video').attr('href', history.source_video)
