@@ -81,9 +81,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('fetch-brocure-product-by-id', [AdminProductController::class,'fetchBrocureByProductId'])->name('fetch-brocure-product-by-id');
     Route::get('fetch-pricelist-product-by-id', [AdminProductController::class,'fetchPriceListByProductId'])->name('fetch-pricelist-product-by-id');
     
-    Route::get('history-download', [HistoryDownload::class,'index'])->name('history-download');
-    Route::get('fetch-history-download-brocure', [HistoryDownload::class,'fetchHistoryDownloadBrocure'])->name('fetch-history-download-brocure');
-    Route::get('fetch-history-download-pricelist', [HistoryDownload::class,'fetchHistoryDownloadPricelist'])->name('fetch-history-download-pricelist');
+    Route::get('/history-download', [HistoryDownload::class,'index'])->name('history-download');
+    Route::get('/fetch-history-download-brocure', [HistoryDownload::class,'fetchHistoryDownloadBrocure'])->name('fetch-history-download-brocure');
+    Route::get('/fetch-history-download-pricelist', [HistoryDownload::class,'fetchHistoryDownloadPricelist'])->name('fetch-history-download-pricelist');
 
     Route::post('store-master-product', [AdminProductController::class,'storeProduct'])->name('store-master-product');
     Route::post('update-master-product', [AdminProductController::class,'updateProduct'])->name('update-master-product');
