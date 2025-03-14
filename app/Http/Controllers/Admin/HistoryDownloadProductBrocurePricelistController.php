@@ -18,7 +18,11 @@ class HistoryDownloadProductBrocurePricelistController extends Controller
         try {
             $product_id = $request->product_id;
 
-            $history_download_brocure = LogUserDownload::where('type_download', 'brocure')->get();
+            $query = LogUserDownload::where('type_download', 'brocure');
+            if (!is_null($product_id)) {
+                $query->where('product_id', $product_id);
+            }
+            $history_download_brocure = $query->get();
 
             return FormatResponseJson::success($history_download_brocure, 'Data berhasil diambil');
         } catch (\Exception $e) {
@@ -32,7 +36,12 @@ class HistoryDownloadProductBrocurePricelistController extends Controller
         try {
             $product_id = $request->product_id;
 
-            $history_download_pricelist = LogUserDownload::where('type_download', 'pricelist')->get();
+            $query = LogUserDownload::where('type_download', 'pricelist');
+            if (!is_null($product_id)) {
+                $query->where('product_id', $product_id);
+            }
+            $history_download_pricelist = $query->get();
+            
             return FormatResponseJson::success($history_download_pricelist, 'Data berhasil diambil');
         } catch (\Exception $e) {
             return FormatResponseJson::error(null, $e->getMessage(), 404);

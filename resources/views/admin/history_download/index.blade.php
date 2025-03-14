@@ -13,8 +13,16 @@
         <div class="row">
             <div class="col-6 col-md-6 col-sm 12">
                 <div class="card shadow mb-4">
-                    <div class="card-header py-3">
+                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
                         <h6 class="m-0 font-weight-bold text-dark">Brocure</h6>
+                        <select name="product_id_filter_brocure" id="product_id_filter_brocure" class="form-control">
+                            @php
+                                $products = \App\Models\Product::get(['id', 'name']);
+                                $products->each(function($product) {
+                                    echo "<option value='$product->id'>$product->name</option>";
+                                });
+                            @endphp
+                        </select>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -48,8 +56,16 @@
             </div>
             <div class="col-6 col-md-6 col-sm 12">
                 <div class="card shadow mb-4">
-                    <div class="card-header py-3">
+                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
                         <h6 class="m-0 font-weight-bold text-dark">Price List</h6>
+                        <select name="product_id_filter_pricelist" id="product_id_filter_pricelist" class="form-control">
+                            @php
+                                $products = \App\Models\Product::get(['id', 'name']);
+                                $products->each(function($product) {
+                                    echo "<option value='$product->id'>$product->name</option>";
+                                });
+                            @endphp
+                        </select>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -57,8 +73,9 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
                                         <th>Type</th>
-                                        <th>Subject</th>
                                         <th>Action</th>
                                         
                                     </tr>
@@ -66,8 +83,9 @@
                                 <tfoot>
                                     <tr>
                                         <th>No</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
                                         <th>Type</th>
-                                        <th>Subject</th>
                                         <th>Action</th>
                                     </tr>
                                 </tfoot>
@@ -84,6 +102,13 @@
         @include('admin.mail.modal_email_template')
     </div>
 @endsection
+@push('css')
+    <style>
+        .select2-container {
+            width: auto !important;
+        }
+    </style>
+@endpush
 @push('js')
     @include('admin.history_download.history_download_js')
 @endpush
