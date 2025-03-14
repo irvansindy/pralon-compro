@@ -984,6 +984,7 @@
                                 headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
                                 processData: false,
                                 contentType: false,
+                                method: 'POST',
                                 enctype: 'multipart/form-data',
                             },
                             fileActionSettings: {
@@ -1000,7 +1001,6 @@
                         initialPreviewConfig = certificate_data.map(file => ({
                             caption: file.title,
                             size: file.size,
-                            // url: '/file-delete',
                             key: file.id,
                             extra: { _token: '{{ csrf_token() }}' } // CSRF token for Laravel
                         }));
@@ -1026,6 +1026,7 @@
                                 headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
                                 processData: false,
                                 contentType: false,
+                                method: 'POST',
                                 enctype: 'multipart/form-data',
                             }
                         });

@@ -124,11 +124,4 @@
 @endpush
 @push('js')
     @include('admin.about_us.about_us_js')
-    {{-- <script>
-        $('img').click(function() {
-            var img=$(this).attr('src');
-            $("#detail_certificate").attr('src',img);
-            $("#modalDetailCertificateAboutUs").modal('show');
-        })
-    </script> --}}
 @endpush

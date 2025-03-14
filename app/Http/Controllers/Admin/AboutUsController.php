@@ -618,7 +618,7 @@ class AboutUsController extends Controller
     public function storeCertificate(Request $request)
     {
         try {
-            // dd($request->file('input-multiple-file'));
+            // dd($request->all());
             DB::beginTransaction();
             $validation = Validator::make($request->all(), [
                 'input-multiple-file.*' => 'required|image|max:10000|mimes:jpg,jpeg,png',
@@ -627,29 +627,27 @@ class AboutUsController extends Controller
                 DB::rollBack();
                 throw new ValidationException($validation);
             }
-            if (count($request->file('input-multiple-file')) > 0) {
-                for ($i=0; $i < count($request->file('input-multiple-file')); $i++) { 
-                    # code...
-                    $file_certificate_icon = $request->file('input-multiple-file')[$i];
-                    $slug_name = Str::slug(pathinfo($file_certificate_icon->getClientOriginalName(),PATHINFO_FILENAME).' certificate_icon', '-');
-                    $file_certificate_icon_name = $slug_name.'.'.$file_certificate_icon->getClientOriginalExtension();
-                    $data_certificate = [
-                        'title' => $file_certificate_icon_name,
-                        'desc' => null,
-                        'icon' => 'storage/uploads/certificate_icon/'.$file_certificate_icon_name
-                    ];
-                    // dd($data_certificate);
-                    $create_certificate = Certificate::create($data_certificate);
-                    if ($create_certificate) {
-                        $file_certificate_icon->move(public_path('storage/uploads/certificate_icon/'), $file_certificate_icon_name);
-                    }
+            for ($i=0; $i < count($request->file('input-multiple-file')); $i++) { 
+                $file_certificate_icon = $request->file('input-multiple-file')[$i];
+                $slug_name = Str::slug(pathinfo($file_certificate_icon->getClientOriginalName(),PATHINFO_FILENAME).' certificate_icon', '-');
+                $file_certificate_icon_name = $slug_name.'.'.$file_certificate_icon->getClientOriginalExtension();
+                $data_certificate = [
+                    'title' => $file_certificate_icon_name,
+                    'desc' => null,
+                    'icon' => 'storage/uploads/certificate_icon/'.$file_certificate_icon_name
+                ];
+                // dd($data_certificate);
+                $create_certificate = Certificate::create($data_certificate);
+                if ($create_certificate) {
+                    $file_certificate_icon->move(public_path('storage/uploads/certificate_icon/'), $file_certificate_icon_name);
                 }
-            } else {
-                DB::rollBack();
-                // return redirect()->back()->with('error', 'File yang diupload minimal 1');
-                return FormatResponseJson::error(null,'Icon sertifikat minimal harus satu');
-                // return FormatResponseJson::error(null,'File yang diupload minimal 1');
+                # code...
             }
+            // if (count($request->file('input-multiple-file')) > 0) {
+            // } else {
+            //     DB::rollBack();
+            //     return FormatResponseJson::error(null,'Icon sertifikat minimal harus satu');
+            // }
             DB::commit();
             return FormatResponseJson::success($create_certificate, 'Certificate created');
             // return redirect()->route('about-us-setting')->with('success', 'Certificate created successfully');
