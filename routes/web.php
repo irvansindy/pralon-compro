@@ -11,7 +11,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
-use App\Http\Controllers\admin\HistoryDownloadProductBrocurePricelistController as HistoryDownload;
+use App\Http\Controllers\admin\HistoryDownloadProductBrocurePricelistController;
 use App\Http\Controllers\Admin\HomePageController as AdminHomePageController;
 use App\Http\Controllers\Admin\AboutUsController as AdminAboutUsController;
 use App\Http\Controllers\Admin\NewAndBlogController as AdminNewAndBlogController;
@@ -81,9 +81,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('fetch-brocure-product-by-id', [AdminProductController::class,'fetchBrocureByProductId'])->name('fetch-brocure-product-by-id');
     Route::get('fetch-pricelist-product-by-id', [AdminProductController::class,'fetchPriceListByProductId'])->name('fetch-pricelist-product-by-id');
     
-    Route::get('/history-download', [HistoryDownload::class,'index'])->name('history-download');
-    Route::get('/fetch-history-download-brocure', [HistoryDownload::class,'fetchHistoryDownloadBrocure'])->name('fetch-history-download-brocure');
-    Route::get('/fetch-history-download-pricelist', [HistoryDownload::class,'fetchHistoryDownloadPricelist'])->name('fetch-history-download-pricelist');
+    Route::get('/history-download', [HistoryDownloadProductBrocurePricelistController::class,'index'])->name('history-download');
+    Route::get('/fetch-history-download-brocure', [HistoryDownloadProductBrocurePricelistController::class,'fetchHistoryDownloadBrocure'])->name('fetch-history-download-brocure');
+    Route::get('/fetch-history-download-pricelist', [HistoryDownloadProductBrocurePricelistController::class,'fetchHistoryDownloadPricelist'])->name('fetch-history-download-pricelist');
 
     Route::post('store-master-product', [AdminProductController::class,'storeProduct'])->name('store-master-product');
     Route::post('update-master-product', [AdminProductController::class,'updateProduct'])->name('update-master-product');
