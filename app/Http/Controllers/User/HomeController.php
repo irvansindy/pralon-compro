@@ -48,8 +48,8 @@ class HomeController extends Controller
     
             $data = [
                 'some_product' => $some_product,
-                // 'some_project_reference' => $some_project_reference,
-                // 'some_news_blog' => $some_news_blog,
+                'some_project_reference' => $some_project_reference,
+                'some_news_blog' => $some_news_blog,
             ];
     
             return FormatResponseJson::success($data);
