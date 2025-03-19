@@ -19,7 +19,19 @@ class HomeController extends Controller
     {
         try {
             $some_product = Cache::remember('some_product', now()->addMinutes(10), function () {
-                return Product::inRandomOrder()->take(8)->get();
+                // Ambil produk tetap (B, C, A) dengan urutan yang ditentukan
+                $fixedProducts = Product::whereIn('name', ['Pralon HDPE', 'Pipa uPVC SNI', 'Pralon Standard'])
+                    ->orderByRaw("FIELD(name, 'Pralon HDPE', 'Pipa uPVC SNI', 'Pralon Standard')")
+                    ->get();
+            
+                // Ambil 7 produk lainnya secara acak, kecuali yang sudah diambil
+                $randomProducts = Product::whereNotIn('name', ['Pralon HDPE', 'Pipa uPVC SNI', 'Pralon Standard'])
+                    // ->inRandomOrder()
+                    ->limit(10)
+                    ->get();
+            
+                // Gabungkan hasil
+                return $fixedProducts->merge($randomProducts);
             });
     
             $some_project_reference = Cache::remember('some_project_reference', now()->addMinutes(10), function () {
@@ -36,8 +48,8 @@ class HomeController extends Controller
     
             $data = [
                 'some_product' => $some_product,
-                'some_project_reference' => $some_project_reference,
-                'some_news_blog' => $some_news_blog,
+                // 'some_project_reference' => $some_project_reference,
+                // 'some_news_blog' => $some_news_blog,
             ];
     
             return FormatResponseJson::success($data);
