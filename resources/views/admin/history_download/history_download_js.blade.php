@@ -2,11 +2,11 @@
     $('#product_id_filter_brocure').select2()
     $('#product_id_filter_pricelist').select2()
     $(document).ready(function() {
-        $('#product_id_filter_brocure').on('change', function() {
+        $('#apply_filter_brocure').on('click', function() {
             fetchHistoryDownloadBrocure();
         });
         
-        $('#product_id_filter_pricelist').on('change', function() {
+        $('#apply_filter_pricelist').on('click', function() {
             fetchHistoryDownloadPricelist();
         });
         
@@ -15,10 +15,16 @@
         
         function fetchHistoryDownloadBrocure() {
             let product_id = $('#product_id_filter_brocure').val();
+            let start_date_brocure = $('#start_date_brocure').val();
+            let end_date_brocure = $('#end_date_brocure').val();
             $.ajax({
                 url: "{{ route('fetch-history-download-brocure') }}",
                 type: "GET",
-                data: { product_id: product_id },
+                data: { 
+                    product_id: product_id,
+                    start_date_brocure: start_date_brocure,
+                    end_date_brocure: end_date_brocure,
+                },
                 success: function(res) {
                     $('#table_history_download_brocure').DataTable().clear().destroy()
                     $('#table_history_download_brocure tbody').empty()
@@ -48,10 +54,16 @@
 
         function fetchHistoryDownloadPricelist() {
             let product_id = $('#product_id_filter_pricelist').val();
+            let start_date_pricelist = $('#start_date_pricelist').val();
+            let end_date_pricelist = $('#end_date_pricelist').val();
             $.ajax({
                 url: "{{ route('fetch-history-download-pricelist') }}",
                 type: "GET",
-                data: { product_id: product_id },
+                data: { 
+                    product_id: product_id,
+                    start_date_pricelist: start_date_pricelist,
+                    end_date_pricelist: end_date_pricelist,
+                },
                 success: function(res) {
                     $('#table_history_download_pricelist').DataTable().clear().destroy()
                     $('#table_history_download_pricelist tbody').empty()
