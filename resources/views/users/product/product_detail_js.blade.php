@@ -28,7 +28,8 @@
                     name: fullname_brocure,
                     phone_number: phone_brocure,
                     email: email_brocure,
-                    product_brocure: product_brocure
+                    product_brocure: product_brocure,
+                    type: 'brocure',
                 },
                 dataType: 'json',
                 async: true,
@@ -82,7 +83,8 @@
                     name: fullname_pricelist,
                     phone_number: phone_pricelist,
                     email: email_pricelist,
-                    product_pricelist: product_pricelist
+                    product_pricelist: product_pricelist,
+                    type: 'pricelist',
                 },
                 dataType: 'json',
                 async: true,

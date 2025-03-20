@@ -98,10 +98,13 @@ class ProductController extends Controller
     public function storeLogUserDownload(Request $request)
     {
         try {
+            // dd($request->all());
             $log = LogUserDownload::create([
                 'name' => $request->name,
                 'phone_number' => $request->phone_number,
                 'email'=> $request->email,
+                'product_id' => $request->id,
+                'type_download' => $request->type,
             ]);
     
             // $file = $request->product_brocure;
