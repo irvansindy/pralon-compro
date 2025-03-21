@@ -22,12 +22,14 @@ class BrocureExport implements FromCollection, WithHeadings
     {
         $query = LogUserDownload::query();
 
-        if (!is_null($this->product_id)) {
+        // Filter berdasarkan product_id jika bukan "all"
+        if ($this->product_id !== 'all') {
             $query->where('product_id', $this->product_id);
         }
 
-        if (!empty($this->start_date) && !empty($this->end_date)) {
-            $query->whereRaw("DATE(created_at) LIKE ? OR DATE(created_at) LIKE ?", ["%$this->start_date%", "%$this->end_date%"]);
+        // Filter berdasarkan range tanggal jika tidak kosong
+        if (!is_null($this->start_date) && !is_null($this->end_date)) {
+            $query->whereBetween('created_at', [$this->start_date . ' 00:00:00', $this->end_date . ' 23:59:59']);
         }
 
         return $query->where('type_download', 'brocure')->get(['id', 'name', 'email', 'type_download', 'created_at']);

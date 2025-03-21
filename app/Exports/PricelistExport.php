@@ -28,7 +28,7 @@ class PricelistExport implements FromCollection, WithHeadings
         }
 
         if (!empty($this->start_date) && !empty($this->end_date)) {
-            $query->whereRaw("DATE(created_at) LIKE ? OR DATE(created_at) LIKE ?", ["%$this->start_date%", "%$this->end_date%"]);
+            $query->whereBetween('created_at', [$this->start_date . ' 00:00:00', $this->end_date . ' 23:59:59']);
         }
 
         return $query->where('type_download', 'pricelist')->get(['id', 'name', 'email', 'type_download', 'created_at']);

@@ -84,6 +84,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/history-download', [HistoryDownloadProductBrocurePricelistController::class,'index'])->name('history-download');
     Route::get('/fetch-history-download-brocure', [HistoryDownloadProductBrocurePricelistController::class,'fetchHistoryDownloadBrocure'])->name('fetch-history-download-brocure');
     Route::get('/fetch-history-download-pricelist', [HistoryDownloadProductBrocurePricelistController::class,'fetchHistoryDownloadPricelist'])->name('fetch-history-download-pricelist');
+    Route::get('/export-history-brocure', [HistoryDownloadProductBrocurePricelistController::class, 'exportBrocure'])->name('export-history-brocure');
+    Route::get('/export-history-pricelist', [HistoryDownloadProductBrocurePricelistController::class, 'exportPricelist'])->name('export-history-pricelist');
+
 
     Route::post('store-master-product', [AdminProductController::class,'storeProduct'])->name('store-master-product');
     Route::post('update-master-product', [AdminProductController::class,'updateProduct'])->name('update-master-product');

@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\LogUserDownload;
 use App\Helpers\FormatResponseJson;
-use Illuminate\Support\Facades\Cache;
+use App\Exports\BrocureExport;
+use App\Exports\PricelistExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 class HistoryDownloadProductBrocurePricelistController extends Controller
 {
     public function index()
@@ -41,7 +44,6 @@ class HistoryDownloadProductBrocurePricelistController extends Controller
             return FormatResponseJson::error(null, $th->getMessage(), 500);
         }
     }
-
     public function fetchHistoryDownloadPricelist(Request $request)
     {
         try {
@@ -70,5 +72,12 @@ class HistoryDownloadProductBrocurePricelistController extends Controller
             return FormatResponseJson::error(null, $th->getMessage(), 500);
         }
     }
-
+    public function exportBrocure(Request $request)
+    {
+        return Excel::download(new BrocureExport($request->product_id, $request->start_date_brocure, $request->end_date_brocure), 'history_download_brocure.xlsx');
+    }
+    public function exportPricelist(Request $request)
+    {
+        return Excel::download(new PricelistExport($request->product_id, $request->start_date_pricelist, $request->end_date_pricelist), 'history_download_pricelist.xlsx');
+    }
 }

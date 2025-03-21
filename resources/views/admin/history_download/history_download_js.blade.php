@@ -90,5 +90,21 @@
                 }
             });
         }
+
+        $('#export_excel_brocure').click(function() {
+            let product_id = $('#product_id_filter_brocure').val();
+            let start_date = $('#start_date_brocure').val();
+            let end_date = $('#end_date_brocure').val();
+
+            window.location.href = "{{ route('export-history-brocure') }}?product_id=" + product_id + "&start_date_brocure=" + start_date + "&end_date_brocure=" + end_date;
+        });
+
+        $('#export_excel_pricelist').click(function() {
+            let product_id = $('#product_id_filter_pricelist').val();
+            let start_date = $('#start_date_pricelist').val();
+            let end_date = $('#end_date_pricelist').val();
+
+            window.location.href = "{{ route('export-history-pricelist') }}?product_id=" + product_id + "&start_date_pricelist=" + start_date + "&end_date_pricelist=" + end_date;
+        });
     });
 </script>
