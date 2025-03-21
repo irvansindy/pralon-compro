@@ -23,11 +23,11 @@ class PricelistExport implements FromCollection, WithHeadings
     {
         $query = LogUserDownload::query();
 
-        if (!is_null($this->product_id)) {
+        if ($this->product_id !== 'all') {
             $query->where('product_id', $this->product_id);
         }
 
-        if (!empty($this->start_date) && !empty($this->end_date)) {
+        if (!is_null($this->start_date) && !is_null($this->end_date)) {
             $query->whereBetween('created_at', [$this->start_date . ' 00:00:00', $this->end_date . ' 23:59:59']);
         }
 
