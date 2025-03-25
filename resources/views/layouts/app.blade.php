@@ -16,7 +16,7 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="icon" href="{{ asset('assets/img/logo/pralon.png') }}">
+    <link rel="icon" href="{{ asset('assets/img/logo/logo_header.webp') }}">
     <title>
         @isset($title)
             {{ $title ?? config('app.name', 'Pralon Indonesia')}}
@@ -26,7 +26,7 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/logo/favicon.png') }}">
+    {{-- <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/logo/favicon.png') }}"> --}}
 
     {{-- template css --}}
     <link rel="stylesheet" href="{{ asset('assets/css/plugins/preloader.css') }}">
