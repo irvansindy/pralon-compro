@@ -71,6 +71,9 @@
             `)
             $('.link-detail-image-1').empty()
             $('.link-detail-image-2').empty()
+            // setup summernote
+            $('#news_blog_header_content').summernote('fullscreen.isFullscreen');
+            $('#news_blog_content').summernote('fullscreen.isFullscreen');
             // setup button action
             $('#button-action-news-blog').empty()
             $('#button-action-news-blog').append(`
@@ -174,7 +177,6 @@
                     $('#message_news_blog_content').text('')
                     $('#message_news_blog_detail_image_1').text('')
                     $('#message_news_blog_detail_image_2').text('')
-                    $('#news_blog_category').empty()
                     $('.link-main-image').empty()
                     $('.link-main-image').append(`<a href="" id="link-main-image" target="_blank">Link Main Image</a>`)
                     $('#link-main-image').attr('href', '{{ asset('') }}' + res.data.image)
@@ -199,8 +201,41 @@
                         }
                     })
                     $('#news_blog_short_desc').val(res.data.short_desc)
-                    $('#news_blog_header_content').val(res.data.header_content)
-                    $('#news_blog_content').val(res.data.content)
+                    $('#news_blog_header_content').summernote('fullscreen.isFullscreen');
+                    $('#news_blog_content').summernote('fullscreen.isFullscreen');
+                    $('#news_blog_header_content').summernote({
+                        fontSizes: ['8', '9', '10', '11', '12', '13', '14', '15', '16', '18', '20', '22' , '24', '28', '32', '36', '40', '48'],
+                        toolbar: [
+                            // [groupName, [list of button]]
+                            ['style'],
+                            ['style', ['clear', 'bold', 'italic', 'underline']],
+                            ['fontname', ['fontname']],
+                            ['fontsize', ['fontsize']],
+                            ['color', ['color']],       
+                            ['para', ['ul', 'ol', 'paragraph']],
+                            ['table', ['table']],
+                            ['view', ['codeview']]
+                        ],
+                    });
+                    $('#news_blog_content').summernote({
+                        fontSizes: ['8', '9', '10', '11', '12', '13', '14', '15', '16', '18', '20', '22' , '24', '28', '32', '36', '40', '48'],
+                        toolbar: [
+                            // [groupName, [list of button]]
+                            ['style'],
+                            ['style', ['clear', 'bold', 'italic', 'underline']],
+                            ['fontname', ['fontname']],
+                            ['fontsize', ['fontsize']],
+                            ['color', ['color']],       
+                            ['para', ['ul', 'ol', 'paragraph']],
+                            ['table', ['table']],
+                            ['view', ['codeview']]
+                        ],
+                    });
+                    
+                    $('#news_blog_header_content').summernote('code',res.data.header_content)
+                    $('#news_blog_content').summernote('code',res.data.content)
+                    // $('#news_blog_header_content').val(res.data.header_content)
+                    // $('#news_blog_content').val(res.data.content)
                     // reset form field detail image
                     $('.detail_image_news_blog').empty()
                     $('.detail_image_news_blog').append(`

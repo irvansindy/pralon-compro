@@ -2,6 +2,27 @@
     $('#product_id_filter_brocure').select2()
     $('#product_id_filter_pricelist').select2()
     $(document).ready(function() {
+        var savedNotifCount = localStorage.getItem('download_notification_count');
+
+        if (savedNotifCount) {
+            $('#notification-admin').text(savedNotifCount);
+        }
+
+        var pusher = new Pusher('e11c2a2751e267a88130', {
+            cluster: 'ap1',
+            forceTLS: true
+        });
+
+        var channel = pusher.subscribe('download-channel');
+
+        channel.bind('new-download', function(data) {
+            var totalNotif = data.countBrocure + data.countPricelist;
+            
+            // Simpan jumlah notifikasi ke localStorage
+            localStorage.setItem('download_notification_count', totalNotif);
+            
+            $('#notification-admin').text(totalNotif);
+        });
         $('#apply_filter_brocure').on('click', function() {
             fetchHistoryDownloadBrocure();
         });

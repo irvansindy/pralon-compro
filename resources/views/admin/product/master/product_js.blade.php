@@ -190,7 +190,6 @@
                         )
                     })
 
-                    // let data_image = "{{ asset('assets/img/pralon/list_product/') }}" + "/" + product.image
                     let data_image = product.image
                     $("#link_product_image").attr("href", data_image);
                     $('#master_product_short_desc').val([product.short_desc])

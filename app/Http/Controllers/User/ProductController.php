@@ -12,13 +12,13 @@ use App\Models\ProductCategory;
 use App\Models\productBrocure;
 use App\Models\productPriceList;
 use App\Models\LogUserDownload;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Mail;
 use App\Mail\CompanyMail;
 use App\Models\EmailTemplate;
+use App\Events\DownloadNotification;
+use Illuminate\Support\Facades\Broadcast;
 class ProductController extends Controller
 {
     public function index(): View
@@ -77,6 +77,11 @@ class ProductController extends Controller
             if (file_exists($file_path)) {
                 return response()->download($file_path);
             }
+            // Hitung total download
+            $countBrocure = LogUserDownload::where('type_download', 'brocure')->count();
+            $countPricelist = LogUserDownload::where('type_download', 'pricelist')->count();
+            // Kirim notifikasi real-time
+            event(new DownloadNotification("Brocure baru diunduh!", $countBrocure, $countPricelist));
         } catch (\Throwable $th) {
             return FormatResponseJson::error(null,$th->getMessage(),404);
         }
@@ -90,6 +95,11 @@ class ProductController extends Controller
             if (file_exists($file_path)) {
                 return response()->download($file_path);
             }
+            
+            $countBrocure = LogUserDownload::where('type_download', 'brocure')->count();
+            $countPricelist = LogUserDownload::where('type_download', 'pricelist')->count();
+
+            event(new DownloadNotification("Pricelist baru diunduh!", $countBrocure, $countPricelist));
         } catch (\Throwable $th) {
             return FormatResponseJson::error(null,$th->getMessage(),404);
         }
@@ -107,7 +117,11 @@ class ProductController extends Controller
                 'type_download' => $request->type,
             ]);
     
-            // $file = $request->product_brocure;
+            $countBrocure = LogUserDownload::where('type_download', 'brocure')->count();
+            $countPricelist = LogUserDownload::where('type_download', 'pricelist')->count();
+
+            // Kirim event ke Pusher
+            broadcast(new DownloadNotification($request->type, $countBrocure, $countPricelist))->toOthers(); // Jika download pricelist
             return FormatResponseJson::success($log,'success');
         } catch (\Throwable $th) {
             return FormatResponseJson::error(null,'Field tidak boleh kosong', 500);

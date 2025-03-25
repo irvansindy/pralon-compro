@@ -1,5 +1,27 @@
 <script>
     $(document).ready(function() {
+        // global notify
+        // Pusher.logToConsole = true;
+
+        // var pusher = new Pusher('e11c2a2751e267a88130', {
+        //     cluster: 'ap1',
+        //     forceTLS: true
+        // });
+        
+        // var channel = pusher.subscribe('download-channel');
+
+        // channel.bind('new-download', function(data) {
+        //     var totalNotif = data.countBrocure + data.countPricelist;
+            
+        //     // Simpan jumlah notifikasi ke localStorage
+        //     localStorage.setItem('download_notification_count', totalNotif);
+
+        //     // Cek apakah elemen #notification-admin ada di halaman ini
+        //     if ($('#notification-admin').length) {
+        //         $('#notification-admin').text(totalNotif);
+        //     }
+        // });
+
         $(document).on('click', '#btn_download_brocure', function(e) {
             e.preventDefault()
             let id = $(this).data('id')
@@ -53,7 +75,7 @@
                 }
             })
         })
-
+        
         $(document).on('click', '#btn_download_pricelist', function(e) {
             e.preventDefault()
             let id = $(this).data('id')

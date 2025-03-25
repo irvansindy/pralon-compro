@@ -59,7 +59,7 @@ class HistoryDownloadProductBrocurePricelistController extends Controller
             }
 
             // Filter berdasarkan range tanggal jika tidak kosong
-            if (!empty($start_date) && !empty($end_date)) {
+            if (!is_null($start_date) && !is_null($end_date)) {
                 $query->whereBetween('created_at', [$start_date . ' 00:00:00', $end_date . ' 23:59:59']);
             }
 
