@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('notifications', function (Blueprint $table) {
+        Schema::create('subcriptions', function (Blueprint $table) {
             $table->id();
-            $table->string('type'); // download, subscribe, contact
-            $table->text('message');
-            $table->boolean('is_read')->default(false);
+            $table->string('email')->unique();
+            $table->boolean('is_verified')->default(false); 
+            $table->ipAddress('ip_address')->nullable();
+            $table->string('user_agent')->nullable();
+            $table->string('referrer')->nullable();
             $table->timestamps();
         });
     }
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('notifications');
+        Schema::dropIfExists('subcriptions');
     }
 };

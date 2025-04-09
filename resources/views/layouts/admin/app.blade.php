@@ -160,84 +160,16 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <!-- summernote -->
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-bs4.min.js"></script>
-    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+    {{-- <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script> --}}
+    
     <script>
         const date = new Date();
         let year = date.getFullYear();
-        document.getElementById("copyright").innerHTML = '<span>Copyright &copy; Sindy '+year+'</span>'
-
-        $(document).ready(function() {
-
-            var savedNotif = JSON.parse(localStorage.getItem('download_notification_count') || '[]');
-
-            updateNotificationUI(savedNotif);
-
-            var pusher = new Pusher('e11c2a2751e267a88130', {
-                cluster: 'ap1',
-                forceTLS: true
-            });
-
-            var channel = pusher.subscribe('download-channel');
-
-            channel.bind('new-download', function(data) {
-                var newNotif = {
-                    message: data.message,
-                    time: new Date().toLocaleString()
-                };
-                
-                savedNotif.unshift(newNotif);
-                if (savedNotif.length > 5) savedNotif.pop();
-
-                localStorage.setItem('download_notification_count', JSON.stringify(savedNotif));
-                updateNotificationUI(savedNotif);
-            });
-
-            $('#alertsDropdownLogDownload').on('click', function() {
-                $('.badge-counter').text('0');
-                localStorage.removeItem('download_notification_count');
-                // updateNotificationUI([]);
-            });
-
-            $('#clear-notifications').on('click', function(e) {
-                e.preventDefault();
-                localStorage.removeItem('download_notification_count');
-                updateNotificationUI([]);
-            });
-            $('#link-to-history-download').on('click', function(e) {
-                e.preventDefault();
-                localStorage.removeItem('download_notification_count');
-                updateNotificationUI([]);
-            });
-
-            function updateNotificationUI(notifications) {
-                // Pastikan notifications adalah array
-                if (!Array.isArray(notifications)) {
-                    notifications = [];
-                }
-
-                var listContainer = $('.notification-list');
-                var badgeCounter = $('.badge-counter');
-
-                listContainer.empty();
-                if (notifications.length === 0) {
-                    listContainer.html('<p class="text-center text-muted mt-3">No new notifications</p>');
-                    badgeCounter.text('0');
-                } else {
-                    notifications.forEach(function(notif) {
-                        listContainer.append(
-                            `<div class="dropdown-item">
-                                <small class="text-muted">${notif.time}</small>
-                                <p>${notif.message}</p>
-                            </div>`
-                        );
-                    });
-                    badgeCounter.text(notifications.length);
-                }
-            }
-        });
+        document.getElementById("copyright").innerHTML = '<span>Copyright &copy; Sindy '+year+'</span>';
     </script>
 
     @stack('js')
+    @include('layouts.admin.notify_js')
 </body>
 
 </html>

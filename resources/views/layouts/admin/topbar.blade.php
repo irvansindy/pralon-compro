@@ -55,16 +55,15 @@
                 <span class="badge badge-danger badge-counter" id="notification-admin">0</span>
             </a>
             <!-- Dropdown - Alerts -->
-            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                aria-labelledby="alertsDropdownLogDownload">
+            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdownLogDownload" data-auto-close="outside">
                 <h6 class="dropdown-header">
                     Norifikasi Log Download
                 </h6>
                 <div class="notification-list">
                     <p class="text-center text-muted mt-3">No new notifications</p>
                 </div>
-                <a href="#" class="dropdown-item text-center small text-gray-500" id="clear-notifications">Clear All</a>
-                <a class="dropdown-item text-center small text-gray-500" id="link-to-history-download" href="{{ route('history-download') }}">Show All</a>
+                <button class="dropdown-item text-center small text-gray-500" id="clear-notifications">Clear All</button>
+                {{-- <a class="dropdown-item text-center small text-gray-500" id="link-to-history-download" href="{{ route('history-download') }}">Show All</a> --}}
             </div>
         </li>
 

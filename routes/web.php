@@ -17,6 +17,8 @@ use App\Http\Controllers\Admin\AboutUsController as AdminAboutUsController;
 use App\Http\Controllers\Admin\NewAndBlogController as AdminNewAndBlogController;
 use App\Http\Controllers\Admin\EmailTemplateController as AdminEmailTemplateController;
 use App\Http\Controllers\Admin\EmailMessageController as EmailMessageController;
+
+use App\Helpers\FormatResponseJson;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -61,6 +63,19 @@ Route::post('send-email-contact-us', [ContactUsController::class,'sendEmail'])->
 Route::middleware(['auth'])->group(function () {
     // dashboard
     Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard');
+    // notify
+    Route::get('/admin/notifications', function () {
+        $notifications = DB::table('notifications')->latest()
+        ->where('is_read', 0)
+        ->take(10)->get();
+        // return response()->json($notifications);
+        return FormatResponseJson::success($notifications, 'Notifications fetched successfully');
+    });
+    Route::post('admin/notifications/read-all', function () {
+        DB::table('notifications')->where('is_read', 0)->update(['is_read' => 1]);
+        return FormatResponseJson::success(true, 'All notification readed');
+    });
+    
     // menu setting
     Route::get('/menu-setting', [MenuController::class,'index'])->name('menu-setting');
     Route::get('/fetch-menu', [MenuController::class,'fetchMenu'])->name('fetch-menu');

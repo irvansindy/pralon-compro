@@ -5,20 +5,20 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use Illuminate\Support\Str;
 use App\Helpers\FormatResponseJson;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\productBrocure;
 use App\Models\productPriceList;
 use App\Models\LogUserDownload;
+use App\Models\Notifications;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use Mail;
 use App\Mail\CompanyMail;
 use App\Models\EmailTemplate;
 use App\Events\DownloadNotification;
-use Illuminate\Support\Facades\Broadcast;
+use App\Events\GeneralNotificationEvent;
 class ProductController extends Controller
 {
     public function index(): View
@@ -116,12 +116,18 @@ class ProductController extends Controller
                 'product_id' => $request->id,
                 'type_download' => $request->type,
             ]);
-    
-            $countBrocure = LogUserDownload::where('type_download', 'brocure')->count();
-            $countPricelist = LogUserDownload::where('type_download', 'pricelist')->count();
+            $message = $request->type == 'brocure' ? 'New Brochure Download!' : 'New Pricelist Download!';
+            Notifications::create([
+                'type' => $request->type,
+                'message' => $message,
+            ]);
 
-            // Kirim event ke Pusher
-            broadcast(new DownloadNotification($request->type, $countBrocure, $countPricelist))->toOthers(); // Jika download pricelist
+            broadcast(new GeneralNotificationEvent([
+                'type' => $request->type,
+                'message' => $message,
+                'time' => now()->toDateTimeString()
+            ]));
+
             return FormatResponseJson::success($log,'success');
         } catch (\Throwable $th) {
             return FormatResponseJson::error(null,'Field tidak boleh kosong', 500);
