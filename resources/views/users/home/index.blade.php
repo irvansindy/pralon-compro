@@ -12,19 +12,13 @@
                     <div class="hero__title-wrap">
                         <p class="hero__subtitle xsmall uppercase lh-1 wow fadeInUp" data-wow-delay=".3s">Selamat datang
                         </p>
-                        <h1 class="hero__title wow fadeInUp" data-wow-delay=".5s">Kualitas Teruji <br> Sistem <br> Perpipaan
+                        <h1 class="hero__title wow fadeInUp" data-wow-delay=".5s">
                         </h1>
                     </div>
                     <p class="hero__text wow fadeInUp" data-wow-delay=".7s"
                         style="text-align: justify;
 text-justify: distribute;
-text-align-last: left;">Selama 62 tahun,
-                        Pralon telah berkontribusi dalam mendistribusikan air bersih dan air buangan ke seluruh pelosok
-                        Indonesia. Dengan kualitas yang teruji dan terbukti, produk pipa dan aksesoris Pralon terus
-                        berkembang, mengikuti kemajuan industri pipanisasi di Indonesia.
-                        Komitmen kami tak hanya pada inovasi dan ketahanan produk, tetapi juga pada kelestarian lingkungan,
-                        dengan standar Green Product Indonesia sebagai bentuk tanggung jawab terhadap masa depan yang lebih
-                        hijau.</p>
+text-align-last: left;"></p>
                     <div class="hero__button wow fadeInUp" data-wow-delay=".9s">
                         <a href="{{ route('about-us') }}" class="primary-btn hover-white">Selengkapnya
                             <span class="icon__box">
@@ -278,8 +272,31 @@ text-align-last: left;">Selama 62 tahun,
             <div class="container">
                 <div class="df-testimonial__wrapper p-relative wow fadeInUp" data-wow-delay=".3s">
                     <div class="swiper testimonial__slider">
-                        <div class="swiper-wrapper" id="testimonial_list">
+                        <div class="swiper-wrapper" id="list_testimonial">
+                            <div class="swiper-slide">
+                                <div class="df-testimonial__box">
+                                    <div class="df-testimonial__box-content">
+                                        <div class="df-testimonial__icon">
+                                            <i class="icon-020-quote"></i>
+                                        </div>
+                                        <div class="df-testimonial__text">
+                                            <p>
+                                                Saya memilih pipa uPVC Pralon untuk instalasi saluran air di rumah saya, dan
+                                                saya sangat puas dengan kualitasnya. Tidak ada kebocoran dan aliran air
+                                                menjadi lancar. Sangat merekomendasikan!.
+                                            </p>
+                                        </div>
+                                        <div class="df-testimonial__author-meta d-flex justify-content-center">
+                                            <div class="df-testimonial__author-review">
+                                                <h4 class="df-testimonial__author">Rita</h4>
+                                                <span style="font-size: 16px !important;">Pemilik Rumah Tangga</span>
                             
+                                            </div>
+                                        </div>
+                            
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="df-testimonial__navigation">

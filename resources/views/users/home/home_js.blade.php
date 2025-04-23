@@ -7,10 +7,26 @@
                 url: "{{ route('fetch-content-home') }}",
                 type: "GET",
                 success: function(res) {
+                    // 
                     let data = res.data
+                    let header = data.header
                     let products = data.some_product
                     let project_references = data.some_project_reference
+                    let testimonial = data.some_testimonial
                     let news_blog = data.some_news_blog
+
+                    // fetch header
+                    $('.hero__subtitle').text(header.title)
+                    // $('.hero__title').text(header.subtitle)
+                    const words = header.subtitle.split(' ');
+                    const chunked = [
+                        words.slice(0, 2).join(' '),
+                        words.slice(2, 3).join(' '),
+                        words.slice(3).join(' ')
+                    ];
+                    $('.hero__title').html(chunked.join('<br>'));
+
+                    $('.hero__text').text(header.description)
                     // fetch data product
                     $('#list_product').empty()
                     $.each(products, function(i, product) {
@@ -67,6 +83,35 @@
                             </span>
                         </button>
                     `)
+                    
+                    // fetch data testimonial
+                    $('#list_testimonial').empty()
+                    $.each(testimonial, function(i, test) {
+                        $('#list_testimonial').append(`
+                            <div class="swiper-slide">
+                                <div class="df-testimonial__box">
+                                    <div class="df-testimonial__box-content">
+                                        <div class="df-testimonial__icon">
+                                            <i class="icon-020-quote"></i>
+                                        </div>
+                                        <div class="df-testimonial__text">
+                                            <p>
+                                                ${test.message}
+                                            </p>
+                                        </div>
+                                        <div class="df-testimonial__author-meta d-flex justify-content-center">
+                                            <div class="df-testimonial__author-review">
+                                                <h4 class="df-testimonial__author">${test.name}</h4>
+                                                <span style="font-size: 16px !important;">${test.position}</span>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        `)
+                    })
 
                     // fetch data news blog
                     $('#list_berita').empty()

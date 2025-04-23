@@ -123,7 +123,7 @@ class HomePageController extends Controller
                 'product_home_pages.id as homepage_id',
                 'product_home_pages.sort_order'
             )
-            ->orderBy('product_home_pages.sort_order')
+            ->orderBy('product_home_pages.sort_order', 'ASC')
             ->get();
         
             return FormatResponseJson::success($homeProducts, 'Product Home Page fetched successfully');
