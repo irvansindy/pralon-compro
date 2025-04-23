@@ -3,14 +3,14 @@
 
 <head>
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZH68M5HXQ3"></script>
+    {{-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZH68M5HXQ3"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
 
         gtag('config', 'G-ZH68M5HXQ3');
-    </script>
+    </script> --}}
     
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -29,12 +29,8 @@
     <!-- Custom fonts for this template-->
     {{-- <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"> --}}
     <link href="{{ asset('assets/admin_pages/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <!-- Custom styles for this template-->
-    {{-- <link href="css/sb-admin-2.min.css" rel="stylesheet"> --}}
     <link href="{{ asset('assets/admin_pages/css/sb-admin-2.min.css') }}" rel="stylesheet">
     <!-- Custom styles for this page -->
     <link href="{{ asset('assets/admin_pages/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
@@ -42,6 +38,10 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <!-- summernote -->
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-bs4.min.css" rel="stylesheet">
+    <!-- jvectormap -->
+    {{-- <link href="https://cdn.jsdelivr.net/npm/jvectormap@2.0.5/jquery-jvectormap.css" rel="stylesheet" /> --}}
+    <link href="https://cdn.jsdelivr.net/npm/jvectormap@1.2.2/jquery-jvectormap.css" rel="stylesheet">
+
     @stack('css')
     <style>
         #clear-notifications {
@@ -58,6 +58,54 @@
             color: #4e73df !important;
             cursor: pointer;
         }
+        /* map */
+        #world-map {
+            width: 100%;
+            height: 400px;
+        }
+
+        .map-container {
+            display: flex;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+        }
+
+        .map-left {
+            flex: 2;
+            padding: 20px;
+            background-color: #fff;
+        }
+
+        .map-right {
+            flex: 1;
+            background-color: #00a65a;
+            color: white;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 30px;
+            text-align: center;
+        }
+
+        .map-right i {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .map-stat {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .map-label {
+            font-size: 14px;
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
+        /* end map */
     </style>
 </head>
 
@@ -132,8 +180,6 @@
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    {{-- <script src="vendor/jquery/jquery.min.js"></script> --}}
-    {{-- <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script> --}}
     <script src="{{ asset('assets/admin_pages/vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/admin_pages/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
@@ -160,12 +206,17 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <!-- summernote -->
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-bs4.min.js"></script>
-    {{-- <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script> --}}
     
     <script>
         const date = new Date();
         let year = date.getFullYear();
         document.getElementById("copyright").innerHTML = '<span>Copyright &copy; Sindy '+year+'</span>';
+        $(window).on('keydown', function(e) {
+            if (e.key === 'Enter' && $(e.target).is('input')) {
+                e.preventDefault();
+                return false;
+            }
+        });
     </script>
 
     @stack('js')

@@ -4,10 +4,6 @@
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">About Us Setting</h1>
-            {{-- <button class="d-none d-sm-inline-block btn btn-dark shadow-sm" id="add_section_home_page" data-toggle="modal"
-                data-target="#ModalHomePageSetting">
-                <i class="fas fa-plus fa-sm text-white-100"></i>
-            </button> --}}
         </div>
         <!-- Content -->
         <div class="card">
@@ -16,7 +12,7 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-4">
+                    {{-- <div class="col-md-4">
                         <section id="header-about-us">
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3 d-flex justify-content-between align-items-center">
@@ -28,7 +24,7 @@
                                 </div>
                             </div>
                         </section>
-                    </div>
+                    </div> --}}
                     <div class="col-md-4">
                         <section id="history-about-us">
                             <div class="card shadow mb-4">

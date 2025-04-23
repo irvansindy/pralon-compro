@@ -121,7 +121,6 @@ class ProductController extends Controller
             DB::commit();
             return FormatResponseJson::success($master_product,'product created successfully');
         } catch (ValidationException $e) {
-            // Return validation errors as JSON response
             DB::rollback();
             return FormatResponseJson::error(null, ['errors' => $e->errors()], 422);
         } catch (\Exception $e) {

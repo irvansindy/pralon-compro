@@ -16,12 +16,14 @@
                                 <input type="hidden" class="form-control" name="history_id" id="history_id" readonly="true">
                                 <label for="history_title">Title</label>
                                 <input type="text" class="form-control" name="history_title" id="history_title" required>
+                                <span class="text-danger" style="font-size: 12px;" id="message_history_title"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="history_subtitle">Subtitle</label>
                                 <input type="text" class="form-control" name="history_subtitle" id="history_subtitle" required>
+                                <span class="text-danger" style="font-size: 12px;" id="message_history_subtitle"></span>
                             </div>
                         </div>
                         
@@ -32,18 +34,21 @@
                                 <div id="link_thumbnail_video">
                                     <a href="">Link Thumbnail</a>
                                 </div>
+                                <span class="text-danger" style="font-size: 12px;" id="message_history_source_thumbnail_video"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="history_source_video">Link Video</label>
                                 <input type="text" class="form-control" name="history_source_video" id="history_source_video" required>
+                                <span class="text-danger" style="font-size: 12px;" id="message_history_source_video"></span>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="history_desc">Desc</label>
                                 <textarea class="form-control" name="history_desc" id="history_desc" cols="30" rows="10"></textarea>
+                                <span class="text-danger" style="font-size: 12px;" id="message_history_desc"></span>
                             </div>
                         </div>
                         <div class="col-md-6">

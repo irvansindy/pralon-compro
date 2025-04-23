@@ -1,48 +1,64 @@
 <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
 <script>
-    Pusher.logToConsole = false;
+    $(document).ready(function () {
+        Pusher.logToConsole = false;
 
-    var pusher = new Pusher('e11c2a2751e267a88130', {
-        cluster: 'ap1',
-        forceTLS: true
-    });
+        const pusher = new Pusher('e11c2a2751e267a88130', {
+            cluster: 'ap1',
+            forceTLS: true
+        });
 
-    var channel = pusher.subscribe('admin-notification');
+        const channel = pusher.subscribe('admin-notification');
 
-    channel.bind('new-notification', function(data) {
-        let notif = data.notification;
-        let html = `
-            <div class="dropdown-item">
-                <small class="text-muted">${new Date(notif.created_at).toLocaleString()}</small>
-                <p>${notif.message}</p>
-            </div>
-        `;
-        $('.notification-list').prepend(html);
-        let badge = $('#notification-admin');
-        let count = parseInt(badge.text()) || 0;
-        badge.text(count + 1);
-    });
+        channel.bind('new-notification', function(data) {
+            console.log('📩 Received new-notification', data);
 
-    $(document).ready(function() {
+            let notif = data.notification ?? data;
+            console.log('🧾 Parsed Notif:', notif);
+
+            // Hapus "No new notifications" jika ada
+            $('.notification-list p.text-center.text-muted.mt-3').remove();
+
+            // Tambahkan notifikasi baru
+            let html = `
+                <a href="${notif.url}" class="dropdown-item d-flex align-items-start">
+                    <i class="${notif.icon ?? 'fas fa-envelope fa-fw'} text-primary mr-2"></i>
+                    <div>
+                        <small class="text-muted d-block">${notif.time}</small>
+                        <p class="mb-0">${notif.message}</p>
+                    </div>
+                </a>
+            `;
+            $('.notification-list').prepend(html);
+
+            // Update badge
+            let badge = $('#notification-admin');
+            let count = parseInt(badge.text()) || 0;
+            badge.text(count + 1);
+            badge.fadeOut(100).fadeIn(100);
+        });
+
+        channel.bind_global(function(eventName, data) {
+            console.log('🌐 Global Event:', eventName, data);
+        });
+
         function fetchNotifications() {
             $.ajax({
                 url: '/admin/notifications',
                 type: 'GET',
                 dataType: 'json',
-                success: function(data) {
+                success: function (data) {
                     updateNotificationUI(data.data);
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     console.error('Gagal fetch notifikasi:', error);
                 }
             });
         }
 
         function updateNotificationUI(notifications) {
-            console.log(notifications);
-            
-            let listContainer = $('.notification-list');
-            let badge = $('#notification-admin');
+            const listContainer = $('.notification-list');
+            const badge = $('#notification-admin');
 
             listContainer.empty();
 
@@ -52,8 +68,8 @@
             } else {
                 let unreadCount = 0;
 
-                notifications.forEach(function(notif) {
-                    const readClass = notif.read_at ? 'text-muted' : 'font-weight-bold';
+                notifications.forEach(function (notif) {
+                    const readClass = notif.read_at ? 'text-muted' : 'fw-bold';
                     if (!notif.read_at) unreadCount++;
 
                     listContainer.append(`
@@ -68,11 +84,11 @@
             }
         }
 
-        // Ambil saat halaman dimuat
+        // Load saat awal
         fetchNotifications();
 
-        // Clear notif
-        $('#clear-notifications').on('click', function(e) {
+        // Clear Notifikasi
+        $('#clear-notifications').on('click', function (e) {
             e.preventDefault();
             $.ajax({
                 url: '/admin/notifications/read-all',
@@ -80,24 +96,21 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                success: function() {
-                    $('.notification-list').html('<p class="text-center text-muted mt-3">No new notifications</p>');
-                    // $('#notification-admin').text('0');
+                success: function () {
                     fetchNotifications();
-
                 }
             });
         });
 
-        // Tandai semua dibaca saat dropdown dibuka
-        $('#alertsDropdownLogDownload').on('click', function() {
+        // Tandai semua dibaca saat klik dropdown
+        $('#alertsDropdownLogDownload').on('click', function () {
             $.ajax({
                 url: '/admin/notifications/read-all',
                 type: 'POST',
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                success: function() {
+                success: function () {
                     $('#notification-admin').text('0');
                 }
             });

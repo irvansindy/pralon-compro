@@ -8,17 +8,18 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use App\Models\Subcriptions;
 use Illuminate\Mail\Mailables\Address;
-class CompanyMail extends Mailable
+class SubscriptionVerificationMail extends Mailable
 {
     use Queueable, SerializesModels;
-    public $data;
+    public $subscription;
     /**
      * Create a new message instance.
      */
-    public function __construct($data)
+    public function __construct(Subcriptions $subscription)
     {
-        $this->data = $data;
+        $this->subscription = $subscription;
     }
 
     /**
@@ -27,8 +28,8 @@ class CompanyMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: $this->data['subject'],
-            from: new Address('marketingpralon@gmail.com', $this->data['name']),
+            subject: 'Subscription Verification Mail',
+            from: new Address('marketingpralon@gmail.com', 'Pralon'),
         );
     }
 
@@ -38,7 +39,11 @@ class CompanyMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'admin.mail.download_file_mail',
+            view: 'admin.mail.subcription_mail',
+            with: [
+                'subscription' => $this->subscription,
+                'verificationUrl' => url('/subscribe/verify/' . $this->subscription->verification_token)
+            ]
         );
     }
 

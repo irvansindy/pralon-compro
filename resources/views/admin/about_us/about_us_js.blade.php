@@ -115,7 +115,6 @@
                         Swal.fire({
                             icon: "error",
                             title: 'Error!',
-                            // text: response_error.meta.message,
                             text: 'Silahkan hubungi team ICT!.',
                         })
                     }
@@ -174,7 +173,6 @@
         $(document).on('dblclick', '#btn-history-about-us', (e) => {
             e.preventDefault()
             let history_id = $('#btn-history-about-us').attr('data-history_id');
-            // alert(history_id)
             $('#modalHistoryAboutUs').modal('hide')
             $('#modalHistoryAboutUs').modal('show')
             $('#form_history_about_us')[0].reset()

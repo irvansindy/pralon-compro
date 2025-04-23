@@ -1,46 +1,5 @@
 <script>
     $(document).ready(function() {
-        // var swiper = new Swiper('.services__slider', {
-        //     loop: true, // Aktifkan loop untuk infinite slider
-        //     autoplay: {
-        //         delay: 2000, // Durasi antar slide (ms)
-        //         disableOnInteraction: true, // Tetap autoplay meskipun ada interaksi
-        //     },
-        //     spaceBetween: 30, // Jarak antar slide
-        //     breakpoints: {
-        //         // Breakpoint untuk layar kecil (mobile)
-        //         480: {
-        //             slidesPerView: 1,
-        //             spaceBetween: 5,
-        //         },
-        //         // Breakpoint untuk tablet
-        //         768: {
-        //             slidesPerView: 1,
-        //             spaceBetween: 10,
-        //         },
-        //         // Breakpoint untuk layar besar (desktop)
-        //         1024: {
-        //             slidesPerView: 3,
-        //             spaceBetween: 20,
-        //         },
-        //     },
-        //     slidesPerView: 1,
-        //     direction: getDirection(),
-        //     on: {
-        //         resize: function() {
-        //             swiper.changeDirection(getDirection());
-        //         },
-        //     },
-        // });
-
-        // function getDirection() {
-        //     var windowWidth = window.innerWidth;
-        //     var direction = window.innerWidth <= 760 ? 'vertical' : 'horizontal';
-
-        //     return direction;
-        // }
-        // swiper.autoplay.reverseDirection = true;
-
         fetchAllContent()
 
         function fetchAllContent() {

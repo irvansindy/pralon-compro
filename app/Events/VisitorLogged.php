@@ -9,29 +9,20 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
-class GeneralNotificationEvent implements ShouldBroadcastNow
+class VisitorLogged implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    public $notification;
-    public function __construct($notification)
+    public $visitor;
+    public function __construct($visitor)
     {
-        $this->notification = $notification;
+        $this->visitor = $visitor;
     }
     public function broadcastOn()
     {
-        return new Channel('admin-notification');
+        return ['visitor-channel'];
     }
-
     public function broadcastAs()
     {
-        return 'new-notification';
+        return 'visitor-map-update';
     }
-    public function broadcastWith()
-    {
-        return [
-            'notification' => $this->notification
-        ];
-    }
-
 }

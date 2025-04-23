@@ -18,4 +18,8 @@ class News extends Model
     {
         return $this->hasMany(NewsImageDetail::class);
     }
+    public function order()
+    {
+        return $this->hasOne(ProjectHomePage::class);
+    }
 }

@@ -6,8 +6,6 @@
     <div class="mouseCursor cursor-outer"></div>
     <div class="mouseCursor cursor-inner"><span>Drag</span></div>
     <main>
-        {{-- <div class="adjust-header-space bg-common-white"></div> --}}
-        <!-- hero area start  -->
         <section class="hero__area p-relative section-spacing bg-theme-1 hero__area-3 fix">
             <div class="container container-big">
                 <div class="hero__content p-relative">
@@ -28,10 +26,10 @@ text-align-last: left;">Selama 62 tahun,
                         dengan standar Green Product Indonesia sebagai bentuk tanggung jawab terhadap masa depan yang lebih
                         hijau.</p>
                     <div class="hero__button wow fadeInUp" data-wow-delay=".9s">
-                        <a href="#" class="primary-btn hover-white">Selengkapnya
+                        <a href="{{ route('about-us') }}" class="primary-btn hover-white">Selengkapnya
                             <span class="icon__box">
-                                <img class="icon__first" src="assets/img/icon/arrow-white.webp" alt="image not found">
-                                <img class="icon__second" src="assets/img/icon/arrow-black.webp" alt="image not found">
+                                <img class="icon__first" src="{{ asset('assets/img/icon/arrow-white.webp') }}" alt="image not found">
+                                <img class="icon__second" src="{{ asset('assets/img/icon/arrow-black.webp') }}" alt="image not found">
                             </span>
                         </a>
                     </div>
@@ -45,8 +43,7 @@ text-align-last: left;">Selama 62 tahun,
                                             intro</span></h4>
                                 </div>
                                 <div class="video">
-                                    <video src="{{ asset('assets/video/hero_video.MOV') }}" loop muted autoplay
-                                        playsinline></video>
+                                    <video src="{{ asset('assets/video/hero_video.MOV') }}" loop muted autoplay playsinline></video>
                                 </div>
                             </div>
                         </div>
@@ -282,128 +279,7 @@ text-align-last: left;">Selama 62 tahun,
                 <div class="df-testimonial__wrapper p-relative wow fadeInUp" data-wow-delay=".3s">
                     <div class="swiper testimonial__slider">
                         <div class="swiper-wrapper" id="testimonial_list">
-                            <div class="swiper-slide">
-                                <div class="df-testimonial__box">
-                                    <div class="df-testimonial__box-content">
-                                        <div class="df-testimonial__icon">
-                                            <i class="icon-020-quote"></i>
-                                        </div>
-                                        <div class="df-testimonial__text">
-                                            <p>
-                                                Saya memilih pipa uPVC Pralon untuk instalasi saluran air di rumah saya, dan
-                                                saya sangat puas dengan kualitasnya. Tidak ada kebocoran dan aliran air
-                                                menjadi lancar. Sangat merekomendasikan!.
-                                            </p>
-                                        </div>
-                                        <div class="df-testimonial__author-meta d-flex justify-content-center">
-                                            <div class="df-testimonial__author-review">
-                                                <h4 class="df-testimonial__author">Rita</h4>
-                                                <span style="font-size: 16px !important;">Pemilik Rumah Tangga</span>
-
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="df-testimonial__box">
-                                    <div class="df-testimonial__box-content">
-                                        <div class="df-testimonial__icon">
-                                            <i class="icon-020-quote"></i>
-                                        </div>
-                                        <div class="df-testimonial__text">
-                                            <p>
-                                                Sebagai seorang kontraktor, saya selalu memilih pipa Pralon untuk
-                                                proyek-proyek saya. Kualitasnya yang terjamin dan daya tahan yang luar biasa
-                                                membuatnya menjadi pilihan utama saya. Pelanggan saya juga senang dengan
-                                                hasil akhirnya.
-                                            </p>
-                                        </div>
-                                        <div class="df-testimonial__author-meta d-flex justify-content-center">
-                                            <div class="df-testimonial__author-review">
-                                                <h4 class="df-testimonial__author">Haryo</h4>
-                                                <span style="font-size: 16px !important;">Kontraktor Bangunan</span>
-
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="df-testimonial__box">
-                                    <div class="df-testimonial__box-content">
-                                        <div class="df-testimonial__icon">
-                                            <i class="icon-020-quote"></i>
-                                        </div>
-                                        <div class="df-testimonial__text">
-                                            <p>
-                                                Pipa uPVC Pralon telah menjadi solusi yang andal untuk kebutuhan air di
-                                                restoran saya. Dengan intensitas penggunaan yang tinggi, pipa Pralon tetap
-                                                kokoh dan tidak pernah mengecewakan. Terima kasih atas produk yang luar
-                                                biasa!
-                                            </p>
-                                        </div>
-                                        <div class="df-testimonial__author-meta d-flex justify-content-center">
-                                            <div class="df-testimonial__author-review">
-                                                <h4 class="df-testimonial__author">Fitri</h4>
-                                                <span style="font-size: 16px !important;">Pemilik Restoran</span>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="df-testimonial__box">
-                                    <div class="df-testimonial__box-content">
-                                        <div class="df-testimonial__icon">
-                                            <i class="icon-020-quote"></i>
-                                        </div>
-                                        <div class="df-testimonial__text">
-                                            <p>
-                                                Sebagai pengembang properti, kualitas dan keandalan sangat penting bagi
-                                                kami. Itulah mengapa kami selalu memilih pipa uPVC Pralon untuk
-                                                proyek-proyek kami. Produk ini terbukti tahan lama dan memberikan kinerja
-                                                yang konsisten.
-                                            </p>
-                                        </div>
-                                        <div class="df-testimonial__author-meta d-flex justify-content-center">
-                                            <div class="df-testimonial__author-review">
-                                                <h4 class="df-testimonial__author">Budi</h4>
-                                                <span style="font-size: 16px !important;">Pengembang Properti</span>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="df-testimonial__box">
-                                    <div class="df-testimonial__box-content">
-                                        <div class="df-testimonial__icon">
-                                            <i class="icon-020-quote"></i>
-                                        </div>
-                                        <div class="df-testimonial__text">
-                                            <p>
-                                                Sebagai pemilik industri makanan dan minuman, kebersihan sistem perpipaan
-                                                sangat penting bagi kami. Pipa uPVC Pralon tidak hanya terbukti aman untuk
-                                                digunakan dalam lingkungan makanan, tetapi juga mudah dipasang dan tidak
-                                                memerlukan perawatan berkelanjutan. Kami sangat senang dengan performanya.
-                                            </p>
-                                        </div>
-                                        <div class="df-testimonial__author-meta d-flex justify-content-center">
-                                            <div class="df-testimonial__author-review">
-                                                <h4 class="df-testimonial__author">Dewi</h4>
-                                                <span style="font-size: 16px !important;">Pemilik Industri Makanan dan
-                                                    Minuman</span>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
+                            
                         </div>
                     </div>
                     <div class="df-testimonial__navigation">

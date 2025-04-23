@@ -8,7 +8,6 @@ use App\Models\ContactUs;
 use Mail;
 use App\Mail\CompanyMail;
 use App\Models\Notifications;
-use App\Models\Subcriptions;
 use App\Helpers\FormatResponseJson;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -99,58 +98,6 @@ class ContactUsController extends Controller
         } catch (ValidationException $e) {
             return FormatResponseJson::error(null, ['errors' => $e->errors()], 422);
         } catch (\Exception $e) {
-            DB::rollback();
-            return FormatResponseJson::error(null, $e->getMessage(), 500);
-        }
-    }
-    public function subscriptionEmail(Request $request)
-    {
-        // Manual validasi pakai Validator::make
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email|unique:subcriptions,email',
-        ]);
-
-        if ($validator->fails()) {
-            if ($validator->fails()) {
-                throw new ValidationException($validator);
-            }
-        }
-        try {
-            DB::transaction(function () use ($request) {
-                $email = $request->input('email');
-
-                // Cek existing dengan pessimistic lock
-                $existing = Subcriptions::where('email', $email)
-                    ->lockForUpdate()
-                    ->first();
-
-                if (!$existing) {
-                    Subcriptions::create([
-                        'email' => $email,
-                        'ip_address' => $request->ip(),
-                        'user_agent' => $request->userAgent(),
-                        'referrer' => $request->headers->get('referer'),
-                    ]);
-
-                    Notifications::create([
-                        'type' => 'subscription',
-                        'message' => 'new user has subscribed',
-                    ]);
-        
-                    broadcast(new GeneralNotificationEvent([
-                        'type' => 'subscription',
-                        'message' => 'new user has subscribed',
-                        'time' => now()->toDateTimeString()
-                    ]));
-                }
-            });
-            return FormatResponseJson::success(true, 'Terimakasih sudah menjadi bagian dari kami.');
-        } catch (ValidationException $e) {
-            // Return validation errors as JSON response
-            DB::rollback();
-            return FormatResponseJson::error(null, ['errors' => $e->errors()], 422);
-        } catch (QueryException $e) {
-            Log::error('Subscription failed: ' . $e->getMessage());
             DB::rollback();
             return FormatResponseJson::error(null, $e->getMessage(), 500);
         }

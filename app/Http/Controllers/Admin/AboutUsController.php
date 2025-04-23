@@ -144,6 +144,7 @@ class AboutUsController extends Controller
     public function storeHistory(Request $request)
     {
         try {
+            DB::beginTransaction();
             $validation = Validator::make($request->all(), [
                 'history_title' => 'required|string',
                 'history_subtitle' => 'required|string',

@@ -1,41 +1,44 @@
 @extends('layouts.admin.app', ['title' => 'Home Page Setting'])
-@section('content')
-    <div class="container-fluid">
-        <!-- Page Heading -->
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Home Page Setting</h1>
-            <button class="d-none d-sm-inline-block btn btn-dark shadow-sm" id="add_section_home_page" data-toggle="modal"
-                data-target="#ModalHomePageSetting">
-                <i class="fas fa-plus fa-sm text-white-100"></i>
-            </button>
-        </div>
-        <!-- Content -->
-        <!-- DataTales Example -->
-        <div class="row" id="list_section">
-            <div class="col-md-4">
 
-            </div>
-        </div>
-        {{-- <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-dark">List Section Home Page</h6>
-            </div>
-            <div class="card-body">
-                <div class="card" style="width: 18rem;">
-                    <div class="card-header">
-                        Featured
+@section('title', 'Home Page Setting')
+
+@section('content')
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">Home Page Setting</h1>
+    <div class="row">
+        @php
+            $sections = DB::table('home_page_section_masters')->where('title', '!=', 'Why Us')->get()->map(function ($section) {
+                return [
+                    'name_section' => $section->title,
+                    'icon_section' => $section->icon,
+                ];
+            });
+        @endphp
+        
+        @foreach ($sections as $section)
+        <div class="col-md-6 col-xl-4 mb-4">
+            <div class="card shadow h-100 py-2 border-left-secondary" id="card_{{ strtolower(str_replace(' ', '_', $section['name_section'])) }}" style="cursor: pointer;" data-toggle="modal" data-target="#ModalHomePageSetting" data-section="{{ $section['name_section'] }}">
+                <div class="card-body d-flex align-items-center">
+                    <div class="mr-3">
+                        <i class="{{ $section['icon_section'] }} fa-2x text-primary"></i>
                     </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Cras justo odio</li>
-                        <li class="list-group-item">Dapibus ac facilisis in</li>
-                        <li class="list-group-item">Vestibulum at eros</li>
-                    </ul>
+                    <div>
+                        <h6 class="m-0 font-weight-bold text-primary">{{ $section['name_section'] }}</h6>
+                        <small class="text-muted">Manage {{ $section['name_section'] }}</small>
+                    </div>
                 </div>
             </div>
-            <div class="card-footer">hhhhhhhhhhhh</div>
-        </div> --}}
-        @include('admin.homepage.modal_master_section.modal_home_page_setting')
+        </div>
+        @endforeach
     </div>
+    @include('admin.homepage.modal.modal_header')
+    @include('admin.homepage.modal.modal_product')
+    @include('admin.about_us.modal_history')
+    @include('admin.homepage.modal.modal_project')
+    @include('admin.homepage.modal.modal_testimonial')
+    @include('admin.homepage.modal.modal_form_testimonial')
+    @include('admin.homepage.modal.modal_news')
+</div>
 @endsection
 @push('js')
     @include('admin.homepage.homepage_js')

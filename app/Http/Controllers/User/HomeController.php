@@ -18,6 +18,7 @@ class HomeController extends Controller
     public function fetchContent()
     {
         try {
+            
             $some_product = Cache::remember('some_product', now()->addMinutes(10), function () {
                 // Ambil produk tetap (B, C, A) dengan urutan yang ditentukan
                 $fixedProducts = Product::whereIn('name', ['Pralon HDPE', 'Pipa uPVC SNI', 'Pralon Standard'])

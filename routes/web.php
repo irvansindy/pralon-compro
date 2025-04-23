@@ -6,6 +6,7 @@ use App\Http\Controllers\User\AboutUsController;
 use App\Http\Controllers\User\ProductController;
 use App\Http\Controllers\User\NewsController;
 use App\Http\Controllers\User\ContactUsController;
+use App\Http\Controllers\SubcriptionController;
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MenuController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\Admin\AboutUsController as AdminAboutUsController;
 use App\Http\Controllers\Admin\NewAndBlogController as AdminNewAndBlogController;
 use App\Http\Controllers\Admin\EmailTemplateController as AdminEmailTemplateController;
 use App\Http\Controllers\Admin\EmailMessageController as EmailMessageController;
+use App\Http\Controllers\Admin\SubcriptionController as AdminSubcriptionController;
 
 use App\Helpers\FormatResponseJson;
 /*
@@ -59,10 +61,14 @@ Route::get('contact-us', [ContactUsController::class,'index'])->name('contact-us
 Route::get('fetch-contact-us', [ContactUsController::class,'fetch'])->name('fetch-contact-us');
 Route::post('send-email-contact-us', [ContactUsController::class,'sendEmail'])->name('send-email-contact-us');
 
+Route::post('store-email-subcription', [SubcriptionController::class,'subscriptionEmail'])->name('store-email-subcription');
+Route::get('/subscribe/verify/{token}', [SubcriptionController::class, 'verify'])->name('subscription.verify');
+
 // admin
 Route::middleware(['auth'])->group(function () {
     // dashboard
     Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard');
+    Route::get('/fetch-dashboard', [DashboardController::class,'fetch'])->name('fetch-dashboard');
     // notify
     Route::get('/admin/notifications', function () {
         $notifications = DB::table('notifications')->latest()
@@ -102,7 +108,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/export-history-brocure', [HistoryDownloadProductBrocurePricelistController::class, 'exportBrocure'])->name('export-history-brocure');
     Route::get('/export-history-pricelist', [HistoryDownloadProductBrocurePricelistController::class, 'exportPricelist'])->name('export-history-pricelist');
 
-
     Route::post('store-master-product', [AdminProductController::class,'storeProduct'])->name('store-master-product');
     Route::post('update-master-product', [AdminProductController::class,'updateProduct'])->name('update-master-product');
     Route::post('store-brocure', [AdminProductController::class,'storeBrocure'])->name('store-brocure');
@@ -112,9 +117,20 @@ Route::middleware(['auth'])->group(function () {
     /* master content
     homepage/beranda */
     Route::get('home-page-setting', [AdminHomePageController::class,'index'])->name('home-page-setting');
-    Route::get('fetch-home-page-setting', [AdminHomePageController::class,'fetchMasterSection'])->name('fetch-home-page-setting');
-    Route::get('fetch-home-page-setting-by-id', [AdminHomePageController::class,'fetchMasterSectionById'])->name('fetch-home-page-setting-by-id');
-    Route::post('store-master-section', [AdminHomePageController::class,'storeMasterSection'])->name('store-master-section');
+    Route::get('fetch-header-home-page', [AdminHomePageController::class,'fetchHeader'])->name('fetch-header-home-page');
+    Route::get('fetch-product-home-page', [AdminHomePageController::class,'fetchProduct'])->name('fetch-product-home-page');
+    Route::get('fetch-about-us-home-page', [AdminHomePageController::class,'fetchAboutUs'])->name('fetch-about-us-home-page');
+    Route::get('fetch-project-references-home-page', [AdminHomePageController::class,'fetchProjectReferences'])->name('fetch-project-references-home-page');
+    Route::get('fetch-testimonial-home-page', [AdminHomePageController::class,'fetchTestimonials'])->name('fetch-testimonial-home-page');
+    Route::get('fetch-testimonial-home-page-by-id', [AdminHomePageController::class,'fetchTestimonialById'])->name('fetch-testimonial-home-page-by-id');
+    Route::get('fetch-news-home-page', [AdminHomePageController::class,'fetchNews'])->name('fetch-news-home-page');
+    
+    Route::post('submit-header-home-page', [AdminHomePageController::class,'createOrUpdateHeader'])->name('submit-header-home-page');
+    Route::post('save-order-product-home-page', [AdminHomePageController::class,'reOrderProduct'])->name('save-order-product-home-page');
+    Route::post('submit-about-us-home-page', [AdminHomePageController::class,'createOrUpdateAboutUs'])->name('submit-about-us-home-page');
+    Route::post('save-order-project-home-page', [AdminHomePageController::class,'reOrderProjectReferences'])->name('save-order-project-home-page');
+    Route::post('submit-testimonial', [AdminHomePageController::class,'createOrUpdateTestimonial'])->name('submit-testimonial');
+    Route::post('save-order-news-home-page', [AdminHomePageController::class,'reOrderNews'])->name('save-order-news-home-page');
     // master about us
     Route::get('about-us-setting', [AdminAboutUsController::class, 'index'])->name('about-us-setting');
     Route::get('fetch-about-us-setting', [AdminAboutUsController::class, 'fetchAllContentAboutUs'])->name('fetch-about-us-setting');
@@ -153,6 +169,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('email-message', [EmailMessageController::class,'index'])->name('email-message');
     Route::get('fetch-email-message', [EmailMessageController::class,'fetchEmailMessages'])->name('fetch-email-message');
+
+    // user-subcription
+    Route::get('user-subcription', [AdminSubcriptionController::class,'index'])->name('user-subcription');
+    Route::get('fetch-user-subcription', [AdminSubcriptionController::class,'fetchSubcriptions'])->name('fetch-user-subcription');
 });
 
 Auth::routes();

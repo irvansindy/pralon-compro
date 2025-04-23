@@ -26,4 +26,8 @@ class Product extends Model
     {
         return $this->hasOne(productPriceList::class,'product_id', 'id');
     }
+    public function homepage()
+    {
+        return $this->hasOne(ProductHomePage::class);
+    }
 }

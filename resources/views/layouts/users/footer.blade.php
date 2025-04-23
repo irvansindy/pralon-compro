@@ -7,10 +7,13 @@
                     <div class="row g-5 align-items-center mb-60">
                         <div class="col-xl-7 col-lg-6 col-md-6">
                             <div class="df-footer__logo mb-30">
-                                <a href="#"><img src="{{ asset('assets/img/logo/pralon.png') }}" alt="image not found"></a>
+                                <a href="#"><img src="{{ asset('assets/img/logo/pralon.png') }}"
+                                        alt="image not found"></a>
                             </div>
                             <p class="df-footer-text" style="font-size: 16px !important;">
-                                Pralon adalah merek dagang dari pipa uPVC berkualitas tinggi yang di produksi oleh PT Pralon. Pralon telah lama dikenal sejak tahun 1963 sebagai pelopor dalam industri pipa uPVC di Indonesia.
+                                Pralon adalah merek dagang dari pipa uPVC berkualitas tinggi yang di produksi oleh PT
+                                Pralon. Pralon telah lama dikenal sejak tahun 1963 sebagai pelopor dalam industri pipa
+                                uPVC di Indonesia.
                             </p>
                         </div>
                         <div class="col-xl-5 col-lg-6 col-md-6">
@@ -18,17 +21,30 @@
                                 <h2 class="df-newsletter__title mb-40 lh-1">Connect With Us!</h2>
                                 <div class="df-newsletter__form">
                                     <form action="#">
+                                        @csrf
                                         <div class="df-input-field">
-                                            <input type="text" id="email2" name="email" placeholder="Enter email address">
+                                            <input type="text" id="email_subcription" name="email_subcription"
+                                                placeholder="Enter email address">
+                                            
                                         </div>
                                         <div class="df-newsletter__form-btn">
-                                            <button type="submit" class="primary-btn hover-white">Connect
-                                                <span class="icon__box">
-                                                    <img class="icon__first" src="{{ asset('assets/img/icon/arrow-white.webp') }}"
-                                                        alt="image not found">
-                                                    <img class="icon__second" src="{{ asset('assets/img/icon/arrow-black.webp') }}"
-                                                        alt="image not found">
-                                                </span>
+                                            <button type="button" class="primary-btn hover-white"
+                                                id="submit_email_subcription">
+                                                <div id="icon-for-submit">
+                                                    Connect
+                                                    <span class="icon__box">
+                                                        <img class="icon__first"
+                                                            src="{{ asset('assets/img/icon/arrow-white.webp') }}"
+                                                            alt="image not found">
+                                                        <img class="icon__second"
+                                                            src="{{ asset('assets/img/icon/arrow-black.webp') }}"
+                                                            alt="image not found">
+                                                    </span>
+                                                </div>
+                                                <!-- Spinner -->
+                                                <div id="spinner" style="display: none; margin-top: 10px;">
+                                                    <span style="display: inline-block; width: 20px; height: 20px; border: 2px solid #ccc; border-top-color: #333; border-radius: 50%; animation: spin 0.8s linear infinite;"></span>
+                                                </div>
                                             </button>
                                         </div>
                                     </form>
@@ -54,19 +70,24 @@
                         <div class="social-links">
                             <ul>
                                 <li>
-                                    <a href="https://www.facebook.com/Pralon.official" target="_blank"><i class="icon-023-facebook-app-symbol"></i></a>
+                                    <a href="https://www.facebook.com/Pralon.official" target="_blank"><i
+                                            class="icon-023-facebook-app-symbol"></i></a>
                                 </li>
                                 <li>
-                                    <a href="https://www.instagram.com/pralon_official" target="_blank"><i class="icon-025-instagram"></i></a>
+                                    <a href="https://www.instagram.com/pralon_official" target="_blank"><i
+                                            class="icon-025-instagram"></i></a>
                                 </li>
                                 <li>
-                                    <a href="https://www.youtube.com/@ptpralon-official5154" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+                                    <a href="https://www.youtube.com/@ptpralon-official5154" target="_blank"><i
+                                            class="fa-brands fa-youtube"></i></a>
                                 </li>
                                 <li>
-                                    <a href="http://tiktok.com/@pralonofficial" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
+                                    <a href="http://tiktok.com/@pralonofficial" target="_blank"><i
+                                            class="fa-brands fa-tiktok"></i></a>
                                 </li>
                                 <li>
-                                    <a href="http://linkedin.com/company/pt-pralon" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
+                                    <a href="http://linkedin.com/company/pt-pralon" target="_blank"><i
+                                            class="fa-brands fa-linkedin"></i></a>
                                 </li>
                             </ul>
                         </div>
@@ -96,16 +117,6 @@
                         </script>
                     </p>
                 </div>
-                {{-- <div class="copyright__nav">
-                    <ul>
-                        <li>
-                            <a href="policy.html" target="_blank">Privacy & Policy</a>
-                        </li>
-                        <li>
-                            <a href="terms.html" target="_blank">Terms & Condition</a>
-                        </li>
-                    </ul>
-                </div> --}}
             </div>
         </div>
     </div>
@@ -119,3 +130,64 @@
     </svg>
 </div>
 <!-- back to top end -->
+<!-- Spinner Animation Style -->
+<style>
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+</style>
+<script src="{{ asset('assets/js/vendor/jquery-3.6.0.min.js') }}"></script>
+<script>
+    $('#subscription-message').text('')
+    $('#submit_email_subcription').click(function() {
+        let email = $('#email_subcription').val();
+        let messageBox = $('#subscription-message');
+        let spinner = $('#spinner');
+        let icon = $('#icon-for-submit');
+
+        $('#submit_email_subcription').prop('disabled', true);
+        icon.hide();
+        spinner.show();
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            url: "{{ route('store-email-subcription') }}",
+            type: "POST",
+            data: {
+                email: email,
+            },
+            success: function(res) {
+                $('#email_subcription').val('');
+                toastr.info(
+                    '<p style="font-size: 16px !important; color: white !important;">' + res
+                    .meta.message + '</p>',
+                    '<p style="font-size: 16px !important; font-weight: bold !important; color: white !important;">Sukses</p>', {
+                        timeOut: 10000
+                    }
+                )
+            },
+            error: function(xhr) {
+                $('#submit_email_subcription').prop('disabled', false);
+                spinner.hide();
+                icon.show();
+                let response_error = JSON.parse(xhr.responseText)
+                toastr.error(
+                    '<p style="font-size: 16px !important; color: white !important;">' +
+                    response_error.meta.message.errors.email + '</p>',
+                    '<p style="font-size: 16px !important; font-weight: bold !important; color: white !important;">Error</p>', {
+                        timeOut: 5000
+                })
+            },
+            complete: function () {
+                // Reset button & spinner
+                $('#submit_email_subcription').prop('disabled', false);
+                spinner.hide();
+                icon.show();
+            }
+        });
+    });
+</script>
