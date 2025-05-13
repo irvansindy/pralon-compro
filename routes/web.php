@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\NewAndBlogController as AdminNewAndBlogController
 use App\Http\Controllers\Admin\EmailTemplateController as AdminEmailTemplateController;
 use App\Http\Controllers\Admin\EmailMessageController as EmailMessageController;
 use App\Http\Controllers\Admin\SubcriptionController as AdminSubcriptionController;
+use App\Http\Controllers\Admin\AnalyticsController as AnalyticsController;
 
 use App\Helpers\FormatResponseJson;
 /*
@@ -65,6 +66,9 @@ Route::post('store-email-subcription', [SubcriptionController::class,'subscripti
 Route::get('/subscribe/verify/{token}', [SubcriptionController::class, 'verify'])->name('subscription.verify');
 
 // admin
+Route::post('/fetch-visitor-dashboard', [DashboardController::class,'broadcastVisitors'])->name('fetch-visitor-dashboard');
+// analytics
+Route::get('/analytics', [AnalyticsController::class,'index'])->name('analytics');
 Route::middleware(['auth'])->group(function () {
     // dashboard
     Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard');
@@ -174,6 +178,33 @@ Route::middleware(['auth'])->group(function () {
     Route::get('user-subcription', [AdminSubcriptionController::class,'index'])->name('user-subcription');
     Route::get('fetch-user-subcription', [AdminSubcriptionController::class,'fetchSubcriptions'])->name('fetch-user-subcription');
 });
+
+Route::get('/test-broadcast-map', function () {
+    $dummyVisitors = collect([
+        [
+            'latitude' => -6.2,
+            'longitude' => 106.8,
+            'city' => 'Jakarta',
+            'country' => 'Indonesia'
+        ],
+        [
+            'latitude' => 37.77,
+            'longitude' => -122.41,
+            'city' => 'San Francisco',
+            'country' => 'USA'
+        ],
+        [
+            'latitude' => 51.5,
+            'longitude' => -0.12,
+            'city' => 'London',
+            'country' => 'UK'
+        ],
+    ]);
+
+    broadcast(new \App\Events\VisitorLogged($dummyVisitors));
+    return response()->json(['message' => 'Broadcasted']);
+});
+
 
 Auth::routes();
 

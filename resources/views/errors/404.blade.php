@@ -46,7 +46,7 @@
                 data-wow-delay=".3s">
                 <div class="col-lg-5 col-md-8 col-sm-10">
                     <div class="df-error__area-btn text-center mt-60 wow fadeInUp" data-wow-delay=".3s">
-                        <a href="{{ route('news') }}" class="primary-btn hover-white">
+                        <a href="{{ url()->previous() }}" class="primary-btn hover-white">
                             Go Back
                             <span class="icon__box">
                                 {{-- <img class="icon__first" src="{{ asset('assets/img/icon/arrow-white.webp') }}"

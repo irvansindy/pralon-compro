@@ -38,9 +38,9 @@
             badge.fadeOut(100).fadeIn(100);
         });
 
-        channel.bind_global(function(eventName, data) {
-            console.log('🌐 Global Event:', eventName, data);
-        });
+        // channel.bind_global(function(eventName, data) {
+        //     console.log('🌐 Global Event:', eventName, data);
+        // });
 
         function fetchNotifications() {
             $.ajax({

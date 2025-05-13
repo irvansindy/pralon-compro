@@ -16,6 +16,8 @@ use App\Models\LogUserDownload;
 use App\Models\VisitorLogs;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Carbon;
+use App\Events\VisitorLogged;
+use Jenssegers\Agent\Agent;
 class DashboardController extends Controller
 {
     public function index()
@@ -45,13 +47,49 @@ class DashboardController extends Controller
         });
         return FormatResponseJson::success($data, 'Data fetched successfully (last 30 days, cached)');
     }
-    public function broadcastVisitors()
+    public function broadcastVisitors(Request $request)
     {
-        $recentVisitors = VisitorLogs::where('visited_at', '>=', now()->subMinutes(1))->get();
+        $agent = new Agent();
+        $ip = $request->ip();
+        $country = $request->input('country', 'Unknown');
+        $region = $request->input('region', 'Unknown');
+        $city = $request->input('city', 'Unknown');
+        $latitude = $request->input('latitude');
+        $longitude = $request->input('longitude');
+        $browser = $agent->browser();
+        $platform = $agent->platform();
+        $device = $agent->device();
 
-        event(new \App\Events\VisitorLogged($recentVisitors));
+        $existing = VisitorLogs::where('ip', $ip)
+            ->where('city', $city)
+            ->where('country', $country)
+            ->where('region', $region)
+            ->where('latitude', $latitude)
+            ->where('longitude', $longitude)
+            ->where('browser', $browser)
+            ->where('platform', $platform)
+            ->where('device', $device)
+            ->where('visited_at', '>=', now()->subMinutes(5))
+            ->first();
+            
+        if (!$existing) {
+            $visitor = VisitorLogs::create([
+                'ip' => $ip,
+                'country' => $country,
+                'region' => $region,
+                'city' => $city,
+                'latitude' => $latitude,
+                'longitude' => $longitude,
+                'browser' => $browser,
+                'platform' => $platform,
+                'device' => $device,
+                'user_agent' => $request->userAgent(),
+                'visited_at' => now()
+            ]);
 
-        return response()->json(['status' => 'broadcasted']);
+            broadcast(new VisitorLogged([$visitor]));
+        }
+        return FormatResponseJson::success(true, 'Broadcasted successfully');
     }
 
 }

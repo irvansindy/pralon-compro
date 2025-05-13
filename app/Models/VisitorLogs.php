@@ -9,7 +9,5 @@ class VisitorLogs extends Model
 {
     use HasFactory;
     protected $table = 'visitor_logs';
-    protected $fillable = [
-        'ip', 'country', 'city', 'browser', 'device', 'platform', 'user_agent'
-    ];
+    protected $guarded = [];
 }

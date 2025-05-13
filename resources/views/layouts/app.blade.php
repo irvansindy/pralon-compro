@@ -2,13 +2,29 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZH68M5HXQ3"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3GFFMHT3JT"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
         gtag('js', new Date());
 
-        gtag('config', 'G-ZH68M5HXQ3');
+        gtag('config', 'G-3GFFMHT3JT');
+    </script>
+    <!-- Google tag (gtag.js) -->
+    {{-- pralon.co.id --}}
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RZ3YE6JY13"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-RZ3YE6JY13');
     </script>
 
     <meta charset="utf-8">

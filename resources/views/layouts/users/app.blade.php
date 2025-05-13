@@ -3,14 +3,33 @@
 
 <head>
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZH68M5HXQ3"></script>
+    {{-- pralon.com --}}
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3GFFMHT3JT"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
         gtag('js', new Date());
 
-        gtag('config', 'G-ZH68M5HXQ3');
-    </script>  
+        gtag('config', 'G-3GFFMHT3JT');
+    </script>
+
+    <!-- Google tag (gtag.js) -->
+    {{-- pralon.co.id --}}
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RZ3YE6JY13"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-RZ3YE6JY13');
+    </script>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -54,20 +73,28 @@
     @stack('css')
     <style>
         .service__title {
-            display: -webkit-box;        /* Gunakan Flexbox khusus untuk teks */
-            -webkit-line-clamp: 1;       /* Tentukan jumlah maksimum baris */
+            display: -webkit-box;
+            /* Gunakan Flexbox khusus untuk teks */
+            -webkit-line-clamp: 1;
+            /* Tentukan jumlah maksimum baris */
             -webkit-box-orient: vertical;
-            overflow: hidden;            /* Potong konten yang melampaui batas */
-            text-overflow: ellipsis;     /* Tambahkan "..." jika teks dipotong */
-        }
-        .service__text {
-            display: -webkit-box;        /* Gunakan Flexbox khusus untuk teks */
-            -webkit-line-clamp: 2;       /* Tentukan jumlah maksimum baris */
-            -webkit-box-orient: vertical;
-            overflow: hidden;            /* Potong konten yang melampaui batas */
-            text-overflow: ellipsis;     /* Tambahkan "..." jika teks dipotong */
+            overflow: hidden;
+            /* Potong konten yang melampaui batas */
+            text-overflow: ellipsis;
+            /* Tambahkan "..." jika teks dipotong */
         }
 
+        .service__text {
+            display: -webkit-box;
+            /* Gunakan Flexbox khusus untuk teks */
+            -webkit-line-clamp: 2;
+            /* Tentukan jumlah maksimum baris */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            /* Potong konten yang melampaui batas */
+            text-overflow: ellipsis;
+            /* Tambahkan "..." jika teks dipotong */
+        }
     </style>
 </head>
 
@@ -127,6 +154,34 @@
     {{-- pusher --}}
     <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
     @stack('js')
+    <script>
+        setInterval(() => {
+            // alert('fetch user')
+            fetch("http://ip-api.com/json/")
+                .then(response => response.json())
+                .then(data => {
+                    fetch("fetch-visitor-dashboard", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')
+                                .getAttribute("content")
+                        },
+                        body: JSON.stringify({
+                            ip: data.query,
+                            country: data.country,
+                            region: data.regionName,
+                            city: data.city,
+                            latitude: data.lat,
+                            longitude: data.lon,
+                            browser: navigator.userAgent,
+                            platform: navigator.platform,
+                            device: navigator.userAgentData?.mobile ? 'Mobile' : 'Desktop'
+                        })
+                    });
+                });
+        }, 6000) // setiap 60 detik
+    </script>
 </body>
 
 </html>
