@@ -41,6 +41,7 @@
     <!-- jvectormap -->
     {{-- <link href="https://cdn.jsdelivr.net/npm/jvectormap@2.0.5/jquery-jvectormap.css" rel="stylesheet" /> --}}
     <link href="https://cdn.jsdelivr.net/npm/jvectormap@1.2.2/jquery-jvectormap.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
 
     @stack('css')
     <style>
@@ -206,7 +207,7 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <!-- summernote -->
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-bs4.min.js"></script>
-    
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
     <script>
         const date = new Date();
         let year = date.getFullYear();

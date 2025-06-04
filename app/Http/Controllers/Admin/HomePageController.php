@@ -47,7 +47,7 @@ class HomePageController extends Controller
 
             // Tambah validasi video kalau ada file
             if ($request->hasFile('header_video')) {
-                $rules['header_video'] = 'file|mimetypes:video/mp4,video/avi,video/mpeg,video/quicktime|max:10240';
+                $rules['header_video'] = 'file|mimetypes:video/mp4,video/avi,video/mpeg,video/quicktime,video/webm|max:25000'; // 25MB
             }
 
             $messages = [
