@@ -23,7 +23,7 @@ class HistoryDownloadProductBrocurePricelistController extends Controller
             $start_date = $request->start_date_brocure;
             $end_date = $request->end_date_brocure;
 
-            $query = LogUserDownload::where('type_download', 'brocure');
+            $query = LogUserDownload::with(['product'])->where('type_download', 'brocure');
 
             // Filter berdasarkan product_id jika bukan "all"
             if ($product_id !== 'all') {
@@ -51,7 +51,7 @@ class HistoryDownloadProductBrocurePricelistController extends Controller
             $start_date = $request->start_date_pricelist;
             $end_date = $request->end_date_pricelist;
 
-            $query = LogUserDownload::where('type_download', 'pricelist');
+            $query = LogUserDownload::with(['product'])->where('type_download', 'pricelist');
 
             // Filter berdasarkan product_id jika bukan "all"
             if ($product_id !== 'all') {

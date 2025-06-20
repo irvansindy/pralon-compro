@@ -56,9 +56,10 @@
                                 <td>${index + 1}</td>
                                 <td>${item.name}</td>
                                 <td>${item.email}</td>
-                                <td>${item.type_download}</td>
+                                <td>${item.phone_number}</td>
+                                <td>${item.product.full_name}</td>
                                 <td>
-                                    <button type="button" class="btn btn-primary">
+                                    <button type="button" class="btn btn-primary detail_download_brocure">
                                         <i class="fas fa-eye"></i>
                                     </button>
                                 </td>
@@ -95,9 +96,10 @@
                                 <td>${index + 1}</td>
                                 <td>${item.name}</td>
                                 <td>${item.email}</td>
-                                <td>${item.type_download}</td>
+                                <td>${item.phone_number}</td>
+                                <td>${item.product.full_name}</td>
                                 <td>
-                                    <button type="button" class="btn btn-primary">
+                                    <button type="button" class="btn btn-primary detail_download_pricelist">
                                         <i class="fas fa-eye"></i>
                                     </button>
                                 </td>

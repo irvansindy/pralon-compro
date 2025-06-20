@@ -5,8 +5,8 @@ namespace App\Exports;
 use App\Models\LogUserDownload;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
-
-class PricelistExport implements FromCollection, WithHeadings
+use Maatwebsite\Excel\Concerns\WithMapping;
+class PricelistExport implements FromCollection, WithHeadings, WithMapping
 {
     protected $product_id;
     protected $start_date;
@@ -21,21 +21,35 @@ class PricelistExport implements FromCollection, WithHeadings
 
     public function collection()
     {
-        $query = LogUserDownload::query();
+        $query = LogUserDownload::with('product')
+            ->where('type_download', 'pricelist');
 
         if ($this->product_id !== 'all') {
             $query->where('product_id', $this->product_id);
         }
 
         if (!is_null($this->start_date) && !is_null($this->end_date)) {
-            $query->whereBetween('created_at', [$this->start_date . ' 00:00:00', $this->end_date . ' 23:59:59']);
+            $query->whereBetween('created_at', [
+                $this->start_date . ' 00:00:00',
+                $this->end_date . ' 23:59:59'
+            ]);
         }
 
-        return $query->where('type_download', 'pricelist')->get(['id', 'name', 'email', 'type_download', 'created_at']);
+        return $query->get(['id', 'name', 'email', 'phone_number', 'product_id', 'created_at']);
     }
-
+    public function map($row): array
+    {
+        return [
+            $row->id,
+            $row->name,
+            $row->email,
+            $row->phone_number,
+            $row->product->full_name ?? '-',
+            $row->created_at->format('Y-m-d H:i:s'),
+        ];
+    }
     public function headings(): array
     {
-        return ["ID", "Name", "Email", "Type Download", "Created At"];
+        return ["ID", "Name", "Email", "Phone Number", "Product", "Created At"];
     }
 }
