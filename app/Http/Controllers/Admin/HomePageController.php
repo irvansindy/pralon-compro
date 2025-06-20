@@ -47,7 +47,7 @@ class HomePageController extends Controller
 
             // Tambah validasi video kalau ada file
             if ($request->hasFile('header_video')) {
-                $rules['header_video'] = 'file|mimetypes:video/mp4,video/avi,video/mpeg,video/quicktime|max:10240';
+                $rules['header_video'] = 'file|mimetypes:video/mp4,video/avi,video/mpeg,video/quicktime,video/webm|max:25000'; // 25MB
             }
 
             $messages = [
@@ -173,7 +173,7 @@ class HomePageController extends Controller
             $validation = Validator::make($request->all(), [
                 'history_title' => 'required|string',
                 'history_subtitle' => 'required|string',
-                'history_source_thumbnail_video' => 'nullable|image|max:10000|mimes:jpg,jpeg,png',
+                'history_source_thumbnail_video' => 'nullable|image|max:10000|mimes:jpg,jpeg,png,webp',
                 'history_source_video' => 'required|string',
                 'history_desc' => 'required|string',
             ], [

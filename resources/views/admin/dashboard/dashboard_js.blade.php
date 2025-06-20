@@ -24,54 +24,67 @@
             });
         }
 
+        var map = L.map('map').setView([0, 0], 2);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+        Echo.channel('visitor-map')
+            .listen('VisitorLogged', (e) => {   
+                let lat = e.data.lat;
+                let lon = e.data.lon;
+                let label = `${e.data.city}, ${e.data.country}`;
+
+                L.marker([lat, lon]).addTo(map)
+                    .bindPopup(label).openPopup();
+            });
         // File: dashboard_js
 
-        $('#world-map').vectorMap({
-            map: 'world_mill_en',
-            backgroundColor: '#eef3f7',
-            regionStyle: {
-                initial: {
-                    fill: '#c4c4c4'
-                }
-            },
-            markerStyle: {
-                initial: {
-                    fill: '#00a65a',
-                    stroke: '#111'
-                }
-            },
-            markers: []
-        });
+        // $('#world-map').vectorMap({
+        //     map: 'world_mill_en',
+        //     backgroundColor: '#eef3f7',
+        //     regionStyle: {
+        //         initial: {
+        //             fill: '#c4c4c4'
+        //         }
+        //     },
+        //     markerStyle: {
+        //         initial: {
+        //             fill: '#00a65a',
+        //             stroke: '#111'
+        //         }
+        //     },
+        //     markers: []
+        // });
 
-        const mapObject = $('#world-map').vectorMap('get', 'mapObject');
+        // const mapObject = $('#world-map').vectorMap('get', 'mapObject');
 
-        const pusher = new Pusher('e11c2a2751e267a88130', {
-            cluster: 'ap1',
-            forceTLS: true
-        });
+        // const pusher = new Pusher('e11c2a2751e267a88130', {
+        //     cluster: 'ap1',
+        //     forceTLS: true
+        // });
 
-        const channel = pusher.subscribe('visitor-channel');
+        // const channel = pusher.subscribe('visitor-channel');
 
-        channel.bind('visitor-map-update', function(data) {
-            console.log("🛰 Data from Pusher:", data); // Debug log untuk memastikan data diterima
+        // channel.bind('visitor-map-update', function(data) {
+        //     console.log("🛰 Data from Pusher:", data); // Debug log untuk memastikan data diterima
 
-            mapObject.removeAllMarkers();
+        //     mapObject.removeAllMarkers();
 
-            if (data.visitors && data.visitors.length > 0) {
-                const markers = data.visitors.map(v => {
-                    console.log('🔍 Marker:', v); // Debug tiap marker
+        //     if (data.visitors && data.visitors.length > 0) {
+        //         const markers = data.visitors.map(v => {
+        //             console.log('🔍 Marker:', v); // Debug tiap marker
 
-                    return {
-                        latLng: [parseFloat(v.latitude), parseFloat(v.longitude)],
-                        name: `${v.city}, ${v.country}`
-                    };
-                });
+        //             return {
+        //                 latLng: [parseFloat(v.latitude), parseFloat(v.longitude)],
+        //                 name: `${v.city}, ${v.country}`
+        //             };
+        //         });
 
-                mapObject.addMarkers(markers);
-            } else {
-                console.warn("⚠️ Tidak ada visitor data untuk ditampilkan.");
-            }
-        });
+        //         mapObject.addMarkers(markers);
+        //     } else {
+        //         console.warn("⚠️ Tidak ada visitor data untuk ditampilkan.");
+        //     }
+        // });
 
     });
 </script>

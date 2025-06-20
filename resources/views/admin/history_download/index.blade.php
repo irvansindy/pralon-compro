@@ -69,7 +69,8 @@
                                         <th>No</th>
                                         <th>Name</th>
                                         <th>Email</th>
-                                        <th>Type</th>
+                                        <th>Phone Number</th>
+                                        <th>Product</th>
                                         <th>Action</th>
 
                                     </tr>
@@ -79,7 +80,8 @@
                                         <th>No</th>
                                         <th>Name</th>
                                         <th>Email</th>
-                                        <th>Type</th>
+                                        <th>Phone Number</th>
+                                        <th>Product</th>
                                         <th>Action</th>
                                     </tr>
                                 </tfoot>
@@ -147,7 +149,8 @@
                                         <th>No</th>
                                         <th>Name</th>
                                         <th>Email</th>
-                                        <th>Type</th>
+                                        <th>Phone Number</th>
+                                        <th>Product</th>
                                         <th>Action</th>
 
                                     </tr>
@@ -157,7 +160,8 @@
                                         <th>No</th>
                                         <th>Name</th>
                                         <th>Email</th>
-                                        <th>Type</th>
+                                        <th>Phone Number</th>
+                                        <th>Product</th>
                                         <th>Action</th>
                                     </tr>
                                 </tfoot>

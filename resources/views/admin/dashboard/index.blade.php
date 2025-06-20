@@ -99,7 +99,7 @@
         </div>
 
         <!-- Map Visitor -->
-        <div class="map-container my-4">
+        {{-- <div class="map-container my-4">
             <div class="map-left">
                 <h5 class="mb-4"><strong>Visitors Report</strong></h5>
                 <div id="world-map"></div>
@@ -126,9 +126,10 @@
                     <div class="map-label">New Visitors</div>
                 </div>
             </div>
-        </div>
-        <div id="world-map" style="width: 100%; height: 400px;"></div>
-    
+        </div> --}}
+        {{-- <div id="world-map" style="width: 100%; height: 400px;"></div> --}}
+        
+        <div id="map" style="height: 600px;"></div>
         <!-- Content Row -->
         {{-- <div class="row">
 

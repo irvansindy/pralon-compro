@@ -45,7 +45,7 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/logo/favicon.png') }}">
+    {{-- <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/logo/favicon.png') }}"> --}}
 
     {{-- template css --}}
     <link rel="stylesheet" href="{{ asset('assets/css/plugins/preloader.css') }}">
@@ -154,34 +154,6 @@
     {{-- pusher --}}
     <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
     @stack('js')
-    <script>
-        setInterval(() => {
-            // alert('fetch user')
-            fetch("http://ip-api.com/json/")
-                .then(response => response.json())
-                .then(data => {
-                    fetch("fetch-visitor-dashboard", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')
-                                .getAttribute("content")
-                        },
-                        body: JSON.stringify({
-                            ip: data.query,
-                            country: data.country,
-                            region: data.regionName,
-                            city: data.city,
-                            latitude: data.lat,
-                            longitude: data.lon,
-                            browser: navigator.userAgent,
-                            platform: navigator.platform,
-                            device: navigator.userAgentData?.mobile ? 'Mobile' : 'Desktop'
-                        })
-                    });
-                });
-        }, 6000) // setiap 60 detik
-    </script>
 </body>
 
 </html>
