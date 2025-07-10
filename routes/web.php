@@ -7,7 +7,7 @@ use App\Http\Controllers\User\ProductController;
 use App\Http\Controllers\User\NewsController;
 use App\Http\Controllers\User\ContactUsController;
 use App\Http\Controllers\SubcriptionController;
-
+use App\Http\Controllers\MalwareScanController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\ProductCategoryController;
@@ -34,6 +34,17 @@ use App\Helpers\FormatResponseJson;
 */
 
 Route::get("/", [HomeController::class,"index"])->name("home");
+
+Route::get('/scan-malware', [MalwareScanController::class, 'scan'])->name('scan-malware');
+Route::get('/delete-malware-file', function () {
+    $path = Request::get('path');
+    if ($path && File::exists($path)) {
+        File::delete($path);
+        return "<b style='color:green;'>Berhasil dihapus:</b> {$path}<br><a href='" . route('scan-malware') . "'>← Kembali ke scan</a>";
+    }
+    return "<b style='color:red;'>Gagal hapus. File tidak ditemukan atau tidak ada path.</b><br><a href='" . route('scan-malware') . "'>← Kembali ke scan</a>";
+})->name('delete-malware-file');
+
 Route::get("/about-us", action: [AboutUsController::class,"index"])->name("about-us");
 Route::get("/fetch-content-home", [HomeController::class,"fetchContent"])->name("fetch-content-home");
 Route::get("/fetch-content-about-us", [AboutUsController::class,"fetchContentAboutUs"])->name("fetch-content-about-us");
