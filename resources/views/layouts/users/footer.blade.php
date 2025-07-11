@@ -141,53 +141,91 @@
 <script src="{{ asset('assets/js/vendor/jquery-3.6.0.min.js') }}"></script>
 <script>
     $('#subscription-message').text('')
-    $('#submit_email_subcription').click(function() {
-        let email = $('#email_subcription').val();
-        let messageBox = $('#subscription-message');
+    let debounceTimer = null;
+    let lastRequestTime = 0;
+    const rateLimitDelay = 5000; // 5 detik delay antara request
+
+    $('#submit_email_subcription').click(function () {
+        let email = $('#email_subcription').val().trim();
         let spinner = $('#spinner');
         let icon = $('#icon-for-submit');
 
-        $('#submit_email_subcription').prop('disabled', true);
-        icon.hide();
-        spinner.show();
+        // Regex untuk validasi email sederhana
+        let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            url: "{{ route('store-email-subcription') }}",
-            type: "POST",
-            data: {
-                email: email,
-            },
-            success: function(res) {
-                $('#email_subcription').val('');
-                toastr.info(
-                    '<p style="font-size: 16px !important; color: white !important;">' + res
-                    .meta.message + '</p>',
-                    '<p style="font-size: 16px !important; font-weight: bold !important; color: white !important;">Sukses</p>', {
-                        timeOut: 10000
-                    }
-                )
-            },
-            error: function(xhr) {
-                $('#submit_email_subcription').prop('disabled', false);
-                spinner.hide();
-                icon.show();
-                let response_error = JSON.parse(xhr.responseText)
-                toastr.error(
-                    '<p style="font-size: 16px !important; color: white !important;">' +
-                    response_error.meta.message.errors.email + '</p>',
-                    '<p style="font-size: 16px !important; font-weight: bold !important; color: white !important;">Error</p>', {
-                        timeOut: 5000
-                })
-            },
-            complete: function () {
-                // Reset button & spinner
-                $('#submit_email_subcription').prop('disabled', false);
-                spinner.hide();
-                icon.show();
-            }
-        });
+        // Frontend validation
+        if (email === '') {
+            toastr.error(
+                '<p style="font-size: 16px !important; color: white !important;">Email tidak boleh kosong.</p>',
+                '<p style="font-size: 16px !important; font-weight: bold !important; color: white !important;">Validasi</p>',
+                { timeOut: 5000 }
+            );
+            return;
+        }
+
+        if (!emailRegex.test(email)) {
+            toastr.error(
+                '<p style="font-size: 16px !important; color: white !important;">Format email tidak valid.</p>',
+                '<p style="font-size: 16px !important; font-weight: bold !important; color: white !important;">Validasi</p>',
+                { timeOut: 5000 }
+            );
+            return;
+        }
+
+        // Rate limiting frontend (anti spam request setiap 5 detik)
+        const now = Date.now();
+        if (now - lastRequestTime < rateLimitDelay) {
+            toastr.warning(
+                '<p style="font-size: 16px !important; color: white !important;">Tunggu sebentar sebelum mencoba lagi.</p>',
+                '<p style="font-size: 16px !important; font-weight: bold !important; color: white !important;">Terlalu Cepat</p>',
+                { timeOut: 4000 }
+            );
+            return;
+        }
+        lastRequestTime = now;
+
+        // Debounce (anti multiple klik dalam 300ms)
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(function () {
+            $('#submit_email_subcription').prop('disabled', true);
+            icon.hide();
+            spinner.show();
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: "{{ route('store-email-subcription') }}",
+                type: "POST",
+                data: {
+                    email: email,
+                },
+                success: function (res) {
+                    $('#email_subcription').val('');
+                    toastr.info(
+                        '<p style="font-size: 16px !important; color: white !important;">' + res.meta.message + '</p>',
+                        '<p style="font-size: 16px !important; font-weight: bold !important; color: white !important;">Sukses</p>',
+                        { timeOut: 10000 }
+                    );
+                },
+                error: function (xhr) {
+                    let response_error = JSON.parse(xhr.responseText);
+                    let errorMsg = response_error?.meta?.message?.errors?.email || 'Terjadi kesalahan. Coba lagi.';
+                    toastr.error(
+                        '<p style="font-size: 16px !important; color: white !important;">' + errorMsg + '</p>',
+                        '<p style="font-size: 16px !important; font-weight: bold !important; color: white !important;">Error</p>',
+                        { timeOut: 5000 }
+                    );
+                },
+                complete: function () {
+                    // Reset button & spinner
+                    $('#submit_email_subcription').prop('disabled', false);
+                    spinner.hide();
+                    icon.show();
+                }
+            });
+        }, 300); // debounce delay
     });
+
+
 </script>
