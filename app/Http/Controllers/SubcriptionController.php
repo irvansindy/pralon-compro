@@ -18,66 +18,79 @@ class SubcriptionController extends Controller
     public function subscriptionEmail(Request $request)
     {
         try {
-            $validator = Validator::make($request->all(), [
-                'email' => 'required|email|unique:subcriptions,email',
-            ], [
-                'email.required' => 'Email is required',
-                'email.email' => 'Email is not valid',
-                'email.unique' => 'Email already exists',
-            ]);
-    
-            if ($validator->fails()) {
-                if ($validator->fails()) {
-                    throw new ValidationException($validator);
-                }
-            }
-            DB::transaction(function () use ($request) {
-                $email = $request->input('email');
+            // Sanitize input sebelum validasi
+            $sanitizedEmail = filter_var($request->input('email'), FILTER_SANITIZE_EMAIL);
 
-                // Cek existing dengan pessimistic lock
-                $existing = Subcriptions::where('email', $email)
+            $validator = Validator::make(
+                ['email' => $sanitizedEmail],
+                [
+                    'email' => [
+                        'required',
+                        'email:rfc,dns', // validasi strict
+                        'max:255',
+                        'unique:subcriptions,email',
+                    ],
+                ],
+                [
+                    'email.required' => 'Email is required',
+                    'email.email' => 'Email is not valid',
+                    'email.unique' => 'Email already exists',
+                ]
+            );
+
+            if ($validator->fails()) {
+                throw new ValidationException($validator);
+            }
+
+            DB::transaction(function () use ($sanitizedEmail, $request) {
+                // Pessimistic Lock
+                $existing = Subcriptions::where('email', $sanitizedEmail)
                     ->lockForUpdate()
                     ->first();
 
                 if (!$existing) {
                     $subscription = Subcriptions::create([
-                        'email' => $email,
+                        'email' => $sanitizedEmail,
                         'verification_token' => Str::uuid(),
                         'ip_address' => $request->ip(),
-                        'user_agent' => $request->userAgent(),
-                        'referrer' => $request->headers->get('referer'),
+                        'user_agent' => substr(strip_tags($request->userAgent()), 0, 255), // limit dan strip tag
+                        'referrer' => substr(filter_var($request->headers->get('referer'), FILTER_SANITIZE_URL), 0, 255),
                     ]);
 
                     Notifications::create([
                         'type' => 'subscription',
-                        'message' => $email.' has subscribed',
+                        'message' => e($sanitizedEmail).' has subscribed',
                         'url' => null,
                         'icon' => 'fas fa-bell fa-fw',
                     ]);
 
                     broadcast(new GeneralNotificationEvent([
                         'type' => 'subscription',
-                        'message' => $email.' has subscribed',
+                        'message' => e($sanitizedEmail).' has subscribed',
                         'time' => now()->toDateTimeString(),
                         'url' => null,
                         'icon' => 'fas fa-bell fa-fw',
                     ]));
 
                     if (!$subscription->verified_at) {
-                        $sendVerificationMail = Mail::to($subscription->email)->send(new SubscriptionVerificationMail($subscription));
+                        Mail::to($subscription->email)->send(new SubscriptionVerificationMail($subscription));
                     }
                 }
             });
-            
+
             return FormatResponseJson::success(true, 'Terimakasih sudah menjadi bagian dari kami.');
         } catch (ValidationException $e) {
-            DB::rollback();
+            DB::rollBack();
             return FormatResponseJson::error(null, ['errors' => $e->errors()], 422);
         } catch (\Exception $e) {
-            DB::rollback();
-            return FormatResponseJson::error(null, $e->getMessage(), 500);
+            DB::rollBack();
+            \Log::error('Subscription Error: '.$e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+            ]);
+            return FormatResponseJson::error(null, 'Terjadi kesalahan. Silakan coba lagi.', 500);
         }
     }
+
     public function verify($token)
     {
         $subscription = Subcriptions::where('verification_token', $token)->first();

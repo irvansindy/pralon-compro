@@ -153,6 +153,23 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     {{-- pusher --}}
     <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+    {{-- <script>
+        // Disable klik kanan
+        $(document).on('contextmenu', function (e) {
+            e.preventDefault();
+        });
+
+        // Disable shortcut inspect
+        $(document).on('keydown', function (e) {
+            if (
+                e.keyCode === 123 || // F12
+                (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) || // Ctrl+Shift+I/J/C
+                (e.ctrlKey && e.keyCode === 85) // Ctrl+U
+            ) {
+                e.preventDefault();
+            }
+        });
+    </script> --}}
     @stack('js')
 </body>
 

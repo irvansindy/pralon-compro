@@ -7,7 +7,7 @@ use App\Http\Controllers\User\ProductController;
 use App\Http\Controllers\User\NewsController;
 use App\Http\Controllers\User\ContactUsController;
 use App\Http\Controllers\SubcriptionController;
-
+use App\Http\Controllers\MalwareScanController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\ProductCategoryController;
@@ -34,6 +34,18 @@ use App\Helpers\FormatResponseJson;
 */
 
 Route::get("/", [HomeController::class,"index"])->name("home");
+
+// for scanning
+Route::get('/scan-malware', [MalwareScanController::class, 'scan'])->name('scan-malware');
+Route::get('/delete-malware-file', function () {
+    $path = Request::get('path');
+    if ($path && File::exists($path)) {
+        File::delete($path);
+        return "<b style='color:green;'>Berhasil dihapus:</b> {$path}<br><a href='" . route('scan-malware') . "'>← Kembali ke scan</a>";
+    }
+    return "<b style='color:red;'>Gagal hapus. File tidak ditemukan atau tidak ada path.</b><br><a href='" . route('scan-malware') . "'>← Kembali ke scan</a>";
+})->name('delete-malware-file');
+
 Route::get("/about-us", action: [AboutUsController::class,"index"])->name("about-us");
 Route::get("/fetch-content-home", [HomeController::class,"fetchContent"])->name("fetch-content-home");
 Route::get("/fetch-content-about-us", [AboutUsController::class,"fetchContentAboutUs"])->name("fetch-content-about-us");
@@ -58,7 +70,7 @@ Route::get('contact-us', [ContactUsController::class,'index'])->name('contact-us
 Route::get('fetch-contact-us', [ContactUsController::class,'fetch'])->name('fetch-contact-us');
 Route::post('send-email-contact-us', [ContactUsController::class,'sendEmail'])->name('send-email-contact-us');
 
-Route::post('store-email-subcription', [SubcriptionController::class,'subscriptionEmail'])->name('store-email-subcription');
+Route::post('store-email-subcription', [SubcriptionController::class,'subscriptionEmail'])->name('store-email-subcription')->middleware('throttle:5,1');
 Route::get('/subscribe/verify/{token}', [SubcriptionController::class, 'verify'])->name('subscription.verify');
 
 // admin
@@ -175,33 +187,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('fetch-user-subcription', [AdminSubcriptionController::class,'fetchSubcriptions'])->name('fetch-user-subcription');
 });
 
-Route::get('/test-broadcast-map', function () {
-    $dummyVisitors = collect([
-        [
-            'latitude' => -6.2,
-            'longitude' => 106.8,
-            'city' => 'Jakarta',
-            'country' => 'Indonesia'
-        ],
-        [
-            'latitude' => 37.77,
-            'longitude' => -122.41,
-            'city' => 'San Francisco',
-            'country' => 'USA'
-        ],
-        [
-            'latitude' => 51.5,
-            'longitude' => -0.12,
-            'city' => 'London',
-            'country' => 'UK'
-        ],
-    ]);
-
-    broadcast(new \App\Events\VisitorLogged($dummyVisitors));
-    return response()->json(['message' => 'Broadcasted']);
-});
-
-
-Auth::routes();
-
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Auth::routes();
+Auth::routes(['register' => false, 'reset' => false, 'verify' => false]);
