@@ -80,7 +80,7 @@ Route::post('store-email-subcription', [SubcriptionController::class,'subscripti
 Route::get('/subscribe/verify/{token}', [SubcriptionController::class, 'verify'])->name('subscription.verify');
 
 // admin
-Route::post('/fetch-visitor-dashboard', [DashboardController::class,'broadcastVisitors'])->name('fetch-visitor-dashboard');
+// Route::post('/fetch-visitor-dashboard', [DashboardController::class,'broadcastVisitors'])->name('fetch-visitor-dashboard');
 // analytics
 Route::get('/analytics', [AnalyticsController::class,'index'])->name('analytics');
 Route::middleware(['auth'])->group(function () {
