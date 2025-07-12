@@ -22,6 +22,12 @@ use App\Http\Controllers\Admin\SubcriptionController as AdminSubcriptionControll
 use App\Http\Controllers\Admin\AnalyticsController as AnalyticsController;
 
 use App\Helpers\FormatResponseJson;
+use App\Http\Controllers\Auth\LoginController;
+use Illuminate\Http\File;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -37,14 +43,14 @@ Route::get("/", [HomeController::class,"index"])->name("home");
 
 // for scanning
 Route::get('/scan-malware', [MalwareScanController::class, 'scan'])->name('scan-malware');
-Route::get('/delete-malware-file', function () {
-    $path = Request::get('path');
-    if ($path && File::exists($path)) {
-        File::delete($path);
-        return "<b style='color:green;'>Berhasil dihapus:</b> {$path}<br><a href='" . route('scan-malware') . "'>← Kembali ke scan</a>";
-    }
-    return "<b style='color:red;'>Gagal hapus. File tidak ditemukan atau tidak ada path.</b><br><a href='" . route('scan-malware') . "'>← Kembali ke scan</a>";
-})->name('delete-malware-file');
+// Route::get('/delete-malware-file', function () {
+//     $path = Request::get('path');
+//     if ($path && File::exists($path)) {
+//         File::delete($path);
+//         return "<b style='color:green;'>Berhasil dihapus:</b> {$path}<br><a href='" . route('scan-malware') . "'>← Kembali ke scan</a>";
+//     }
+//     return "<b style='color:red;'>Gagal hapus. File tidak ditemukan atau tidak ada path.</b><br><a href='" . route('scan-malware') . "'>← Kembali ke scan</a>";
+// })->name('delete-malware-file');
 
 Route::get("/about-us", action: [AboutUsController::class,"index"])->name("about-us");
 Route::get("/fetch-content-home", [HomeController::class,"fetchContent"])->name("fetch-content-home");
@@ -189,3 +195,11 @@ Route::middleware(['auth'])->group(function () {
 
 // Auth::routes();
 Auth::routes(['register' => false, 'reset' => false, 'verify' => false]);
+Route::get('secret-admin', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('secret-admin', [LoginController::class, 'login'])->middleware('throttle:5,1');
+Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+
+// Optional: blok akses ke /login biar hacker gak nebak-nebak
+Route::get('/login', function () {
+    abort(404);
+});

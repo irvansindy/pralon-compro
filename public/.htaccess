@@ -3,7 +3,6 @@
         Options -MultiViews -Indexes
     </IfModule>
 
-    # Disable directory listing & symbolic links
     Options -Indexes -FollowSymLinks
 
     RewriteEngine On
@@ -23,14 +22,7 @@
     RewriteRule ^ index.php [L]
 </IfModule>
 
-# Prevent execution of PHP in upload folders (buat file ini di public/uploads/.htaccess juga)
-<Directory "/uploads">
-    <FilesMatch "\.php$">
-        Deny from all
-    </FilesMatch>
-</Directory>
-
-# Extra security headers
+# Security Headers
 <IfModule mod_headers.c>
     Header always set X-Content-Type-Options "nosniff"
     Header always set X-Frame-Options "SAMEORIGIN"
@@ -46,21 +38,20 @@
 <IfModule mod_expires.c>
     ExpiresActive On
 
-    # JavaScript
     ExpiresByType application/javascript "access plus 1 year"
     ExpiresByType text/javascript "access plus 1 year"
 
-    # Images
     ExpiresByType image/png "access plus 1 year"
     ExpiresByType image/jpg "access plus 1 year"
     ExpiresByType image/jpeg "access plus 1 year"
     ExpiresByType image/gif "access plus 1 year"
     ExpiresByType image/webp "access plus 1 year"
 
-    # CSS
     ExpiresByType text/css "access plus 1 year"
-
-    # Fonts
     ExpiresByType font/woff2 "access plus 1 year"
     ExpiresByType font/woff "access plus 1 year"
 </IfModule>
+<FilesMatch "^(\.env|\.git|composer\.(json|lock)|package\.json|webpack\.mix\.js|phpunit\.xml)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>

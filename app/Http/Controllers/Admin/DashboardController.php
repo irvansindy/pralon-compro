@@ -47,49 +47,88 @@ class DashboardController extends Controller
         });
         return FormatResponseJson::success($data, 'Data fetched successfully (last 30 days, cached)');
     }
-    public function broadcastVisitors(Request $request)
-    {
+public function broadcastVisitors(Request $request)
+{
+    try {
         $agent = new Agent();
         $ip = $request->ip();
-        $country = $request->input('country', 'Unknown');
-        $region = $request->input('region', 'Unknown');
-        $city = $request->input('city', 'Unknown');
-        $latitude = $request->input('latitude');
-        $longitude = $request->input('longitude');
-        $browser = $agent->browser();
-        $platform = $agent->platform();
-        $device = $agent->device();
 
+        // ⛔ Optional rate limit per IP (1x per 5 detik)
+        $rateKey = 'visitor-broadcast:' . $ip;
+        if (RateLimiter::tooManyAttempts($rateKey, 12)) {
+            $retryAfter = RateLimiter::availableIn($rateKey);
+            return FormatResponseJson::error(null, "Terlalu sering, coba lagi dalam {$retryAfter} detik.", 429);
+        }
+        RateLimiter::hit($rateKey, 5);
+
+        // 🧼 Sanitasi input
+        $sanitized = [
+            'country'   => strip_tags(trim($request->input('country', 'Unknown'))),
+            'region'    => strip_tags(trim($request->input('region', 'Unknown'))),
+            'city'      => strip_tags(trim($request->input('city', 'Unknown'))),
+            'latitude'  => floatval($request->input('latitude')),
+            'longitude' => floatval($request->input('longitude')),
+        ];
+
+        // ✅ Validasi input
+        $validator = Validator::make($sanitized, [
+            'country'   => 'nullable|string|max:100',
+            'region'    => 'nullable|string|max:100',
+            'city'      => 'nullable|string|max:100',
+            'latitude'  => 'nullable|numeric|between:-90,90',
+            'longitude' => 'nullable|numeric|between:-180,180',
+        ]);
+
+        if ($validator->fails()) {
+            return FormatResponseJson::error(null, ['errors' => $validator->errors()], 422);
+        }
+
+        // 📱 Deteksi browser & platform
+        $browser  = $agent->browser();
+        $platform = $agent->platform();
+        $device   = $agent->device();
+        $userAgent = $request->userAgent();
+
+        // 🔁 Cek duplikat dalam 5 menit terakhir
         $existing = VisitorLogs::where('ip', $ip)
-            ->where('city', $city)
-            ->where('country', $country)
-            ->where('region', $region)
-            ->where('latitude', $latitude)
-            ->where('longitude', $longitude)
+            ->where('city', $sanitized['city'])
+            ->where('country', $sanitized['country'])
+            ->where('region', $sanitized['region'])
+            ->where('latitude', $sanitized['latitude'])
+            ->where('longitude', $sanitized['longitude'])
             ->where('browser', $browser)
             ->where('platform', $platform)
             ->where('device', $device)
             ->where('visited_at', '>=', now()->subMinutes(5))
             ->first();
-            
+
+        // ➕ Simpan jika belum ada
         if (!$existing) {
             $visitor = VisitorLogs::create([
-                'ip' => $ip,
-                'country' => $country,
-                'region' => $region,
-                'city' => $city,
-                'latitude' => $latitude,
-                'longitude' => $longitude,
-                'browser' => $browser,
-                'platform' => $platform,
-                'device' => $device,
-                'user_agent' => $request->userAgent(),
-                'visited_at' => now()
+                'ip'         => $ip,
+                'country'    => $sanitized['country'],
+                'region'     => $sanitized['region'],
+                'city'       => $sanitized['city'],
+                'latitude'   => $sanitized['latitude'],
+                'longitude'  => $sanitized['longitude'],
+                'browser'    => $browser,
+                'platform'   => $platform,
+                'device'     => $device,
+                'user_agent' => $userAgent,
+                'visited_at' => now(),
             ]);
 
+            // 📢 Broadcast ke front-end
             broadcast(new VisitorLogged([$visitor]));
         }
-        return FormatResponseJson::success(true, 'Broadcasted successfully');
-    }
 
+        return FormatResponseJson::success(true, 'Broadcasted successfully');
+    } catch (\Exception $e) {
+        \Log::error('broadcastVisitors error: ' . $e->getMessage(), [
+            'trace' => $e->getTraceAsString(),
+            'ip'    => $request->ip(),
+        ]);
+        return FormatResponseJson::error(null, 'Terjadi kesalahan server', 500);
+    }
+}
 }

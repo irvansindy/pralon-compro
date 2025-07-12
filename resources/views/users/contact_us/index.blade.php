@@ -6,6 +6,7 @@
     <div class="mouseCursor cursor-inner"><span>Drag</span></div> --}}
 
     <main>
+        
         <div class="adjust-header-space bg-common-white"></div>
         <!-- contact area start  -->
         <section class="df-services__area section-spacing p-relative x-clip">
@@ -53,11 +54,9 @@
                                 <div class="col-md-6">
                                     <div class="df-input-field">
                                         <select name="type_service" id="type_service">
-                                            @php
-                                                DB::table('email_templates')->get()->map(function ($type_service) {
-                                                    echo '<option value="' . $type_service->email_type . '">' . $type_service->email_type . '</option>';
-                                                });
-                                            @endphp
+                                           @foreach ($typeServices as $type)
+                                                <option value="{{ $type }}">{{ $type }}</option>
+                                            @endforeach
                                         </select>
                                         <span class="text-sm text-danger mt-2 message_type_service" id="message_type_service" role="alert" style="font-size: 12px !important;"></span>
                                     </div>

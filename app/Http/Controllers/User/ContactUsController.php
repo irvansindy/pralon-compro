@@ -20,7 +20,12 @@ class ContactUsController extends Controller
 {
     public function index()
     {
-        return view('users.contact_us.index');
+        $typeServices = DB::table('email_templates')->pluck('email_type');
+        return view('users.contact_us.index', compact('typeServices'));
+    }
+    function getEmailTemplate() {
+        $data =  DB::table('email_templates')->pluck('email_type');
+        return response()->json($data);
     }
     public function fetch(Request $request)
     {
@@ -34,15 +39,15 @@ class ContactUsController extends Controller
     public function sendEmail(Request $request)
     {
         try {
-            // 💡 Frontend rate-limit: max 5 request per 60 detik per IP
+            // 💡 Rate limit per IP: max 5 request per 60 detik
             $key = 'send-email:' . $request->ip();
             if (RateLimiter::tooManyAttempts($key, 5)) {
                 $seconds = RateLimiter::availableIn($key);
                 return FormatResponseJson::error(null, "Terlalu banyak permintaan. Coba lagi dalam {$seconds} detik.", 429);
             }
-            RateLimiter::hit($key, 60); // count hit, reset setelah 60 detik
+            RateLimiter::hit($key, 60); // Tambah hit rate limit
 
-            // ✅ Sanitize input sebelum validasi
+            // 🧼 Sanitasi input awal
             $sanitizedData = [
                 'name' => strip_tags(trim($request->input('name'))),
                 'email' => filter_var(trim($request->input('email')), FILTER_SANITIZE_EMAIL),
@@ -51,7 +56,7 @@ class ContactUsController extends Controller
                 'message_contact' => strip_tags(trim($request->input('message_contact'))),
             ];
 
-            // ✅ Validasi request (strict rules)
+            // ✅ Validasi data
             $data = Validator::make($sanitizedData, [
                 'name' => 'required|string|max:100',
                 'email' => 'required|email:rfc,dns|max:255',
@@ -67,19 +72,27 @@ class ContactUsController extends Controller
                 'message_contact.required' => 'Pesan harus diisi',
             ]);
 
+            if ($data->fails()) {
+                throw new ValidationException($data);
+            }
+
+            // 🧽 XSS cleaning
             $purified_name = Purifier::clean($sanitizedData['name']);
             $purified_email = Purifier::clean($sanitizedData['email']);
             $purified_phone_number = Purifier::clean($sanitizedData['phone_number']);
             $purified_type_service = Purifier::clean($sanitizedData['type_service']);
             $purified_message_contact = Purifier::clean($sanitizedData['message_contact']);
 
-            if ($data->fails()) {
-                throw new ValidationException($data);
-            }
+            // 🛡️ Opsional: validasi domain email (jika dibutuhkan)
+            // $allowedDomains = ['gmail.com', 'yourdomain.com'];
+            // $emailDomain = substr(strrchr($purified_email, "@"), 1);
+            // if (!in_array($emailDomain, $allowedDomains)) {
+            //     return FormatResponseJson::error(null, 'Domain email tidak diizinkan.', 403);
+            // }
 
             DB::beginTransaction();
 
-            // 📝 Simpan data ke database
+            // 📝 Simpan ke database
             $contact_us = ContactUs::create([
                 'name' => $purified_name,
                 'email' => $purified_email,
@@ -90,52 +103,56 @@ class ContactUsController extends Controller
 
             DB::commit();
 
-            // 🚀 Ambil template email dengan cache
-            $existing_template = \Cache::remember(
-                'email_template_' . $sanitizedData['type_service'],
-                3600, // cache 1 jam
-                function () use ($sanitizedData) {
-                    return EmailTemplate::where('email_type', 'like', '%' . $sanitizedData['type_service'] . '%')->first();
-                }
+            // 📦 Ambil template email dengan cache
+            $template = \Cache::remember(
+                'email_template_' . $purified_type_service,
+                3600,
+                fn () => EmailTemplate::where('email_type', 'like', '%' . $purified_type_service . '%')->first()
             );
 
-            // 📧 Kirim email async jika template ada
-            if ($existing_template) {
+            // 📤 Kirim email jika template ada
+            if ($template) {
                 SendCompanyMailJob::dispatch(
-                    $sanitizedData['email'],
+                    $purified_email,
                     [
-                        'subject' => $existing_template->subject,
-                        'name' => $existing_template->name,
-                        'head' => $existing_template->header,
-                        'body' => $existing_template->body,
+                        'subject' => $template->subject,
+                        'name' => $template->name,
+                        'head' => $template->header,
+                        'body' => $template->body,
                     ]
                 );
 
-                // 🔔 Buat notifikasi
+                // 🔔 Notifikasi internal
                 Notifications::create([
-                    'type' => $sanitizedData['type_service'],
+                    'type' => $purified_type_service,
                     'message' => 'New email message from user',
                 ]);
 
                 broadcast(new GeneralNotificationEvent([
-                    'type' => $sanitizedData['type_service'],
+                    'type' => $purified_type_service,
                     'message' => 'New email message from user',
                     'time' => now()->toDateTimeString()
                 ]))->toOthers();
             }
 
-            return FormatResponseJson::success($contact_us, 'Pesan berhasil dikirim, silahkan cek email untuk respon kami. Terima kasih.');
+            // 🧾 Log aktivitas
+            \Log::info('Contact form submitted', [
+                'ip' => $request->ip(),
+                'email' => $purified_email,
+                'type_service' => $purified_type_service
+            ]);
+
+            return FormatResponseJson::success($contact_us, 'Pesan berhasil dikirim, silakan cek email untuk respon kami. Terima kasih.');
         } catch (ValidationException $e) {
-            RateLimiter::clear($key); // hapus hit kalau gagal validasi
+            RateLimiter::clear($key); // clear hit kalau gagal validasi
             return FormatResponseJson::error(null, ['errors' => $e->errors()], 422);
         } catch (\Exception $e) {
             DB::rollBack();
-            RateLimiter::clear($key); // hapus hit kalau gagal proses
+            RateLimiter::clear($key); // clear hit kalau error
             \Log::error('SendEmail Error: ' . $e->getMessage(), [
                 'trace' => $e->getTraceAsString()
             ]);
             return FormatResponseJson::error(null, 'Terjadi kesalahan. Silakan coba lagi.', 500);
         }
     }
-
 }
