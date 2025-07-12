@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use App\Models\News;
 use App\Models\NewsImageDetail;
 use App\Models\NewsCategory;
+use Mews\Purifier\Facades\Purifier;
 class NewAndBlogController extends Controller
 {
     public function index()
@@ -39,108 +40,87 @@ class NewAndBlogController extends Controller
     }
     public function storeNewsBlog(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'news_blog_title' => 'required|string',
+            'news_blog_category' => 'required|string',
+            'news_blog_main_image' => 'required|image|max:10240|mimes:jpg,jpeg,png',
+            'news_blog_short_desc' => 'required|string',
+            'news_blog_detail_image_1' => 'required|image|max:10240|mimes:jpg,jpeg,png',
+            'news_blog_detail_image_2' => 'required|image|max:10240|mimes:jpg,jpeg,png',
+            'news_blog_header_content' => 'required|string',
+            'news_blog_content' => 'required|string',
+        ], [
+            'news_blog_title.required'=> 'Title tidak boleh kosong',
+            'news_blog_category.required'=> 'Kategori tidak boleh kosong',
+            'news_blog_main_image.required'=> 'Gambar utama tidak boleh kosong',
+            'news_blog_main_image.image'=> 'File harus berbentuk gambar',
+            'news_blog_main_image.mimes'=> 'Format gambar harus jpg, jpeg, png',
+            'news_blog_main_image.max'=> 'Gambar maksimal 10MB',
+            'news_blog_short_desc.required'=> 'Deskripsi singkat tidak boleh kosong',
+            'news_blog_detail_image_1.required'=> 'Gambar detail 1 tidak boleh kosong',
+            'news_blog_detail_image_2.required'=> 'Gambar detail 2 tidak boleh kosong',
+            'news_blog_header_content.required'=> 'Konten paragraf awal tidak boleh kosong',
+            'news_blog_content.required'=> 'Konten paragraf akhir tidak boleh kosong',
+        ]);
+
+        if ($validator->fails()) {
+            return FormatResponseJson::error(null, ['errors' => $validator->errors()], 422);
+        }
+
         try {
-            DB::beginTransaction();
-            // dd($request->all());
-            $validator = Validator::make($request->all(), [
-                'news_blog_title' => 'required|string',
-                'news_blog_category' => 'required|string',
-                'news_blog_main_image' => 'required|image|max:10000|mimes:jpg,jpeg,png',
-                'news_blog_short_desc' => 'required|string',
-                'news_blog_detail_image_1' => 'required|image|max:10000|mimes:jpg,jpeg,png',
-                'news_blog_detail_image_2' => 'required|image|max:10000|mimes:jpg,jpeg,png',
-                'news_blog_header_content' => 'required|string',
-                'news_blog_content' => 'required|string',
-            ], [
-                'news_blog_title.required'=> 'Title tidak boleh kosong',
-                'news_blog_category.required'=> 'Kategori tidak boleh kosong',
-                
-                'news_blog_main_image.required'=> 'Gambar utama tidak boleh kosong',
-                'news_blog_main_image.image'=> 'File harus berbentuk gambar',
-                'news_blog_main_image.mimes'=> 'Format gambar harus jpg, jpeg, png',
-                'news_blog_main_image.max'=> 'Gambar maksimal 10MB',
+            DB::transaction(function () use ($request) {
+                // XSS cleaning untuk input text
+                $title = Purifier::clean($request->input('news_blog_title'));
+                $category = Purifier::clean($request->input('news_blog_category'));
+                $shortDesc = Purifier::clean($request->input('news_blog_short_desc'));
+                $headerContent = Purifier::clean($request->input('news_blog_header_content'));
+                $content = Purifier::clean($request->input('news_blog_content'));
 
-                'news_blog_short_desc.required'=> 'Deskripsi singkat tidak boleh kosong',
+                // Simpan file ke storage
+                $mainImage = $request->file('news_blog_main_image');
+                $detailImage1 = $request->file('news_blog_detail_image_1');
+                $detailImage2 = $request->file('news_blog_detail_image_2');
 
-                'news_blog_detail_image_1.required'=> 'Gambar detail 1 tidak boleh kosong',
-                'news_blog_detail_image_1.image'=> 'File harus berbentuk gambar',
-                'news_blog_detail_image_1.mimes'=> 'Format gambar harus jpg, jpeg, png',
-                'news_blog_detail_image_1.max'=> 'Gambar maksimal 10MB',
-                
-                'news_blog_detail_image_2.required'=> 'Gambar detail 2 tidak boleh kosong',
-                'news_blog_detail_image_2.image'=> 'File harus berbentuk gambar',
-                'news_blog_detail_image_2.mimes'=> 'Format gambar harus jpg, jpeg, png',
-                'news_blog_detail_image_2.max'=> 'Gambar maksimal 10MB',
-                
-                'news_blog_header_content.required'=> 'Konten paragraf awal tidak boleh kosong',
-                'news_blog_content.required'=> 'Konten paragraf akhir tidak boleh kosong',
-            ]);
-            if ($validator->fails()) {
-                throw new ValidationException($validator);
-            }
+                $mainImageName = Str::slug(pathinfo($mainImage->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $mainImage->getClientOriginalExtension();
+                $detailImage1Name = Str::slug(pathinfo($detailImage1->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $detailImage1->getClientOriginalExtension();
+                $detailImage2Name = Str::slug(pathinfo($detailImage2->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $detailImage2->getClientOriginalExtension();
 
-            // master file news_blog_main_image
-            $file_news_blog_main_image_file = $request->file('news_blog_main_image');
-            $slug_name_news_blog_main_image_file = Str::slug(pathinfo($file_news_blog_main_image_file->getClientOriginalName(),PATHINFO_FILENAME), '-');
-            $file_news_blog_main_image_file_name = $slug_name_news_blog_main_image_file.'.'.$file_news_blog_main_image_file->getClientOriginalExtension();
-            
-            // master file news_blog_detail_image_1
-            $file_news_blog_detail_image_1_file = $request->file('news_blog_detail_image_1');
-            $slug_name_news_blog_detail_image_1_file = Str::slug(pathinfo($file_news_blog_detail_image_1_file->getClientOriginalName(),PATHINFO_FILENAME), '-');
-            $file_news_blog_detail_image_1_file_name = $slug_name_news_blog_detail_image_1_file.'.'.$file_news_blog_detail_image_1_file->getClientOriginalExtension();
-            
-            // master file news_blog_detail_image_2
-            $file_news_blog_detail_image_2_file = $request->file('news_blog_detail_image_2');
-            $slug_name_news_blog_detail_image_2_file = Str::slug(pathinfo($file_news_blog_detail_image_2_file->getClientOriginalName(),PATHINFO_FILENAME), '-');
-            $file_news_blog_detail_image_2_file_name = $slug_name_news_blog_detail_image_2_file.'.'.$file_news_blog_detail_image_2_file->getClientOriginalExtension();
+                $mainImagePath = $mainImage->storeAs('uploads/news_blog', $mainImageName, 'public');
+                $detailImage1Path = $detailImage1->storeAs('uploads/news_blog/detail', $detailImage1Name, 'public');
+                $detailImage2Path = $detailImage2->storeAs('uploads/news_blog/detail', $detailImage2Name, 'public');
 
-            $data_news_blog = [
-                'news_category_id'=> $request->news_blog_category,
-                'title'=> $request->news_blog_title,
-                'image'=> 'storage/uploads/news_blog/'.$file_news_blog_main_image_file_name,
-                'short_desc'=> $request->news_blog_short_desc,
-                'header_content'=> $request->news_blog_header_content,
-                'content'=> $request->news_blog_content,
-                'date'=> date('Y-m-d H:i:s'),
-                'created_at'=> date('Y-m-d H:i:s'),
-                'updated_at'=> null
-            ];
+                // Insert News
+                $news = News::create([
+                    'news_category_id' => $category,
+                    'title' => $title,
+                    'image' => 'storage/' . $mainImagePath,
+                    'short_desc' => $shortDesc,
+                    'header_content' => $headerContent,
+                    'content' => $content,
+                    'date' => now(),
+                    'created_at' => now(),
+                    'updated_at' => null
+                ]);
 
-            $create_news_blog = News::create($data_news_blog);
+                // Insert Detail Images
+                NewsImageDetail::create([
+                    'news_id' => $news->id,
+                    'file_name' => 'storage/' . $detailImage1Path,
+                    'ordering' => 1,
+                ]);
+                NewsImageDetail::create([
+                    'news_id' => $news->id,
+                    'file_name' => 'storage/' . $detailImage2Path,
+                    'ordering' => 2,
+                ]);
+            });
 
-            $data_detail_image_1 = [
-                'news_id'=> $create_news_blog->id,
-                'file_name'=> 'storage/uploads/news_blog/detail/'.$file_news_blog_detail_image_1_file_name,
-                'ordering' => 1,
-            ];
-            $data_detail_image_2 = [
-                'news_id'=> $create_news_blog->id,
-                'file_name'=> 'storage/uploads/news_blog/detail/'.$file_news_blog_detail_image_2_file_name,
-                'ordering' => 2
-            ];
-
-            $create_detail_image_1 = NewsImageDetail::create($data_detail_image_1);
-            $create_detail_image_2 = NewsImageDetail::create($data_detail_image_2);
-
-            if ($create_news_blog) {
-                $file_news_blog_main_image_file->move(public_path('storage/uploads/news_blog/'), $file_news_blog_main_image_file_name);
-            }
-
-            if ($create_detail_image_1 && $create_detail_image_2) {
-                $file_news_blog_detail_image_1_file->move(public_path('storage/uploads/news_blog/detail/'), $file_news_blog_detail_image_1_file_name);
-                $file_news_blog_detail_image_2_file->move(public_path('storage/uploads/news_blog/detail/'), $file_news_blog_detail_image_2_file_name);
-            }
-
-            DB::commit();
-            return FormatResponseJson::success($create_news_blog, 'News and blog created successfully');
-        } catch (ValidationException $e) {
-            DB::rollback();
-            return FormatResponseJson::error(null, ['errors' => $e->errors()], 422);
+            return FormatResponseJson::success(null, 'News and blog created successfully');
         } catch (\Exception $e) {
-            DB::rollback();
             return FormatResponseJson::error(null, $e->getMessage(), 500);
         }
     }
+
     public function fetchNewsBlogById(Request $request)
     {
         try {
@@ -155,110 +135,100 @@ class NewAndBlogController extends Controller
     }
     public function updateNewsBlog(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'news_blog_title' => 'required|string',
+            'news_blog_category' => 'required|string',
+            'news_blog_short_desc' => 'required|string',
+            'news_blog_header_content' => 'required|string',
+            'news_blog_content' => 'required|string',
+            'news_blog_main_image' => 'nullable|image|max:10240|mimes:jpg,jpeg,png',
+            'news_blog_detail_image_1' => 'nullable|image|max:10240|mimes:jpg,jpeg,png',
+            'news_blog_detail_image_2' => 'nullable|image|max:10240|mimes:jpg,jpeg,png',
+        ], [
+            'news_blog_title.required'=> 'Title tidak boleh kosong',
+            'news_blog_category.required'=> 'Kategori tidak boleh kosong',
+            'news_blog_short_desc.required'=> 'Deskripsi singkat tidak boleh kosong',
+            'news_blog_header_content.required'=> 'Konten paragraf awal tidak boleh kosong',
+            'news_blog_content.required'=> 'Konten paragraf akhir tidak boleh kosong',
+        ]);
+
+        if ($validator->fails()) {
+            return FormatResponseJson::error(null, ['errors' => $validator->errors()], 422);
+        }
+
         try {
-            DB::beginTransaction();
-            // dd($request->file('news_blog_main_image'));
-            $validator = Validator::make($request->all(), [
-                'news_blog_title' => 'required|string',
-                'news_blog_category' => 'required|string',
-                'news_blog_short_desc' => 'required|string',
-                'news_blog_header_content' => 'required|string',
-                'news_blog_content' => 'required|string',
-            ], [
-                'news_blog_title.required'=> 'Title tidak boleh kosong',
-                'news_blog_category.required'=> 'Kategori tidak boleh kosong',
+            DB::transaction(function () use ($request) {
+                $news = News::findOrFail($request->get('news_blog_id'));
 
-                'news_blog_short_desc.required'=> 'Deskripsi singkat tidak boleh kosong',
-                
-                'news_blog_header_content.required'=> 'Konten paragraf awal tidak boleh kosong',
-                'news_blog_content.required'=> 'Konten paragraf akhir tidak boleh kosong',
-            ]);
-            if ($validator->fails()) {
-                throw new ValidationException($validator);
-            }
-
-            $existing_news_blog = News::find($request->get('news_blog_id'));
-            // dd($existing_news_blog);
-
-            $ordering_1 = $request->news_blog_detail_image_1 != null ? 1 : null;
-            $ordering_2 = $request->news_blog_detail_image_2 != null ? 2 : null;
-            // dd($ordering_2);
-            $data_news_blog = [
-                'news_category_id'=> $request->news_blog_category,
-                'title'=> $request->news_blog_title,
-                'short_desc'=> $request->news_blog_short_desc,
-                'header_content'=> $request->news_blog_header_content,
-                'content'=> $request->news_blog_content,
-            ];
-
-            $existing_news_blog->update($data_news_blog);
-            
-            if ($request->file('news_blog_main_image') != null) {
-                // master file news_blog_main_image
-                $file_news_blog_main_image_file = $request->file('news_blog_main_image');
-                $slug_name_news_blog_main_image_file = Str::slug(pathinfo($file_news_blog_main_image_file->getClientOriginalName(),PATHINFO_FILENAME), '-');
-                $file_news_blog_main_image_file_name = $slug_name_news_blog_main_image_file.'.'.$file_news_blog_main_image_file->getClientOriginalExtension();
-                
-                $old_master_image_path = public_path($existing_news_blog->image);
-                if (file_exists($old_master_image_path)) {
-                    unlink($old_master_image_path);
-                }
-
-                $existing_news_blog->update([
-                    'image'=> 'storage/uploads/news_blog/'.$file_news_blog_main_image_file_name,
+                // Update text fields
+                $news->update([
+                    'news_category_id' => $request->news_blog_category,
+                    'title' => Purifier::clean($request->news_blog_title),
+                    'short_desc' => Purifier::clean($request->news_blog_short_desc),
+                    'header_content' => Purifier::clean($request->news_blog_header_content),
+                    'content' => Purifier::clean($request->news_blog_content),
                 ]);
 
-                $file_news_blog_main_image_file->move(public_path('storage/uploads/news_blog/'), $file_news_blog_main_image_file_name);
-            }
-
-            if ($ordering_1 != null) {
-                # code...
-                $existing_news_blog_image_detail_1 = NewsImageDetail::where('news_id', $existing_news_blog->id)
-                ->where('ordering', $ordering_1)
-                ->first();
-
-                $file_news_blog_detail_image_1_file = $request->file('news_blog_detail_image_1');
-                $slug_name_news_blog_detail_image_1_file = Str::slug(pathinfo($file_news_blog_detail_image_1_file->getClientOriginalName(),PATHINFO_FILENAME), '-');
-                $file_news_blog_detail_image_1_file_name = $slug_name_news_blog_detail_image_1_file.'_1.'.$file_news_blog_detail_image_1_file->getClientOriginalExtension();
-                $old_detail_image_1_path = public_path($existing_news_blog_image_detail_1->file_name);
-                if (file_exists($old_detail_image_1_path)) {
-                    unlink($old_detail_image_1_path);
+                // Update main image if uploaded
+                if ($request->hasFile('news_blog_main_image')) {
+                    $this->replaceImage(
+                        $news->image,
+                        $request->file('news_blog_main_image'),
+                        "uploads/news_blog",
+                        function ($path) use ($news) {
+                            $news->update(['image' => 'storage/' . $path]);
+                        }
+                    );
                 }
-                $existing_news_blog_image_detail_1->update([
-                    'file_name' => 'storage/uploads/news_blog/detail/'.$file_news_blog_detail_image_1_file_name
-                ]);
-                $file_news_blog_detail_image_1_file->move(public_path('storage/uploads/news_blog/detail/'), $file_news_blog_detail_image_1_file_name);
-            }
 
-            if ($ordering_2 != null) {
-                # code...
-                $existing_news_blog_image_detail_2 = NewsImageDetail::where('news_id', $existing_news_blog->id)
-                ->where('ordering', $ordering_2)
-                ->first();
+                // Update detail images if uploaded
+                foreach ([1, 2] as $order) {
+                    $detailImageField = "news_blog_detail_image_{$order}";
+                    if ($request->hasFile($detailImageField)) {
+                        $detailImage = NewsImageDetail::where('news_id', $news->id)
+                            ->where('ordering', $order)
+                            ->firstOrFail();
 
-                $file_news_blog_detail_image_2_file = $request->file('news_blog_detail_image_2');
-                $slug_name_news_blog_detail_image_1_file = Str::slug(pathinfo($file_news_blog_detail_image_2_file->getClientOriginalName(),PATHINFO_FILENAME), '-');
-                $file_news_blog_detail_image_2_file_name = $slug_name_news_blog_detail_image_1_file.'_2.'.$file_news_blog_detail_image_2_file->getClientOriginalExtension();
-
-                $old_detail_image_2_path = public_path('storage/uploads/news_blog/detail/'.$existing_news_blog_image_detail_2->file_name);
-                if (file_exists($old_detail_image_2_path)) {
-                    unlink($old_detail_image_2_path);
+                        $this->replaceImage(
+                            $detailImage->file_name,
+                            $request->file($detailImageField),
+                            "uploads/news_blog/detail",
+                            function ($path) use ($detailImage) {
+                                $detailImage->update(['file_name' => 'storage/' . $path]);
+                            },
+                            "_$order"
+                        );
+                    }
                 }
-                $existing_news_blog_image_detail_2->update([
-                    'file_name'=> 'storage/uploads/news_blog/detail/'.$file_news_blog_detail_image_2_file_name
-                ]);
-                $file_news_blog_detail_image_2_file->move(public_path('storage/uploads/news_blog/detail/'), $file_news_blog_detail_image_2_file_name);
-            }
+            });
 
-            DB::commit();
-
-            return formatResponseJson::success($existing_news_blog, 'News and blog updated successfully');
+            return FormatResponseJson::success(null, 'News and blog updated successfully');
         } catch (ValidationException $e) {
-            DB::rollback();
             return FormatResponseJson::error(null, ['errors' => $e->errors()], 422);
         } catch (\Exception $e) {
-            DB::rollback();
             return FormatResponseJson::error(null, $e->getMessage(), 500);
         }
     }
+
+    /**
+     * Helper untuk hapus file lama & upload file baru.
+     */
+    private function replaceImage($oldPath, $newFile, $folder, $callback, $suffix = '')
+    {
+        // Hapus file lama
+        if ($oldPath && \Storage::disk('public')->exists(str_replace('storage/', '', $oldPath))) {
+            \Storage::disk('public')->delete(str_replace('storage/', '', $oldPath));
+        }
+
+        // Generate slug nama file baru
+        $slugName = Str::slug(pathinfo($newFile->getClientOriginalName(), PATHINFO_FILENAME));
+        $newFileName = "{$slugName}{$suffix}." . $newFile->getClientOriginalExtension();
+
+        // Simpan file baru
+        $path = $newFile->storeAs($folder, $newFileName, 'public');
+
+        // Jalankan callback update
+        $callback($path);
+    }
+
 }
