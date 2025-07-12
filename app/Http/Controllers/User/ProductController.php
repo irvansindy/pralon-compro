@@ -13,6 +13,7 @@ use App\Models\productPriceList;
 use App\Models\LogUserDownload;
 use App\Models\Notifications;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Mail;
 use App\Mail\CompanyMail;
@@ -108,7 +109,22 @@ class ProductController extends Controller
     public function storeLogUserDownload(Request $request)
     {
         try {
-            // dd($request->all());
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|string|max:255',
+                'phone_number' => 'required|string|max:20',
+                'email' => 'required|email|max:255',
+                'id' => 'required|integer|exists:products,id',
+                'type' => 'required|string|in:brocure,pricelist',
+            ] ,[
+                'name.required' => 'Name is required',
+                'phone_number.required' => 'Phone number is required',
+                'email.required' => 'Email is required',
+                'id.required' => 'Product ID is required',
+                'type.required' => 'Download type is required',
+            ]);
+            if ($validator->fails()) {
+                throw new ValidationException($validator);
+            }
             $log = LogUserDownload::create([
                 'name' => $request->name,
                 'phone_number' => $request->phone_number,
@@ -129,6 +145,11 @@ class ProductController extends Controller
             ]));
 
             return FormatResponseJson::success($log,'success');
+        } 
+        catch (ValidationException $e) {
+            // Return validation errors as JSON response
+            DB::rollback();
+            return FormatResponseJson::error(null, ['errors' => $e->errors()], 422);
         } catch (\Throwable $th) {
             return FormatResponseJson::error(null,'Field tidak boleh kosong', 500);
         }
@@ -136,14 +157,12 @@ class ProductController extends Controller
     public function sendEmailDownloaded(Request $request)
     {
         try {
-            // dd($request->all());
             $name = $request->name;
             $email = $request->email;
             $phone_number = $request->phone_number;
             $type_service = $request->type_service;
             $message_contact = $request->message_contact;
 
-            // $existing_template = EmailTemplate::where('email_type', 'lke', '%'.'penjualan'.'%')->first();
             $existing_template = EmailTemplate::where('email_type', 'lke', '%penjualan%')->first();
             dd($existing_template);
             Mail::to($email)->send(new CompanyMail([
