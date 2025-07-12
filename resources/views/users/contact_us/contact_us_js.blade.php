@@ -36,7 +36,7 @@ $(document).ready(function() {
         let hasError = false;
 
         if (honeypot !== '') {
-            toastr.error('Spam terdeteksi.');
+            toastr.error('Spam alert.');
             return;
         }
 
