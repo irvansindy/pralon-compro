@@ -44,9 +44,6 @@ use App\Http\Controllers\Admin\SecurityLogController;
 
 Route::get("/", [HomeController::class,"index"])->name("home");
 
-Route::get('/test-endpoint', [TestController::class, 'index']);
-Route::post('/test-endpoint', [TestController::class, 'post']);
-
 // for scanning
 Route::get('/scan-malware', [MalwareScanController::class, 'scan'])->name('scan-malware');
 // Route::get('/delete-malware-file', function () {
