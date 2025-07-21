@@ -208,6 +208,10 @@
     <!-- summernote -->
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-bs4.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+    <!-- Pusher JS -->
+    <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+    <!-- Laravel Echo -->
+    <script src="https://cdn.jsdelivr.net/npm/laravel-echo@1.15.0/dist/echo.iife.js"></script>
     <script>
         const date = new Date();
         let year = date.getFullYear();
@@ -218,23 +222,21 @@
                 return false;
             }
         });
-    </script>
-    <script>
         // Disable klik kanan
-        $(document).on('contextmenu', function (e) {
-            e.preventDefault();
-        });
+        // $(document).on('contextmenu', function (e) {
+        //     e.preventDefault();
+        // });
 
         // Disable shortcut inspect
-        $(document).on('keydown', function (e) {
-            if (
-                e.keyCode === 123 || // F12
-                (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) || // Ctrl+Shift+I/J/C
-                (e.ctrlKey && e.keyCode === 85) // Ctrl+U
-            ) {
-                e.preventDefault();
-            }
-        });
+        // $(document).on('keydown', function (e) {
+        //     if (
+        //         e.keyCode === 123 || // F12
+        //         (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) || // Ctrl+Shift+I/J/C
+        //         (e.ctrlKey && e.keyCode === 85) // Ctrl+U
+        //     ) {
+        //         e.preventDefault();
+        //     }
+        // });
     </script>
     @stack('js')
     @include('layouts.admin.notify_js')

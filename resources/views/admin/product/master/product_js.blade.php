@@ -1,8 +1,43 @@
 <script>
+    // 🚨 Sanitize input & detect XSS/SQLi
+    function sanitizeInput(value) {
+        return $('<div>').text(value).html().trim();
+    }
+    function hasXSS(value) {
+        const xssPattern = /<script.*?>.*?<\/script>|javascript:|on\w+=|<iframe.*?>|<img.*?src=.*?>|<svg.*?>|<object.*?>|<embed.*?>/gi;
+        return xssPattern.test(value);
+    }
+    function hasSQLi(value) {
+        const sqliPattern = /(union\s+select|select\s.*from|insert\s+into|drop\s+table|update\s+\w+\s+set|delete\s+from|--|#|;)/gi;
+        return sqliPattern.test(value);
+    }
+    function showError(field, message) {
+        $('#message_' + field).text(message);
+    }
+    function resetErrors() {
+        $('.error-message').text('');
+    }
+
+    function handleAjaxError(xhr) {
+        let response_error = JSON.parse(xhr.responseText);
+        let code = response_error.meta.code;
+        if (code === 422) {
+            $.each(response_error.meta.message.errors, function (field, message) {
+                $('#message_' + field.replace('.', '_')).text(message);
+            });
+        } else {
+            Swal.fire({
+                icon: "error",
+                title: 'Error!',
+                text: 'Silahkan hubungi tim ICT.',
+            });
+        }
+    }
+
+
     $(document).ready(() => {
         $('#table_products').DataTable({
             processing: true,
-            // serverside: true,
             ajax: {
                 url: '{{ route('fetch-master-product') }}',
                 type: 'GET',
@@ -340,91 +375,165 @@
             `)
         })
         // create new product
-        $(document).on('click', '#create_product_detail', (e) => {
-            e.preventDefault()
-            let form_data = new FormData($('#form_master_product')[0])
+        $(document).on('click', '#create_product_detail', function (e) {
+            e.preventDefault();
+
+            let form = $('#form_master_product')[0];
+            let formData = new FormData(form);
+
+            resetErrors();
+            let isValid = true;
+
+            // 🧹 Validate & sanitize text inputs
+            const textFields = [
+                'master_product_name',
+                'master_product_full_name',
+                'master_product_category',
+                'master_product_short_desc',
+                'master_product_main_desc',
+                'master_product_detail_title',
+                'master_product_detail_subtitle',
+                'master_product_detail_desc'
+            ];
+            textFields.forEach(field => {
+                let input = $('#' + field);
+                let val = sanitizeInput(input.val());
+                input.val(val); // overwrite with clean value
+                formData.set(input.attr('name'), val);
+
+                if (val === '') {
+                    showError(field, 'Field ini tidak boleh kosong');
+                    isValid = false;
+                } else if (hasXSS(val)) {
+                    showError(field, 'Input tidak boleh mengandung script atau tag HTML');
+                    isValid = false;
+                } else if (hasSQLi(val)) {
+                    showError(field, 'Input tidak valid');
+                    isValid = false;
+                }
+            });
+
+            // 🖼 Validate main image
+            let mainImage = $('#master_product_image')[0].files[0];
+            if (!mainImage) {
+                showError('master_product_image', 'Gambar utama wajib diunggah');
+                isValid = false;
+            } else {
+                if (!['image/jpeg', 'image/png', 'image/jpg'].includes(mainImage.type)) {
+                    showError('master_product_image', 'Format gambar harus jpg/jpeg/png');
+                    isValid = false;
+                }
+                if (mainImage.size > 10 * 1024 * 1024) {
+                    showError('master_product_image', 'Ukuran gambar maksimal 10MB');
+                    isValid = false;
+                }
+            }
+
+            // 🖼 Validate detail images
+            let detailImages = $('#master_product_image_detail')[0].files;
+            if (detailImages.length < 1) {
+                showError('master_product_image_detail', 'Minimal 1 detail image wajib diunggah');
+                isValid = false;
+            } else {
+                Array.from(detailImages).forEach((file, index) => {
+                    if (!['image/jpeg', 'image/png', 'image/jpg'].includes(file.type)) {
+                        showError('master_product_image_detail', `Detail image ${index + 1} format harus jpg/jpeg/png`);
+                        isValid = false;
+                    }
+                    if (file.size > 10 * 1024 * 1024) {
+                        showError('master_product_image_detail', `Detail image ${index + 1} maksimal 10MB`);
+                        isValid = false;
+                    }
+                });
+            }
+
+            if (!isValid) return;
+
+            // 🚀 Submit via AJAX
             $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                 url: '{{ route('store-master-product') }}',
                 method: 'POST',
+                data: formData,
                 processData: false,
                 contentType: false,
-                cache: false,
-                data: form_data,
-                enctype: 'multipart/form-data',
-                success: function(res) {
+                success: function (res) {
                     $('#table_products').DataTable().ajax.reload();
-                    $('#ModalMasterProduct').modal('hide')
-                    Swal.fire({
-                        icon: "success",
-                        title: 'Success!',
-                        text: res.meta.message,
-                    })
+                    $('#ModalMasterProduct').modal('hide');
+                    Swal.fire({ icon: "success", title: 'Success!', text: res.meta.message });
                 },
-                error: function(xhr) {
-                    let response_error = JSON.parse(xhr.responseText)
-                    let code = response_error.meta.code
-                    if (code == 500 || code == 400) {
-                        Swal.fire({
-                            icon: "error",
-                            title: 'Error!',
-                            // text: response_error.meta.message,
-                            text: 'Silahkan hubungi team ICT!.',
-                        })
-                    }
-                    Swal.fire({
-                        icon: "error",
-                        title: 'Error!',
-                        text: response_error.meta.message.errors,
-                    })
+                error: function (xhr) {
+                    handleAjaxError(xhr);
                 }
-            })
-        })
+            });
+        });
+        
         // update master product
-        $(document).on('click', '#update_product_detail', (e) => {
-            e.preventDefault()
-            let form_data = new FormData($('#form_master_product')[0])
+        $(document).on('click', '#update_product_detail', function (e) {
+            e.preventDefault();
+
+            let form = $('#form_master_product')[0];
+            let formData = new FormData(form);
+
+            resetErrors();
+            let isValid = true;
+
+            // 🧹 Validate & sanitize text inputs
+            $('#form_master_product input[type="text"], #form_master_product textarea, #form_master_product select').each(function () {
+                let input = $(this);
+                let val = sanitizeInput(input.val());
+                input.val(val);
+                formData.set(input.attr('name'), val);
+
+                if (val === '') {
+                    showError(input.attr('id'), 'Field ini tidak boleh kosong');
+                    isValid = false;
+                } else if (hasXSS(val)) {
+                    showError(input.attr('id'), 'Input tidak boleh mengandung script atau tag HTML');
+                    isValid = false;
+                } else if (hasSQLi(val)) {
+                    showError(input.attr('id'), 'Input tidak valid');
+                    isValid = false;
+                }
+            });
+
+            // 🖼 Optional: Validate uploaded images (if any)
+            ['master_product_image', 'master_product_image_detail_1', 'master_product_image_detail_2'].forEach(field => {
+                let file = $('#' + field)[0].files[0];
+                if (file) {
+                    if (!['image/jpeg', 'image/png', 'image/jpg'].includes(file.type)) {
+                        showError(field, 'Format gambar harus jpg/jpeg/png');
+                        isValid = false;
+                    }
+                    if (file.size > 10 * 1024 * 1024) {
+                        showError(field, 'Ukuran gambar maksimal 10MB');
+                        isValid = false;
+                    }
+                }
+            });
+
+            if (!isValid) return;
+
+            // 🚀 Submit via AJAX
             $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                 url: '{{ route('update-master-product') }}',
                 method: 'POST',
+                data: formData,
                 processData: false,
                 contentType: false,
-                cache: false,
-                data: form_data,
-                enctype: 'multipart/form-data',
-                success: function(res) {
+                success: function (res) {
                     $('#table_products').DataTable().ajax.reload();
-                    $('#ModalMasterProduct').modal('hide')
-                    Swal.fire({
-                        icon: "success",
-                        title: 'Success!',
-                        text: res.meta.message,
-                    })
+                    $('#ModalMasterProduct').modal('hide');
+                    Swal.fire({ icon: "success", title: 'Success!', text: res.meta.message });
                 },
-                error: function(xhr) {
-                    let response_error = JSON.parse(xhr.responseText)
-                    let code = response_error.meta.code
-                    if (code == 500 || code == 400) {
-                        Swal.fire({
-                            icon: "error",
-                            title: 'Error!',
-                            // text: response_error.meta.message,
-                            text: 'Silahkan hubungi team ICT!.',
-                        })
-                    }
-                    Swal.fire({
-                        icon: "error",
-                        title: 'Error!',
-                        text: response_error.meta.message.errors,
-                    })
+                error: function (xhr) {
+                    handleAjaxError(xhr);
                 }
-            })
-        })
+            });
+        });
+
+        
         // add or update brocure 
         $(document).on('click', '.brocure_product', function() {
             let product_id = $(this).data('product_id')
@@ -829,5 +938,11 @@
             dropdownParent: $('#ModalMasterProduct')
         })
 
+        // Function untuk bersihkan input dari tag HTML & karakter berbahaya
+        function sanitizeInput(input) {
+            return $('<div>').text(input).html() // Escape HTML entities
+                .replace(/<script.*?>.*?<\/script>/gi, '') // Hapus script
+                .replace(/[<>"'`;]/g, ''); // Hapus karakter rawan
+        }
     })
 </script>

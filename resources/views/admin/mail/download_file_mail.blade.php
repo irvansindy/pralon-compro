@@ -8,6 +8,6 @@
 </head>
 <body>
     <h1>{{ $data['head'] }}</h1>
-    <p class="MsoNormal">{!! $data['body'] !!}</p>
+    <p class="MsoNormal">{{ $data['body'] }}</p>
 </body>
 </html>

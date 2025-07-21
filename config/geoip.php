@@ -36,7 +36,10 @@ return [
     |
     */
 
-    'service' => null,
+    // 'service' => null,
+    // 'service' => 'maxmind_api',
+    'service' => 'maxmind_database',
+
 
     /*
     |--------------------------------------------------------------------------

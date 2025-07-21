@@ -9,20 +9,40 @@
         });
 
         const channel = pusher.subscribe('admin-notification');
+        const securityChannel = pusher.subscribe('private-super-admin.alerts');
 
-        channel.bind('new-notification', function(data) {
-            console.log('📩 Received new-notification', data);
+        /**
+         * 📩 Handler untuk general notification (download, contact, dll)
+         */
+        channel.bind('new-notification', function (data) {
+            console.log('📩 Received general notification:', data);
+            handleIncomingNotification(data.notification ?? data, 'primary');
+        });
 
-            let notif = data.notification ?? data;
-            console.log('🧾 Parsed Notif:', notif);
+        /**
+         * 🚨 Handler untuk security alert
+         */
+        securityChannel.bind('security.alert', function (data) {
+            console.log('🚨 Received security alert:', data);
+            handleIncomingNotification({
+                time: data.alert.time,
+                message: `[${data.alert.type}] ${data.alert.ip} - ${data.alert.extra.info ?? 'Security alert detected'}`,
+                url: data.alert.url,
+                icon: 'fas fa-shield-alt text-danger'
+            }, 'danger');
+        });
 
+        /**
+         * 🧾 Fungsi untuk menambahkan notifikasi ke UI
+         */
+        function handleIncomingNotification(notif, type) {
             // Hapus "No new notifications" jika ada
             $('.notification-list p.text-center.text-muted.mt-3').remove();
 
             // Tambahkan notifikasi baru
             let html = `
-                <a href="${notif.url}" class="dropdown-item d-flex align-items-start">
-                    <i class="${notif.icon ?? 'fas fa-envelope fa-fw'} text-primary mr-2"></i>
+                <a href="${notif.url ?? '#'}" class="dropdown-item d-flex align-items-start">
+                    <i class="${notif.icon ?? (type === 'danger' ? 'fas fa-shield-alt text-danger' : 'fas fa-envelope text-primary')} mr-2"></i>
                     <div>
                         <small class="text-muted d-block">${notif.time}</small>
                         <p class="mb-0">${notif.message}</p>
@@ -36,8 +56,11 @@
             let count = parseInt(badge.text()) || 0;
             badge.text(count + 1);
             badge.fadeOut(100).fadeIn(100);
-        });
+        }
 
+        /**
+         * 🚀 Fetch semua notifikasi (general + security)
+         */
         function fetchNotifications() {
             $.ajax({
                 url: '/admin/notifications',
@@ -47,11 +70,14 @@
                     updateNotificationUI(data.data);
                 },
                 error: function (xhr, status, error) {
-                    console.error('Gagal fetch notifikasi:', error);
+                    console.error('❌ Gagal fetch notifikasi:', error);
                 }
             });
         }
 
+        /**
+         * 📝 Render semua notifikasi ke dropdown
+         */
         function updateNotificationUI(notifications) {
             const listContainer = $('.notification-list');
             const badge = $('#notification-admin');
@@ -69,10 +95,13 @@
                     if (!notif.read_at) unreadCount++;
 
                     listContainer.append(`
-                        <div class="dropdown-item ${readClass}">
-                            <small class="text-muted">${new Date(notif.created_at).toLocaleString()}</small>
-                            <p>${notif.message}</p>
-                        </div>
+                        <a href="${notif.url ?? '#'}" class="dropdown-item d-flex align-items-start ${readClass}">
+                            <i class="${notif.icon ?? 'fas fa-bell text-secondary'} mr-2"></i>
+                            <div>
+                                <small class="text-muted d-block">${new Date(notif.created_at).toLocaleString()}</small>
+                                <p class="mb-0">${notif.message}</p>
+                            </div>
+                        </a>
                     `);
                 });
 
@@ -80,10 +109,10 @@
             }
         }
 
-        // Load saat awal
+        // 🔄 Load saat awal
         fetchNotifications();
 
-        // Clear Notifikasi
+        // ✅ Clear semua notifikasi
         $('#clear-notifications').on('click', function (e) {
             e.preventDefault();
             $.ajax({
@@ -98,7 +127,7 @@
             });
         });
 
-        // Tandai semua dibaca saat klik dropdown
+        // 📝 Tandai semua dibaca saat klik dropdown
         $('#alertsDropdownLogDownload').on('click', function () {
             $.ajax({
                 url: '/admin/notifications/read-all',

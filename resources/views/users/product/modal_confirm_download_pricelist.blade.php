@@ -21,7 +21,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="primary-btn bordered btn-x-small" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="primary-btn btn-x-small hover-white" id="submit_download_pricelist" data-product_id="" data-product_pricelist="" data-url_pricelist="{{ route('download-pricelist', ['pricelist' => $product->priceList != NULL ? $product->priceList->file_name : null]) }}">Submit</button>
+                        {{-- <button type="button" class="primary-btn btn-x-small hover-white" id="submit_download_pricelist" data-product_id="" data-product_pricelist="" data-url_pricelist="{{ route('download-pricelist', ['pricelist' => $product->priceList != NULL ? $product->priceList->file_name : null]) }}">Submit</button> --}}
+                        <button type="button" class="primary-btn btn-x-small hover-white" id="submit_download_pricelist" data-product_id="" data-product_pricelist="">Submit</button>
                     </div>
                 </form>
             </div>

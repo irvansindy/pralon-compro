@@ -174,6 +174,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
+        \Torann\GeoIP\GeoIPServiceProvider::class,
+        Jenssegers\Agent\AgentServiceProvider::class,
     ])->toArray(),
 
     /*
@@ -190,6 +192,8 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Purifier' => Mews\Purifier\Facades\Purifier::class,
+        'GeoIP' => \Torann\GeoIP\Facades\GeoIP::class,
+        'Agent' => Jenssegers\Agent\Facades\Agent::class,
     ])->toArray(),
 
 ];

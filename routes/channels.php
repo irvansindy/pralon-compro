@@ -16,3 +16,8 @@ use Illuminate\Support\Facades\Broadcast;
 Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
+// Broadcast::channel('super-admin.alerts', function ($user) {
+//     return $user->hasRole('super-admin');
+// });
+
+Broadcast::channel('super-admin.alerts', fn ($user) => auth()->check());

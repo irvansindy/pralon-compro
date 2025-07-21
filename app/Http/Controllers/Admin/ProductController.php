@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Str;
+use Mews\Purifier\Facades\Purifier;
 class ProductController extends Controller
 {
     public function index()
@@ -52,79 +53,74 @@ class ProductController extends Controller
     {
         try {
             DB::beginTransaction();
-            // 
+
             $validator = Validator::make($request->all(), [
-                'master_product_name' => 'required|string',
-                'master_product_full_name' => 'required|string',
-                'master_product_category' => 'required|string',
-                'master_product_short_desc' => 'required|string',
-                'master_product_main_desc' => 'required|string',
-                'master_product_detail_title' => 'required|string',
-                'master_product_detail_subtitle' => 'required|string',
-                'master_product_detail_desc' => 'required|string',
-                'master_product_image' => 'required|image|max:10000|mimes:jpg,jpeg,png',
+                'master_product_name'           => 'required|string|max:255',
+                'master_product_full_name'      => 'required|string|max:255',
+                'master_product_category'       => 'required|integer',
+                'master_product_short_desc'     => 'required|string',
+                'master_product_main_desc'      => 'required|string',
+                'master_product_detail_title'   => 'required|string',
+                'master_product_detail_subtitle'=> 'required|string',
+                'master_product_detail_desc'    => 'required|string',
+                'master_product_image'          => 'required|image|max:10000|mimes:jpg,jpeg,png',
                 'master_product_image_detail.*' => 'required|image|max:10000|mimes:jpg,jpeg,png',
             ]);
+
             if ($validator->fails()) {
                 throw new ValidationException($validator);
             }
-            // master image
-            $file_master_product_image = $request->file('master_product_image');
-            $slug_name = Str::slug($request->master_product_full_name.' master_image', '-');
-            $file_master_product_image_name = $slug_name.'.'.$file_master_product_image->getClientOriginalExtension();
-            $master_product = [
-                'category_id' => $request->master_product_category,
-                'name' => $request->master_product_name,
-                'full_name' => $request->master_product_full_name,
-                'slug' => Str::of($request->master_product_name)->slug('-'),
-                'short_desc' => $request->master_product_short_desc,
-                'main_desc' => $request->master_product_main_desc,
-                'image' => 'storage/uploads/master_image/'.$file_master_product_image_name,
-                'created_at' => date('Y-m-d H:i:s'),
-            ];
-            $create_master_product = Product::create($master_product);
-            if($create_master_product) {
-                $file_master_product_image->move(public_path('storage/uploads/master_image/'), $file_master_product_image_name);
-            }
-            // detail image
-            $detail_product = [
-                'product_id' => $create_master_product->id,
-                'title' => $request->master_product_detail_title,
-                'subtitle' => $request->master_product_detail_subtitle,
-                'desc' => $request->master_product_detail_desc,
-                'ordering' => 2,
-                'created_at' => date('Y-m-d H:i:s'),
-            ];
-            $create_detail_product = DetailProduct::create($detail_product);
-            
-            for ($i=0; $i < count($request->master_product_image_detail); $i++) { 
-                $file_master_product_image_detail = $request->file('master_product_image_detail')[$i];
-                $slug_name = Str::slug($request->master_product_full_name.'detail_image_'.$i, '-');
-                $file_master_product_image_detail_name = $slug_name.'.'.$file_master_product_image_detail->getClientOriginalExtension();
-                
-                $detail_image = [
-                    'product_id' => $create_master_product->id,
-                    'image_detail' => 'storage/uploads/detail_image/'.$file_master_product_image_detail_name,
-                    // 'image_detail' => $file_master_product_image_detail_name,
-                    'ordering' => $i+1,
-                    // 'created_at' => date('Y-m-d H:i:s'),
-                ];
-                $create_detail_image = DetailImageProduct::create($detail_image);
 
-                // dd($create_detail_image);
-                if ($create_detail_image) {
-                    # code...
-                    $file_master_product_image_detail->move(public_path('storage/uploads/detail_image/'), $file_master_product_image_detail_name);
-                }
+            $cleanData = [
+                'category_id'   => (int) $request->master_product_category,
+                'name'          => Purifier::clean(strip_tags($request->master_product_name)),
+                'full_name'     => Purifier::clean(strip_tags($request->master_product_full_name)),
+                'slug'          => Str::slug($request->master_product_name, '-'),
+                'short_desc'    => Purifier::clean(strip_tags($request->master_product_short_desc)),
+                'main_desc'     => Purifier::clean(strip_tags($request->master_product_main_desc)),
+                'created_at'    => now(),
+            ];
+
+            // Upload master image
+            $cleanData['image'] = $this->storeImage(
+                $request->file('master_product_image'),
+                'storage/uploads/master_image/',
+                $cleanData['full_name'] . ' master_image'
+            );
+
+            $product = Product::create($cleanData);
+
+            // Insert detail
+            DetailProduct::create([
+                'product_id' => $product->id,
+                'title'      => Purifier::clean(strip_tags($request->master_product_detail_title)),
+                'subtitle'   => Purifier::clean(strip_tags($request->master_product_detail_subtitle)),
+                'desc'       => Purifier::clean(strip_tags($request->master_product_detail_desc)),
+                'ordering'   => 1,
+                'created_at' => now(),
+            ]);
+
+            // Upload multiple detail images
+            foreach ($request->file('master_product_image_detail') as $index => $file) {
+                DetailImageProduct::create([
+                    'product_id'    => $product->id,
+                    'image_detail'  => $this->storeImage(
+                        $file,
+                        'storage/uploads/detail_image/',
+                        $cleanData['full_name'] . '_detail_image_' . ($index + 1)
+                    ),
+                    'ordering'      => $index + 1,
+                    'created_at'    => now(),
+                ]);
             }
 
             DB::commit();
-            return FormatResponseJson::success($master_product,'product created successfully');
+            return FormatResponseJson::success($product, 'Product created successfully.');
         } catch (ValidationException $e) {
-            DB::rollback();
+            DB::rollBack();
             return FormatResponseJson::error(null, ['errors' => $e->errors()], 422);
         } catch (\Exception $e) {
-            DB::rollback();
+            DB::rollBack();
             return FormatResponseJson::error(null, $e->getMessage(), 500);
         }
     }
@@ -132,114 +128,119 @@ class ProductController extends Controller
     {
         try {
             DB::beginTransaction();
-            
+
             $validator = Validator::make($request->all(), [
-                'master_product_name' => 'required|string',
-                'master_product_full_name' => 'required|string',
-                'master_product_category' => 'required|string',
-                'master_product_short_desc' => 'required|string',
-                'master_product_main_desc' => 'required|string',
-                'master_product_detail_title' => 'required|string',
-                'master_product_detail_subtitle' => 'required|string',
-                'master_product_detail_desc' => 'required|string',
-                // 'master_product_image' => 'required|image|max:10000|mimes:jpg,jpeg,png',
-                // 'master_product_image_detail.*' => 'required|image|max:10000|mimes:jpg,jpeg,png',
+                'master_product_name'           => 'required|string|max:255',
+                'master_product_full_name'      => 'required|string|max:255',
+                'master_product_category'       => 'required|integer',
+                'master_product_short_desc'     => 'required|string',
+                'master_product_main_desc'      => 'required|string',
+                'master_product_detail_title'   => 'required|string',
+                'master_product_detail_subtitle'=> 'required|string',
+                'master_product_detail_desc'    => 'required|string',
+                'master_product_image'          => 'nullable|image|max:10000|mimes:jpg,jpeg,png',
+                'master_product_image_detail_1' => 'nullable|image|max:10000|mimes:jpg,jpeg,png',
+                'master_product_image_detail_2' => 'nullable|image|max:10000|mimes:jpg,jpeg,png',
             ]);
 
             if ($validator->fails()) {
                 throw new ValidationException($validator);
             }
 
-            $existing_product = Product::find($request->master_product_id);
-            // dd($existing_product);
-            
-            if ($existing_product) {
-                $existing_product->update([
-                    'category_id' => $request->master_product_category,
-                    'name' => $request->master_product_name,
-                    'full_name' => $request->master_product_full_name,
-                    'slug' => Str::of($request->master_product_name)->slug('-'),
-                    'short_desc' => $request->master_product_short_desc,
-                    'main_desc' => $request->master_product_main_desc,
+            $existing_product = Product::findOrFail($request->master_product_id);
+
+            $cleanData = [
+                'name'          => Purifier::clean(strip_tags($request->master_product_name)),
+                'full_name'     => Purifier::clean(strip_tags($request->master_product_full_name)),
+                'category_id'   => (int) $request->master_product_category,
+                'slug'          => Str::slug($request->master_product_name, '-'),
+                'short_desc'    => Purifier::clean(strip_tags($request->master_product_short_desc)),
+                'main_desc'     => Purifier::clean(strip_tags($request->master_product_main_desc)),
+            ];
+
+            $existing_product->update($cleanData);
+
+            // Replace master image if uploaded
+            if ($request->hasFile('master_product_image')) {
+                $this->replaceImage(
+                    $existing_product->image,
+                    $request->file('master_product_image'),
+                    'storage/uploads/master_image/',
+                    function ($newPath) use ($existing_product) {
+                        $existing_product->update(['image' => $newPath]);
+                    }
+                );
+            }
+
+            // Update product detail
+            $existing_detail = DetailProduct::where('product_id', $existing_product->id)->first();
+            if ($existing_detail) {
+                $existing_detail->update([
+                    'title'    => Purifier::clean(strip_tags($request->master_product_detail_title)),
+                    'subtitle' => Purifier::clean(strip_tags($request->master_product_detail_subtitle)),
+                    'desc'     => Purifier::clean(strip_tags($request->master_product_detail_desc)),
                 ]);
             }
 
-            if($request->master_product_image != null) {
-                // check existing master image
-                // dd($request->master_product_image);
-                $old_master_image_path = public_path($existing_product->image);
-                if (file_exists($old_master_image_path)) {
-                    unlink($old_master_image_path);
-                }
-                // master image
-                $file_master_product_image = $request->file('master_product_image');
-                $slug_name = Str::slug($request->master_product_full_name.' master_image', '-');
-                $file_master_product_image_name = $slug_name.'.'.$file_master_product_image->getClientOriginalExtension();
-                $existing_product->update([
-                    'image' => 'storage/uploads/master_image/'.$file_master_product_image_name,
-                ]);
-                $file_master_product_image->move(public_path('storage/uploads/master_image/'), $file_master_product_image_name);
-            }
+            // Replace detail images if uploaded
+            $this->updateDetailImage($request, $existing_product->id, 'master_product_image_detail_1', 1);
+            $this->updateDetailImage($request, $existing_product->id, 'master_product_image_detail_2', 2);
 
-            $existing_product_detail = DetailProduct::where('product_id', $request->master_product_id)->first();
-            $existing_product_detail->update([
-                'product_id' => $existing_product->id,
-                'title' => $request->master_product_detail_title,
-                'subtitle' => $request->master_product_detail_subtitle,
-                'desc' => $request->master_product_detail_desc,
-            ]);
-
-            if($request->master_product_image_detail_1 != null) {
-                // dd($request->master_product_image_detail_1);
-                $existing_detail_image_1 = DetailImageProduct::where('product_id', $request->master_product_id)
-                ->where('image_detail', $request->master_product_image_detail_link_1)
-                ->first();
-
-                $file_master_product_image_detail = $request->file('master_product_image_detail_1');
-                $slug_name = Str::slug($request->master_product_full_name.' detail_image_0', '-');
-                $file_master_product_image_detail_name = $slug_name.'.'.$file_master_product_image_detail->getClientOriginalExtension();
-                
-                $old_detail_image_1_path = public_path($existing_detail_image_1->image_detail);
-                if (file_exists($old_detail_image_1_path)) {
-                    unlink($old_detail_image_1_path);
-                }
-                $existing_detail_image_1->update([
-                    'image_detail' => 'storage/uploads/detail_image/'.$file_master_product_image_detail_name,
-                ]);
-                $file_master_product_image_detail->move(public_path('storage/uploads/detail_image/'), $file_master_product_image_detail_name);
-            }
-            
-            if($request->master_product_image_detail_2 != null) {
-                $existing_detail_image_2 = DetailImageProduct::where('product_id', $request->master_product_id)
-                ->where('image_detail', $request->master_product_image_detail_link_2)
-                ->first();
-
-                $file_master_product_image_detail = $request->file('master_product_image_detail_2');
-                $slug_name = Str::slug($request->master_product_full_name.' detail_image_1', '-');
-                $file_master_product_image_detail_name = $slug_name.'.'.$file_master_product_image_detail->getClientOriginalExtension();
-                
-                $old_detail_image_2_path = public_path($existing_detail_image_2->image_detail);
-                if (file_exists($old_detail_image_2_path)) {
-                    unlink($old_detail_image_2_path);
-                }
-                $existing_detail_image_2->update([
-                    'image_detail' => 'storage/uploads/detail_image/'.$file_master_product_image_detail_name,
-                ]);
-                $file_master_product_image_detail->move(public_path('storage/uploads/detail_image/'), $file_master_product_image_detail_name);
-            }
-
-            
             DB::commit();
-            return FormatResponseJson::success($existing_product,'product updated successfully.');
+            return FormatResponseJson::success($existing_product, 'Product updated successfully.');
         } catch (ValidationException $e) {
-            // Return validation errors as JSON response
-            DB::rollback();
+            DB::rollBack();
             return FormatResponseJson::error(null, ['errors' => $e->errors()], 422);
         } catch (\Exception $e) {
-            DB::rollback();
+            DB::rollBack();
             return FormatResponseJson::error(null, $e->getMessage(), 500);
         }
     }
+    private function storeImage($file, $path, $name)
+    {
+        $slugName = Str::slug($name, '-');
+        $fileName = $slugName . '.' . $file->getClientOriginalExtension();
+        $fullPath = public_path($path);
+
+        if (!file_exists($fullPath)) {
+            mkdir($fullPath, 0755, true);
+        }
+
+        $file->move($fullPath, $fileName);
+
+        return $path . $fileName; // Return relative path
+    }
+    private function replaceImage($oldPath, $file, $path, $updateCallback)
+    {
+        // Delete old image
+        if ($oldPath && file_exists(public_path($oldPath))) {
+            unlink(public_path($oldPath));
+        }
+
+        // Upload new image
+        $newPath = $this->storeImage($file, $path, pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME));
+        $updateCallback($newPath);
+    }
+    private function updateDetailImage($request, $productId, $fieldName, $ordering)
+    {
+        if ($request->hasFile($fieldName)) {
+            $detailImage = DetailImageProduct::where('product_id', $productId)
+                ->where('ordering', $ordering)
+                ->first();
+
+            if ($detailImage) {
+                $this->replaceImage(
+                    $detailImage->image_detail,
+                    $request->file($fieldName),
+                    'storage/uploads/detail_image/',
+                    function ($newPath) use ($detailImage) {
+                        $detailImage->update(['image_detail' => $newPath]);
+                    }
+                );
+            }
+        }
+    }
+
     public function fetchBrocureByProductId(Request $request)
     {
         try {

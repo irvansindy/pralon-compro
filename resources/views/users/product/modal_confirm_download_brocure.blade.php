@@ -22,7 +22,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="primary-btn bordered btn-x-small" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="primary-btn btn-x-small hover-white" id="submit_download_brocure" data-product_id="" data-product_brocure="" data-url_brocure="{{ route('download-catalog', ['catalog' => $product->brocure != NULL ? $product->brocure->file_name : NULL]) }}">Submit</button>
+                        {{-- <button type="button" class="primary-btn btn-x-small hover-white" id="submit_download_brocure" data-product_id="" data-product_brocure="" data-url_brocure="{{ route('download-catalog', ['catalog' => $product->brocure != NULL ? $product->brocure->file_name : NULL]) }}">Submit</button> --}}
+                        <button type="button" class="primary-btn btn-x-small hover-white" id="submit_download_brocure" data-product_id="" data-product_brocure="">Submit</button>
                     </div>
                 </form>
             </div>

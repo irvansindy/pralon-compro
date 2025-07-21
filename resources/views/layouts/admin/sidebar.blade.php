@@ -33,21 +33,20 @@
             @if ($hasSubMenu)
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#{{ $menuCollapseId }}"
                     aria-expanded="false" aria-controls="{{ $menuCollapseId }}">
-                    {!! $menu->icon !!}
+                    {!! \App\Helpers\SanitizeHelper::icon($menu->icon) !!}
                     <span>{{ $menu->name }}</span>
                 </a>
                 <div id="{{ $menuCollapseId }}" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header text-muted">{{ $menu->name }}:</h6>
                         @foreach ($subMenuNames as $index => $subMenuName)
-                            {{-- {!! $subMenuIcons[$index] !!}  --}}
                             <a class="collapse-item" href="{{ $subMenuUrls[$index] }}">{{ $subMenuName }}</a>
                         @endforeach
                     </div>
                 </div>
             @else
                 <a class="nav-link" href="{{ $menu->url }}">
-                    {!! $menu->icon !!}
+                    {!! \App\Helpers\SanitizeHelper::icon($menu->icon) !!}
                     <span>{{ $menu->name }}</span>
                 </a>
             @endif

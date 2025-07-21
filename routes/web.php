@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\EmailTemplateController as AdminEmailTemplateCont
 use App\Http\Controllers\Admin\EmailMessageController as EmailMessageController;
 use App\Http\Controllers\Admin\SubcriptionController as AdminSubcriptionController;
 use App\Http\Controllers\Admin\AnalyticsController as AnalyticsController;
+use App\Http\Controllers\TestController;
 
 use App\Helpers\FormatResponseJson;
 use App\Http\Controllers\Auth\LoginController;
@@ -27,6 +28,8 @@ use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Admin\SecurityLogController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +43,9 @@ use Illuminate\Support\Facades\DB;
 */
 
 Route::get("/", [HomeController::class,"index"])->name("home");
+
+Route::get('/test-endpoint', [TestController::class, 'index']);
+Route::post('/test-endpoint', [TestController::class, 'post']);
 
 // for scanning
 Route::get('/scan-malware', [MalwareScanController::class, 'scan'])->name('scan-malware');
@@ -61,8 +67,16 @@ Route::get("/fetch-product", [ProductController::class,"fetchProduct"])->name("f
 Route::get("/fetch-product-by-category", [ProductController::class,"fetchProductByCategoty"])->name("fetch-product-by-category");
 Route::get("/fetch-categories", [ProductController::class,"fetchCategories"])->name("fetch-categories");
 Route::get("/product-detail/{id}/{slug}", [ProductController::class,"detailProduct"])->name("product-detail");
-Route::get("download-catalog/{catalog}", [ProductController::class,"downloadCatalog"])->name("download-catalog");
-Route::get("download-pricelist/{pricelist}", [ProductController::class,"downloadPriceList"])->name("download-pricelist");
+// Route::get("download-catalog/{catalog}", [ProductController::class,"downloadCatalog"])->name("download-catalog");
+// Route::get("download-pricelist/{pricelist}", [ProductController::class,"downloadPriceList"])->name("download-pricelist");
+Route::get("download-catalog/{file}", [ProductController::class, "downloadCatalog"])
+    ->name("download-catalog")
+    ->middleware('signed');
+
+Route::get("download-pricelist/{file}", [ProductController::class, "downloadPriceList"])
+    ->name("download-pricelist")
+    ->middleware('signed');
+
 Route::get('send-email-downloaded', [ProductController::class,'sendEmailDownloaded'])->name('send-email-downloaded');
 Route::post("/log-user", [ProductController::class,"storeLogUserDownload"])->name("log-user");
 
@@ -83,6 +97,22 @@ Route::get('/subscribe/verify/{token}', [SubcriptionController::class, 'verify']
 // Route::post('/fetch-visitor-dashboard', [DashboardController::class,'broadcastVisitors'])->name('fetch-visitor-dashboard');
 // analytics
 Route::get('/analytics', [AnalyticsController::class,'index'])->name('analytics');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/security-logs', [SecurityLogController::class, 'index'])->name('security-logs');
+    Route::get('/security-logs-data', [SecurityLogController::class, 'getLogs'])->name('security-logs-data');
+    Route::post('security-test-alert', [SecurityLogController::class, 'testAlert'])->name('security-test-alert');
+
+});
+
+Route::get('fetch-geo-location', [SecurityLogController::class, 'fetchGeoLocation'])->name('fetch-geo-location');
+
+Route::get('/redis-test', function () {
+    Cache::put('test_key', 'Hello Redis!', 10);
+    return Cache::get('test_key');
+});
+Route::get('/geoip-test', fn () => response()->json(geoip()->getLocation('192.168.1.226')->toArray()));
+
+
 Route::middleware(['auth'])->group(function () {
     // dashboard
     Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard');

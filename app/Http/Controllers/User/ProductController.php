@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Traits\AutoSanitize;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Helpers\FormatResponseJson;
+use App\Helpers\SanitizeHelper;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\productBrocure;
@@ -20,8 +22,16 @@ use App\Mail\CompanyMail;
 use App\Models\EmailTemplate;
 use App\Events\DownloadNotification;
 use App\Events\GeneralNotificationEvent;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Crypt;
 class ProductController extends Controller
 {
+    // use AutoSanitize;
+
+    // public function __construct()
+    // {
+    //     $this->sanitizeRequest();
+    // }
     public function index(): View
     {
         return view('users.product.index');
@@ -58,7 +68,7 @@ class ProductController extends Controller
     public function fetchProductByCategoty(Request $request)
     {
         try {
-            $category_id = $request->category_id;
+            $category_id = strip_tags($request->category_id);
             if ($category_id == 0) {
                 $product = Product::orderBy('id','ASC')->paginate(8);
             } else {
@@ -69,102 +79,135 @@ class ProductController extends Controller
             return FormatResponseJson::error(null,$th->getMessage(),404);
         }
     }
-    // public function downloadCatalog(Request $request)
-    public function downloadCatalog($catalog)
-    {
-        try {
-            $existing_brocure = productBrocure::where('file_name', $catalog)->first();
-            $file_path = public_path($existing_brocure->brocure_file);
-            if (file_exists($file_path)) {
-                return response()->download($file_path);
-            }
-            // Hitung total download
-            $countBrocure = LogUserDownload::where('type_download', 'brocure')->count();
-            $countPricelist = LogUserDownload::where('type_download', 'pricelist')->count();
-            // Kirim notifikasi real-time
-            event(new DownloadNotification("Brocure baru diunduh!", $countBrocure, $countPricelist));
-        } catch (\Throwable $th) {
-            return FormatResponseJson::error(null,$th->getMessage(),404);
-        }
-    }
-    public function downloadPriceList($pricelist)
-    {
-        try {
-            $existing_price_list = productPriceList::where('file_name', $pricelist)->first();
-            // dd($existing_price_list);
-            $file_path = public_path($existing_price_list->price_list_file);
-            if (file_exists($file_path)) {
-                return response()->download($file_path);
-            }
-            
-            $countBrocure = LogUserDownload::where('type_download', 'brocure')->count();
-            $countPricelist = LogUserDownload::where('type_download', 'pricelist')->count();
-
-            event(new DownloadNotification("Pricelist baru diunduh!", $countBrocure, $countPricelist));
-        } catch (\Throwable $th) {
-            return FormatResponseJson::error(null,$th->getMessage(),404);
-        }
-
-    }
+    
     public function storeLogUserDownload(Request $request)
     {
         try {
             $validator = Validator::make($request->all(), [
-                'name' => 'required|string|max:255',
-                'phone_number' => 'required|string|max:20',
-                'email' => 'required|email|max:255',
-                'id' => 'required|integer|exists:products,id',
-                'type' => 'required|string|in:brocure,pricelist',
-            ] ,[
-                'name.required' => 'Name is required',
-                'phone_number.required' => 'Phone number is required',
-                'email.required' => 'Email is required',
-                'id.required' => 'Product ID is required',
-                'type.required' => 'Download type is required',
+                'name'          => 'required|string|max:255',
+                'phone_number'  => 'required|string|max:20',
+                'email'         => 'required|email|max:255',
+                'id'            => 'required|integer|exists:products,id',
+                'type'          => 'required|string|in:brocure,pricelist',
             ]);
+
             if ($validator->fails()) {
                 throw new ValidationException($validator);
             }
+
+            // 📝 Log download
             $log = LogUserDownload::create([
-                'name' => $request->name,
-                'phone_number' => $request->phone_number,
-                'email'=> $request->email,
-                'product_id' => $request->id,
+                'name'          => $request->name,
+                'phone_number'  => $request->phone_number,
+                'email'         => $request->email,
+                'product_id'    => $request->id,
                 'type_download' => $request->type,
             ]);
-            $message = $request->type == 'brocure' ? 'New Brochure Download!' : 'New Pricelist Download!';
+
+            // 🔔 Notifikasi real-time
+            $message = $request->type === 'brocure' ? 'New Brochure Download!' : 'New Pricelist Download!';
             Notifications::create([
-                'type' => $request->type,
+                'type'    => $request->type,
                 'message' => $message,
             ]);
 
             broadcast(new GeneralNotificationEvent([
-                'type' => $request->type,
+                'type'    => $request->type,
                 'message' => $message,
-                'time' => now()->toDateTimeString()
+                'time'    => now()->toDateTimeString()
             ]));
 
-            return FormatResponseJson::success($log,'success');
+            // 📦 Ambil file_name & buat signed URL
+            if ($request->type === 'brocure') {
+                $fileRecord = productBrocure::where('product_id', $request->id)->first();
+                $routeName = 'download-catalog';
+            } else {
+                $fileRecord = productPriceList::where('product_id', $request->id)->first();
+                $routeName = 'download-pricelist';
+            }
+
+            if (!$fileRecord) {
+                throw new \Exception("File tidak ditemukan untuk product ID {$request->id}");
+            }
+            // dd($fileRecord->file_name);
+            $encryptedFileName = Crypt::encryptString($fileRecord->file_name);
+            $downloadUrl = URL::temporarySignedRoute(
+                $routeName,
+                now()->addMinutes(1),
+                ['file' => $encryptedFileName]
+            );
+            // dd($downloadUrl);
+
+            return FormatResponseJson::success(['download_url' => $downloadUrl], 'success');
         } 
         catch (ValidationException $e) {
-            // Return validation errors as JSON response
-            DB::rollback();
             return FormatResponseJson::error(null, ['errors' => $e->errors()], 422);
+        } 
+        catch (\Throwable $th) {
+            return FormatResponseJson::error(null, $th->getMessage(), 500);
+        }
+    }
+
+    public function downloadCatalog($file)
+    {
+        try {
+            $fileName = Crypt::decryptString($file);
+
+            $existing_brocure = productBrocure::where('file_name', $fileName)->first();
+            if (!$existing_brocure) {
+                throw new \Exception("Brosur tidak ditemukan.");
+            }
+
+            $file_path = public_path($existing_brocure->brocure_file);
+            if (!file_exists($file_path)) {
+                throw new \Exception("File brosur tidak ada di server.");
+            }
+
+            $countBrocure = LogUserDownload::where('type_download', 'brocure')->count();
+            $countPricelist = LogUserDownload::where('type_download', 'pricelist')->count();
+            event(new DownloadNotification("Brosur baru diunduh!", $countBrocure, $countPricelist));
+
+            return response()->download($file_path);
         } catch (\Throwable $th) {
-            return FormatResponseJson::error(null,'Field tidak boleh kosong', 500);
+            return FormatResponseJson::error(null, $th->getMessage(), 404);
+        }
+    }
+
+    public function downloadPriceList($file)
+    {
+        try {
+            $fileName = Crypt::decryptString($file);
+
+            $existing_price_list = productPriceList::where('file_name', $fileName)->first();
+            if (!$existing_price_list) {
+                throw new \Exception("Pricelist tidak ditemukan.");
+            }
+
+            $file_path = public_path($existing_price_list->price_list_file);
+            if (!file_exists($file_path)) {
+                throw new \Exception("File pricelist tidak ada di server.");
+            }
+
+            $countBrocure = LogUserDownload::where('type_download', 'brocure')->count();
+            $countPricelist = LogUserDownload::where('type_download', 'pricelist')->count();
+            event(new DownloadNotification("Pricelist baru diunduh!", $countBrocure, $countPricelist));
+
+            return response()->download($file_path);
+        } catch (\Throwable $th) {
+            return FormatResponseJson::error(null, $th->getMessage(), 404);
         }
     }
     public function sendEmailDownloaded(Request $request)
     {
         try {
-            $name = $request->name;
-            $email = $request->email;
-            $phone_number = $request->phone_number;
-            $type_service = $request->type_service;
-            $message_contact = $request->message_contact;
+            $name = strip_tags($request->name);
+            $email = strip_tags($request->email);
+            $phone_number = strip_tags($request->phone_number);
+            $type_service = strip_tags($request->type_service);
+            $message_contact = strip_tags($request->message_contact);
 
-            $existing_template = EmailTemplate::where('email_type', 'lke', '%penjualan%')->first();
-            dd($existing_template);
+            $existing_template = EmailTemplate::where('email_type', 'like', '%penjualan%')->first();
+
             Mail::to($email)->send(new CompanyMail([
                 'title' => 'The Title',
                 'body' => 'Salam hangat,<br/>Sales Marketing Pralon',
