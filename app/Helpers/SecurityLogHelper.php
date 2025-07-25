@@ -3,14 +3,15 @@
 namespace App\Helpers;
 
 use Jenssegers\Agent\Agent;
-
+use Torann\GeoIP\Facades\GeoIP;
 class SecurityLogHelper
 {
     public static function createLogData(string $type, array $extra = []): array
     {
         $request = request();
         $agent = new Agent();
-        $geo = geoip($request->ip());
+        // $geo = geoip($request->ip());
+        $geo = GeoIP::setCache('none')->getLocation($request->ip());
 
         return [
             'type'        => $type,

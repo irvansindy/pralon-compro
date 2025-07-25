@@ -105,7 +105,9 @@ return [
     |
     */
 
-    'cache' => 'all',
+    // 'cache' => 'all',
+    // NONAKTIFKAN CACHING AGAR AMAN DI SHARED HOSTING
+    'cache' => 'none', // opsi: 'all', 'some', 'none'
 
     /*
     |--------------------------------------------------------------------------
@@ -117,7 +119,8 @@ return [
     |
     */
 
-    'cache_tags' => ['torann-geoip-location'],
+    // 'cache_tags' => ['torann-geoip-location'],
+    'cache_tags' => [],
 
     /*
     |--------------------------------------------------------------------------
@@ -128,7 +131,8 @@ return [
     |
     */
 
-    'cache_expires' => 30,
+    // 'cache_expires' => 30,
+    'cache_expires' => 0,
 
     /*
     |--------------------------------------------------------------------------
