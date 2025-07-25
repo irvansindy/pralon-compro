@@ -1,57 +1,50 @@
 <IfModule mod_rewrite.c>
-    <IfModule mod_negotiation.c>
-        Options -MultiViews -Indexes
-    </IfModule>
-
-    Options -Indexes -FollowSymLinks
-
     RewriteEngine On
+    # Options +FollowSymLinks
+    Options +SymLinksIfOwnerMatch
 
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
-    # Redirect Trailing Slashes If Not A Folder...
+    # Redirect Trailing Slashes
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_URI} (.+)/$
     RewriteRule ^ %1 [L,R=301]
 
-    # Send Requests To Front Controller...
-    RewriteCond %{REQUEST_FILENAME} !-d
+    # Send Requests To Front Controller
     RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^ index.php [L]
 </IfModule>
 
-# Security Headers
+# 🛡️ Security Headers
 <IfModule mod_headers.c>
+    # Khusus untuk file gambar di storage, jangan terlalu ketat
+    <FilesMatch "\.(jpg|jpeg|png|gif|webp|ico)$">
+        Header unset X-Content-Type-Options
+        Header unset X-Frame-Options
+        Header unset X-XSS-Protection
+    </FilesMatch>
+    
+    # Untuk file lainnya tetap aman
     Header always set X-Content-Type-Options "nosniff"
     Header always set X-Frame-Options "SAMEORIGIN"
     Header always set X-XSS-Protection "1; mode=block"
     Header always set Referrer-Policy "strict-origin-when-cross-origin"
-    Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
-
-    <FilesMatch "\.(js|css|png|jpg|jpeg|gif|webp|woff2|woff)$">
-        Header set Cache-Control "public, max-age=31536000"
-    </FilesMatch>
 </IfModule>
 
+# 📦 Cache untuk static assets
 <IfModule mod_expires.c>
     ExpiresActive On
-
-    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType text/css "access plus 1 year"
     ExpiresByType text/javascript "access plus 1 year"
-
+    ExpiresByType application/javascript "access plus 1 year"
     ExpiresByType image/png "access plus 1 year"
     ExpiresByType image/jpg "access plus 1 year"
     ExpiresByType image/jpeg "access plus 1 year"
     ExpiresByType image/gif "access plus 1 year"
     ExpiresByType image/webp "access plus 1 year"
-
-    ExpiresByType text/css "access plus 1 year"
     ExpiresByType font/woff2 "access plus 1 year"
     ExpiresByType font/woff "access plus 1 year"
 </IfModule>
-<FilesMatch "^(\.env|\.git|composer\.(json|lock)|package\.json|webpack\.mix\.js|phpunit\.xml)$">
-    Order allow,deny
-    Deny from all
-</FilesMatch>
