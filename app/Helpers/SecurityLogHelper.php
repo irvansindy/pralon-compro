@@ -11,17 +11,27 @@ class SecurityLogHelper
         $request = request();
         $agent = new Agent();
         // $geo = geoip($request->ip());
-        $geo = GeoIP::setCache('none')->getLocation($request->ip());
-
+        // $geo = GeoIP::setCache('none')->getLocation($request->ip());
+        $ip = $request->ip();
+        $response = @file_get_contents("https://ipapi.co/{$ip}/json/");
+        $data = json_decode($response, true);
+        $geo = [
+            'ip'       => $ip,
+            'country'  => $data['country_name'] ?? null,
+            'city'     => $data['city'] ?? null,
+            'state'    => $data['region'] ?? null,
+            'lat'      => $data['latitude'] ?? null,
+            'lon'      => $data['longitude'] ?? null,
+        ];
         return [
             'type'        => $type,
             'ip'          => $request->ip(),
-            'country'     => $geo->country ?? null,
-            'city'        => $geo->city ?? null,
-            'state'       => $geo->state_name ?? null,
-            'timezone'    => $geo->timezone ?? null,
-            'lat'         => $geo->lat ?? null,
-            'lon'         => $geo->lon ?? null,
+            'country'     => $geo['country'] ?? null,
+            'city'        => $geo['city'] ?? null,
+            'state'       => $geo['state'] ?? null,
+            'timezone'    => $geo['timezone'] ?? null,
+            'lat'         => $geo['lat'] ?? null,
+            'lon'         => $geo['lon'] ?? null,
             'user_agent'  => [
                 'raw'       => $request->userAgent(),
                 'browser'   => $agent->browser() . ' ' . $agent->version($agent->browser()),
