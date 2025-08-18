@@ -48,14 +48,14 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="df-input-field">
-                                        <input type="number" id="phone_number" name="phone_number" placeholder="Nomor Handhpone">
+                                        <input type="number" id="phone_number" name="phone_number" placeholder="Nomor Handphone">
                                         <span class="text-sm text-danger mt-2 message_phone_number" id="message_phone_number" role="alert" style="font-size: 12px !important;"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="df-input-field">
                                         <select name="type_service" id="type_service">
-                                           @foreach ($typeServices as $type)
+                                            @foreach ($typeServices as $type)
                                                 <option value="{{ $type }}">{{ $type }}</option>
                                             @endforeach
                                         </select>
