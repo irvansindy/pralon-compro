@@ -49,12 +49,12 @@
                                 <a href="#" class="{{ app()->getLocale() == 'en' ? 'fw-bold text-danger' : '' }}">EN</a>
                             </div> --}}
                             <!-- Language Switcher -->
-                            <div class="language-switcher me-3">
+                            {{-- <div class="language-switcher me-3">
                                 <a href="#"
                                     class="lang-btn {{ app()->getLocale() == 'id' ? 'active' : '' }}">ID</a>
                                 <a href="#"
                                     class="lang-btn {{ app()->getLocale() == 'en' ? 'active' : '' }}">EN</a>
-                            </div>
+                            </div> --}}
 
                             <button class="side-toggle d-xl-none">
                                 <span class="menu__bar">

@@ -25,7 +25,7 @@ class AboutUsController extends Controller
             $history = HistoryAboutUs::first();
             $why = WhyPralonAboutUs::with(['detail'])->first();
             $visi_misi = Vision::with(['mision'])->first();
-            $value = ValuePralonAboutUs::all();
+            $value = ValuePralonAboutUs::orderBy('id', 'asc')->get();
             $certificates = Certificate::all();
 
             $content = [
