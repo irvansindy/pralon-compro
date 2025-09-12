@@ -144,12 +144,28 @@ class SanitizeInputMiddleware
      */
     private function logRequest(Request $request)
     {
+        $ip = $request->ip();
+        $geo = null;
+        try {
+            $geo = geoip()->getLocation($ip);
+        } catch (\Exception $e) {
+            $geo = null;
+        }
+
         $logData = SecurityLogHelper::createLogData('REQUEST', [
             'method'  => $request->method(),
             'headers' => $request->headers->all(),
             'query'   => $request->query(),
             'body'    => $request->all(),
         ]);
+
+        // Tambahkan geo fields biar konsisten dengan schema
+        $logData['country']  = $geo->country ?? null;
+        $logData['city']     = $geo->city ?? null;
+        $logData['state']    = $geo->state_name ?? null;
+        $logData['timezone'] = $geo->timezone ?? null;
+        $logData['lat']      = $geo->lat ?? null;
+        $logData['lon']      = $geo->lon ?? null;
 
         RequestLog::create($logData);
     }

@@ -12,12 +12,12 @@ class RequestLog extends Model
     protected $fillable = [
         'type',
         'ip',
-        // 'country',
-        // 'city',
-        // 'state',
-        // 'timezone',
-        // 'lat',
-        // 'lon',
+        'country',
+        'city',
+        'state',
+        'timezone',
+        'lat',
+        'lon',
         'user_agent',
         'url',
         'extra',
@@ -28,5 +28,7 @@ class RequestLog extends Model
         'user_agent' => 'array',
         'extra'      => 'array',
         'time'       => 'datetime',
+        'lat'        => 'float',
+        'lon'        => 'float',
     ];
 }
