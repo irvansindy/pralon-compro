@@ -241,6 +241,8 @@
     @stack('js')
     @include('layouts.admin.notify_js')
     @include('layouts.admin.alert_security_js')
+    @include('layouts.admin.global_js')
+
 </body>
 
 </html>

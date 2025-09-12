@@ -40,6 +40,7 @@ class NewAndBlogController extends Controller
     }
     public function storeNewsBlog(Request $request)
     {
+        dd($request->all());
         $validator = Validator::make($request->all(), [
             'news_blog_title' => 'required|string',
             'news_blog_category' => 'required|string',

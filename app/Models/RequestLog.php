@@ -10,7 +10,18 @@ class RequestLog extends Model
     use HasFactory;
     protected $table = "request_logs";
     protected $fillable = [
-        'type', 'ip', 'user_agent', 'url', 'extra', 'time'
+        'type',
+        'ip',
+        'country',
+        'city',
+        'state',
+        'timezone',
+        'lat',
+        'lon',
+        'user_agent',
+        'url',
+        'extra',
+        'time'
     ];
 
     protected $casts = [

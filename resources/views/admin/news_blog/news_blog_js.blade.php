@@ -99,7 +99,7 @@
 
         $(document).on('click', '#submit_news_blog', function (e) {
             e.preventDefault();
-
+            alert('submit_news_blog clicked');
             let form = $('#form_master_news_blog')[0];
             let formData = new FormData(form);
 

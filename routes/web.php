@@ -55,6 +55,11 @@ Route::get('/scan-malware', [MalwareScanController::class, 'scan'])->name('scan-
 //     return "<b style='color:red;'>Gagal hapus. File tidak ditemukan atau tidak ada path.</b><br><a href='" . route('scan-malware') . "'>← Kembali ke scan</a>";
 // })->name('delete-malware-file');
 
+Route::get('dummy-news', function () {
+    $news = \App\Models\News::with('translations')->get();
+    return response()->json($news);
+})->name('dummy-news');
+
 Route::get("/about-us", action: [AboutUsController::class,"index"])->name("about-us");
 Route::get("/fetch-content-home", [HomeController::class,"fetchContent"])->name("fetch-content-home");
 Route::get("/fetch-content-about-us", [AboutUsController::class,"fetchContentAboutUs"])->name("fetch-content-about-us");

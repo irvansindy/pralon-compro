@@ -33,7 +33,8 @@
             @if ($hasSubMenu)
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#{{ $menuCollapseId }}"
                     aria-expanded="false" aria-controls="{{ $menuCollapseId }}">
-                    {!! \App\Helpers\SanitizeHelper::icon($menu->icon) !!}
+                    {{-- {!! \App\Helpers\SanitizeHelper::icon($menu->icon) !!} --}}
+                    <i class="{{ $menu->icon }}"></i>
                     <span>{{ $menu->name }}</span>
                 </a>
                 <div id="{{ $menuCollapseId }}" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
@@ -46,7 +47,8 @@
                 </div>
             @else
                 <a class="nav-link" href="{{ $menu->url }}">
-                    {!! \App\Helpers\SanitizeHelper::icon($menu->icon) !!}
+                    {{-- {!! \App\Helpers\SanitizeHelper::icon($menu->icon) !!} --}}
+                    <i class="{{ $menu->icon }}"></i>
                     <span>{{ $menu->name }}</span>
                 </a>
             @endif
