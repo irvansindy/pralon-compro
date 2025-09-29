@@ -46,9 +46,9 @@
                         <div class="df-service5__content">
                             <div class="section__title-wrapper">
                                 <span class="section__subtitle bg-lighter">TENTANG PRODUK</span>
-                                <h2 class="section__title">{{ $product->full_name }}</h2>
+                                <h2 class="section__title">{!! $product->full_name !!}</h2>
                             </div>
-                            <p class="mt-35 mb-35">{{ $product->main_desc }}</p>
+                            <p class="mt-35 mb-35">{!! $product->main_desc !!}</p>
                             <div class="df-service5__info" style="gap: 16px 0 !important;">
                             </div>
                         </div>
@@ -142,14 +142,14 @@
                 <div class="row">
                     <div class="col-lg-4">
                         <div class="section__title-wrapper">
-                            <span class="section__subtitle bg-lighter">{{ $product->detailProduct->title }}</span>
-                            <h2 class="section__title">{{ $product->detailProduct->subtitle }}</h2>
+                            <span class="section__subtitle bg-lighter">{!! $product->detailProduct->title !!}</span>
+                            <h2 class="section__title">{!! $product->detailProduct->subtitle !!}</h2>
                         </div>
                     </div>
                     <div class="col-lg-8 d-flex justify-content-end">
                         <div class="df-challenge__content section-spacing-bottom">
                             <p class="mb-40 mt-40">
-                                {{ $product->detailProduct->desc }}
+                                {!! $product->detailProduct->desc !!}
                             </p>
                             <div class="df-challenge__feature-list">
                                 <ul>

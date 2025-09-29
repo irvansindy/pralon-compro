@@ -471,48 +471,48 @@
         // update master product
         $(document).on('click', '#update_product_detail', function (e) {
             e.preventDefault();
-
+            alert('update_product_detail')
             let form = $('#form_master_product')[0];
             let formData = new FormData(form);
 
-            resetErrors();
-            let isValid = true;
+            // resetErrors();
+            // let isValid = true;
 
             // 🧹 Validate & sanitize text inputs
-            $('#form_master_product input[type="text"], #form_master_product textarea, #form_master_product select').each(function () {
-                let input = $(this);
-                let val = sanitizeInput(input.val());
-                input.val(val);
-                formData.set(input.attr('name'), val);
+            // $('#form_master_product input[type="text"], #form_master_product textarea, #form_master_product select').each(function () {
+            //     let input = $(this);
+            //     let val = sanitizeInput(input.val());
+            //     input.val(val);
+            //     formData.set(input.attr('name'), val);
 
-                if (val === '') {
-                    showError(input.attr('id'), 'Field ini tidak boleh kosong');
-                    isValid = false;
-                } else if (hasXSS(val)) {
-                    showError(input.attr('id'), 'Input tidak boleh mengandung script atau tag HTML');
-                    isValid = false;
-                } else if (hasSQLi(val)) {
-                    showError(input.attr('id'), 'Input tidak valid');
-                    isValid = false;
-                }
-            });
+            //     if (val === '') {
+            //         showError(input.attr('id'), 'Field ini tidak boleh kosong');
+            //         isValid = false;
+            //     } else if (hasXSS(val)) {
+            //         showError(input.attr('id'), 'Input tidak boleh mengandung script atau tag HTML');
+            //         isValid = false;
+            //     } else if (hasSQLi(val)) {
+            //         showError(input.attr('id'), 'Input tidak valid');
+            //         isValid = false;
+            //     }
+            // });
 
             // 🖼 Optional: Validate uploaded images (if any)
-            ['master_product_image', 'master_product_image_detail_1', 'master_product_image_detail_2'].forEach(field => {
-                let file = $('#' + field)[0].files[0];
-                if (file) {
-                    if (!['image/jpeg', 'image/png', 'image/jpg'].includes(file.type)) {
-                        showError(field, 'Format gambar harus jpg/jpeg/png');
-                        isValid = false;
-                    }
-                    if (file.size > 10 * 1024 * 1024) {
-                        showError(field, 'Ukuran gambar maksimal 10MB');
-                        isValid = false;
-                    }
-                }
-            });
+            // ['master_product_image', 'master_product_image_detail_1', 'master_product_image_detail_2'].forEach(field => {
+            //     let file = $('#' + field)[0].image[0];
+            //     if (file) {
+            //         if (!['image/jpeg', 'image/png', 'image/jpg'].includes(file.type)) {
+            //             showError(field, 'Format gambar harus jpg/jpeg/png');
+            //             isValid = false;
+            //         }
+            //         if (file.size > 10 * 1024 * 1024) {
+            //             showError(field, 'Ukuran gambar maksimal 10MB');
+            //             isValid = false;
+            //         }
+            //     }
+            // });
 
-            if (!isValid) return;
+            // if (!isValid) return;
 
             // 🚀 Submit via AJAX
             $.ajax({

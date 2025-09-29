@@ -76,8 +76,8 @@ class ProductController extends Controller
                 'name'          => Purifier::clean(strip_tags($request->master_product_name)),
                 'full_name'     => Purifier::clean(strip_tags($request->master_product_full_name)),
                 'slug'          => Str::slug($request->master_product_name, '-'),
-                'short_desc'    => Purifier::clean(strip_tags($request->master_product_short_desc)),
-                'main_desc'     => Purifier::clean(strip_tags($request->master_product_main_desc)),
+                'short_desc'    => Purifier::clean($request->master_product_short_desc),
+                'main_desc'     => Purifier::clean($request->master_product_main_desc),
                 'created_at'    => now(),
             ];
 
@@ -93,9 +93,9 @@ class ProductController extends Controller
             // Insert detail
             DetailProduct::create([
                 'product_id' => $product->id,
-                'title'      => Purifier::clean(strip_tags($request->master_product_detail_title)),
-                'subtitle'   => Purifier::clean(strip_tags($request->master_product_detail_subtitle)),
-                'desc'       => Purifier::clean(strip_tags($request->master_product_detail_desc)),
+                'title'      => Purifier::clean($request->master_product_detail_title),
+                'subtitle'   => Purifier::clean($request->master_product_detail_subtitle),
+                'desc'       => Purifier::clean($request->master_product_detail_desc),
                 'ordering'   => 1,
                 'created_at' => now(),
             ]);
@@ -150,12 +150,12 @@ class ProductController extends Controller
             $existing_product = Product::findOrFail($request->master_product_id);
 
             $cleanData = [
-                'name'          => Purifier::clean(strip_tags($request->master_product_name)),
-                'full_name'     => Purifier::clean(strip_tags($request->master_product_full_name)),
+                'name'          => Purifier::clean($request->master_product_name),
+                'full_name'     => Purifier::clean($request->master_product_full_name),
                 'category_id'   => (int) $request->master_product_category,
                 'slug'          => Str::slug($request->master_product_name, '-'),
-                'short_desc'    => Purifier::clean(strip_tags($request->master_product_short_desc)),
-                'main_desc'     => Purifier::clean(strip_tags($request->master_product_main_desc)),
+                'short_desc'    => Purifier::clean($request->master_product_short_desc),
+                'main_desc'     => Purifier::clean($request->master_product_main_desc),
             ];
 
             $existing_product->update($cleanData);
@@ -176,9 +176,9 @@ class ProductController extends Controller
             $existing_detail = DetailProduct::where('product_id', $existing_product->id)->first();
             if ($existing_detail) {
                 $existing_detail->update([
-                    'title'    => Purifier::clean(strip_tags($request->master_product_detail_title)),
-                    'subtitle' => Purifier::clean(strip_tags($request->master_product_detail_subtitle)),
-                    'desc'     => Purifier::clean(strip_tags($request->master_product_detail_desc)),
+                    'title'    => Purifier::clean($request->master_product_detail_title),
+                    'subtitle' => Purifier::clean($request->master_product_detail_subtitle),
+                    'desc'     => Purifier::clean($request->master_product_detail_desc),
                 ]);
             }
 

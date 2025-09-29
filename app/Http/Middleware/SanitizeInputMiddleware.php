@@ -79,7 +79,7 @@ class SanitizeInputMiddleware
         // 🧼 Sanitize ALL inputs (query, body, headers)
         $sanitizedData = SanitizeHelper::sanitizeArray(
             $request->all(),                // Semua data (query + body)
-            htmlFields: ['content', 'description'], // HTML whitelist
+            htmlFields: ['content', 'description', 'master_product_short_desc', 'master_product_main_desc', 'master_product_detail_subtitle', 'master_product_detail_desc'], // HTML whitelist
             excludeFields: ['password', 'token'],   // Exclude sensitive fields
             autoDetect: true
         );
