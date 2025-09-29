@@ -471,7 +471,6 @@
         // update master product
         $(document).on('click', '#update_product_detail', function (e) {
             e.preventDefault();
-            alert('update_product_detail')
             let form = $('#form_master_product')[0];
             let formData = new FormData(form);
 
