@@ -35,13 +35,16 @@
     <!-- Custom styles for this page -->
     <link href="{{ asset('assets/admin_pages/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
     <!-- select 2 -->
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    {{-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> --}}
+    <link href="{{ asset('assets/css/cdn/select2.css') }}" rel="stylesheet" />
     <!-- summernote -->
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-bs4.min.css" rel="stylesheet">
+    {{-- <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-bs4.min.css" rel="stylesheet"> --}}
+    <link href="{{ asset('assets/css/cdn/summernote.css') }}" rel="stylesheet">
     <!-- jvectormap -->
-    {{-- <link href="https://cdn.jsdelivr.net/npm/jvectormap@2.0.5/jquery-jvectormap.css" rel="stylesheet" /> --}}
-    <link href="https://cdn.jsdelivr.net/npm/jvectormap@1.2.2/jquery-jvectormap.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+    {{-- <link href="https://cdn.jsdelivr.net/npm/jvectormap@1.2.2/jquery-jvectormap.css" rel="stylesheet"> --}}
+    <link href="{{ asset('assets/css/cdn/jvectormap.css') }}" rel="stylesheet">
+    {{-- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" /> --}}
+    <link rel="stylesheet" href="{{ asset('assets/css/cdn/leaflet.css') }}" />
 
     @stack('css')
     <style>
@@ -202,16 +205,22 @@
     <script src="{{ asset('assets/admin_pages/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 
     <!-- sweet alert 2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
+    <script src="{{ asset('assets/js/cdn/sweetalert.js') }}"></script>
     <!-- select 2 -->
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> --}}
+    <script src="{{ asset('assets/js/cdn/select2.js') }}"></script>
     <!-- summernote -->
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-bs4.min.js"></script>
-    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-bs4.min.js"></script> --}}
+    <script src="{{ asset('assets/js/cdn/summernote.js') }}"></script>
+    {{-- <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script> --}}
+    <script src="{{ asset('assets/js/cdn/leaflet.js') }}"></script>
     <!-- Pusher JS -->
-    <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+    {{-- <script src="https://js.pusher.com/7.2/pusher.min.js"></script> --}}
+    <script src="{{ asset('assets/js/cdn/pusher.js') }}"></script>
     <!-- Laravel Echo -->
-    <script src="https://cdn.jsdelivr.net/npm/laravel-echo@1.15.0/dist/echo.iife.js"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/laravel-echo@1.15.0/dist/echo.iife.js"></script> --}}
+    <script src="{{ asset('assets/js/cdn/laravel_echo.js') }}"></script>
     <script>
         const date = new Date();
         let year = date.getFullYear();
@@ -223,20 +232,20 @@
             }
         });
         // Disable klik kanan
-        // $(document).on('contextmenu', function (e) {
-        //     e.preventDefault();
-        // });
+        $(document).on('contextmenu', function (e) {
+            e.preventDefault();
+        });
 
         // Disable shortcut inspect
-        // $(document).on('keydown', function (e) {
-        //     if (
-        //         e.keyCode === 123 || // F12
-        //         (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) || // Ctrl+Shift+I/J/C
-        //         (e.ctrlKey && e.keyCode === 85) // Ctrl+U
-        //     ) {
-        //         e.preventDefault();
-        //     }
-        // });
+        $(document).on('keydown', function (e) {
+            if (
+                e.keyCode === 123 || // F12
+                (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) || // Ctrl+Shift+I/J/C
+                (e.ctrlKey && e.keyCode === 85) // Ctrl+U
+            ) {
+                e.preventDefault();
+            }
+        });
     </script>
     @stack('js')
     @include('layouts.admin.notify_js')
