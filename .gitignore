@@ -18,3 +18,6 @@ yarn-error.log
 /.idea
 /.vscode
 storage/logs/*.log
+error_log
+index.php.0
+*.log
