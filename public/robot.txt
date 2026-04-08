@@ -1,0 +1,57 @@
+# ================================================
+# Robots.txt for pralon.co.id
+# Tujuan:
+# - Mengizinkan semua mesin pencari untuk mengindeks situs
+# - Memblokir bot AI dan scrapers yang tidak diinginkan
+# - Menyediakan lokasi sitemap untuk SEO
+# ================================================
+
+# Izinkan semua mesin pencari (Google, Bing, dll)
+User-agent: *
+Disallow:
+
+# ===============================
+# Blokir bot AI dan scrapers
+# ===============================
+
+# OpenAI (ChatGPT)
+User-agent: GPTBot
+Disallow: /
+
+# Anthropic (Claude)
+User-agent: ClaudeBot
+Disallow: /
+
+# Meta (Facebook AI)
+User-agent: meta-externalagent
+Disallow: /
+
+# Amazonbot
+User-agent: Amazonbot
+Disallow: /
+
+# Applebot Extended (AI training)
+User-agent: Applebot-Extended
+Disallow: /
+
+# Bytespider (TikTok)
+User-agent: Bytespider
+Disallow: /
+
+# CCBot (Common Crawl)
+User-agent: CCBot
+Disallow: /
+
+# Google Extended (AI training)
+User-agent: Google-Extended
+Disallow: /
+
+# ===============================
+# Sitemap (penting untuk SEO)
+# Ganti sesuai lokasi file sitemap kamu
+# ===============================
+Sitemap: https://pralon.co.id/sitemap.xml
+
+# ================================================
+# Akhir dari robots.txt
+# ================================================

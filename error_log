@@ -1,0 +1,25 @@
+[25-Jul-2025 04:41:43 UTC] PHP Warning:  require(/home/pralonco/public_html/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/pralonco/public_html/index.php on line 34
+[25-Jul-2025 04:41:43 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/pralonco/public_html/../vendor/autoload.php' (include_path='.:/opt/alt/php83/usr/share/pear:/opt/alt/php83/usr/share/php:/usr/share/pear:/usr/share/php') in /home/pralonco/public_html/index.php:34
+Stack trace:
+#0 {main}
+  thrown in /home/pralonco/public_html/index.php on line 34
+[25-Jul-2025 04:41:44 UTC] PHP Warning:  require(/home/pralonco/public_html/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/pralonco/public_html/index.php on line 34
+[25-Jul-2025 04:41:44 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/pralonco/public_html/../vendor/autoload.php' (include_path='.:/opt/alt/php83/usr/share/pear:/opt/alt/php83/usr/share/php:/usr/share/pear:/usr/share/php') in /home/pralonco/public_html/index.php:34
+Stack trace:
+#0 {main}
+  thrown in /home/pralonco/public_html/index.php on line 34
+[25-Jul-2025 04:51:06 UTC] PHP Warning:  require(/home/pralonco/public_html/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/pralonco/public_html/index.php on line 34
+[25-Jul-2025 04:51:06 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/pralonco/public_html/../vendor/autoload.php' (include_path='.:/opt/alt/php83/usr/share/pear:/opt/alt/php83/usr/share/php:/usr/share/pear:/usr/share/php') in /home/pralonco/public_html/index.php:34
+Stack trace:
+#0 {main}
+  thrown in /home/pralonco/public_html/index.php on line 34
+[25-Jul-2025 04:51:07 UTC] PHP Warning:  require(/home/pralonco/public_html/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/pralonco/public_html/index.php on line 34
+[25-Jul-2025 04:51:07 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/pralonco/public_html/../vendor/autoload.php' (include_path='.:/opt/alt/php83/usr/share/pear:/opt/alt/php83/usr/share/php:/usr/share/pear:/usr/share/php') in /home/pralonco/public_html/index.php:34
+Stack trace:
+#0 {main}
+  thrown in /home/pralonco/public_html/index.php on line 34
+[25-Jul-2025 04:51:08 UTC] PHP Warning:  require(/home/pralonco/public_html/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/pralonco/public_html/index.php on line 34
+[25-Jul-2025 04:51:08 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/pralonco/public_html/../vendor/autoload.php' (include_path='.:/opt/alt/php83/usr/share/pear:/opt/alt/php83/usr/share/php:/usr/share/pear:/usr/share/php') in /home/pralonco/public_html/index.php:34
+Stack trace:
+#0 {main}
+  thrown in /home/pralonco/public_html/index.php on line 34
