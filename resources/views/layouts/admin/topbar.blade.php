@@ -51,20 +51,22 @@
             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdownLogDownload" role="button"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-bell fa-fw"></i>
-                
+
                 <!-- Counter - Alerts -->
                 <span class="badge badge-danger badge-counter" id="notification-admin">0</span>
             </a>
             <!-- Dropdown - Alerts -->
             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdownLogDownload" data-auto-close="outside">
-                <h6 class="dropdown-header">
-                    All Notification
-                </h6>
-                <div class="notification-list">
-                    <p class="text-center text-muted mt-3">No new notifications</p>
+                <h6>Notifications</h6>
+                <div class="notification-list"></div>
+                <div class="notification-loader d-none text-center py-3">
+                    <div class="spinner-border spinner-border-sm text-primary" role="status"></div>
+                    <div class="small mt-2 text-muted">Loading notifications...</div>
                 </div>
-                <button class="dropdown-item text-center small text-gray-500" id="clear-notifications">Clear All</button>
-                {{-- <a class="dropdown-item text-center small text-gray-500" id="link-to-history-download" href="{{ route('history-download') }}">Show All</a> --}}
+                {{-- <button class="dropdown-item text-center small text-gray-500" id="clear-notifications">Clear All</button> --}}
+                <button class="dropdown-item text-center btn btn-sm btn-link" id="markAllRead">
+                    Mark all as read
+                </button>
             </div>
         </li>
 
@@ -96,3 +98,18 @@
     </ul>
 
 </nav>
+<style>
+    .notification-unread {
+        background-color: #f0f9ff;
+    }
+
+    .notification-new {
+        animation: flash 1.2s ease-out;
+    }
+
+    @keyframes flash {
+        from { background-color: #bae6fd; }
+        to { background-color: transparent; }
+    }
+
+</style>

@@ -8,20 +8,19 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Helpers\FormatResponseJson;
 use App\Helpers\SanitizeHelper;
+use App\Models\User;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\productBrocure;
 use App\Models\productPriceList;
 use App\Models\LogUserDownload;
-use App\Models\Notifications;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Mail;
 use App\Mail\CompanyMail;
 use App\Models\EmailTemplate;
-use App\Events\DownloadNotification;
-use App\Events\GeneralNotificationEvent;
+use App\Notifications\AdminGeneralNotification;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Crypt;
 class ProductController extends Controller
@@ -45,7 +44,7 @@ class ProductController extends Controller
     {
         try {
             $product = Product::orderBy('id','ASC')->paginate(8);
-            
+
             // return FormatResponseJson::success($product, 'data produk berhasil diambil');
             return response()->json($product);
         } catch (\Throwable $th) {
@@ -59,7 +58,7 @@ class ProductController extends Controller
         ->where('slug', $slug)
         ->orderBy('id','ASC')
         ->firstOrFail();
-        
+
         $related_products = Product::where('id', '!=', $id)
         ->inRandomOrder()->take(3)->get();
         // dd($product);
@@ -79,73 +78,54 @@ class ProductController extends Controller
             return FormatResponseJson::error(null,$th->getMessage(),404);
         }
     }
-    
+
     public function storeLogUserDownload(Request $request)
     {
-        try {
-            $validator = Validator::make($request->all(), [
-                'name'          => 'required|string|max:255',
-                'phone_number'  => 'required|string|max:20',
-                'email'         => 'required|email|max:255',
-                'id'            => 'required|integer|exists:products,id',
-                'type'          => 'required|string|in:brocure,pricelist',
-            ]);
+        $validator = Validator::make($request->all(), [
+            'name'          => 'required|string|max:255',
+            'phone_number'  => 'required|string|max:20',
+            'email'         => 'required|email|max:255',
+            'id'            => 'required|integer|exists:products,id',
+            'type'          => 'required|string|in:brocure,pricelist',
+        ]);
 
-            if ($validator->fails()) {
-                throw new ValidationException($validator);
-            }
-
-            // 📝 Log download
-            $log = LogUserDownload::create([
-                'name'          => $request->name,
-                'phone_number'  => $request->phone_number,
-                'email'         => $request->email,
-                'product_id'    => $request->id,
-                'type_download' => $request->type,
-            ]);
-
-            // 🔔 Notifikasi real-time
-            $message = $request->type === 'brocure' ? 'New Brochure Download!' : 'New Pricelist Download!';
-            Notifications::create([
-                'type'    => $request->type,
-                'message' => $message,
-            ]);
-
-            broadcast(new GeneralNotificationEvent([
-                'type'    => $request->type,
-                'message' => $message,
-                'time'    => now()->toDateTimeString()
-            ]));
-
-            // 📦 Ambil file_name & buat signed URL
-            if ($request->type === 'brocure') {
-                $fileRecord = productBrocure::where('product_id', $request->id)->first();
-                $routeName = 'download-catalog';
-            } else {
-                $fileRecord = productPriceList::where('product_id', $request->id)->first();
-                $routeName = 'download-pricelist';
-            }
-
-            if (!$fileRecord) {
-                throw new \Exception("File tidak ditemukan untuk product ID {$request->id}");
-            }
-            // dd($fileRecord->file_name);
-            $encryptedFileName = Crypt::encryptString($fileRecord->file_name);
-            $downloadUrl = URL::temporarySignedRoute(
-                $routeName,
-                now()->addMinutes(1),
-                ['file' => $encryptedFileName]
-            );
-            // dd($downloadUrl);
-
-            return FormatResponseJson::success(['download_url' => $downloadUrl], 'success');
-        } 
-        catch (ValidationException $e) {
-            return FormatResponseJson::error(null, ['errors' => $e->errors()], 422);
-        } 
-        catch (\Throwable $th) {
-            return FormatResponseJson::error(null, $th->getMessage(), 500);
+        if ($validator->fails()) {
+            throw new ValidationException($validator);
         }
+
+        LogUserDownload::create([
+            'name'          => $request->name,
+            'phone_number'  => $request->phone_number,
+            'email'         => $request->email,
+            'product_id'    => $request->id,
+            'type_download' => $request->type,
+        ]);
+
+        // generate signed download url
+        if ($request->type === 'brocure') {
+            $file  = productBrocure::where('product_id', $request->id)
+            ->where('status', 'active')
+            ->firstOrFail();
+            $route = 'download-catalog';
+        } else {
+            $file  = productPriceList::where('product_id', $request->id)
+            ->where('status', 'active')
+            ->firstOrFail();
+            $route = 'download-pricelist';
+        }
+
+        $encrypted = Crypt::encryptString($file->file_name);
+
+        $url = URL::temporarySignedRoute(
+            $route,
+            now()->addMinutes(1),
+            ['file' => $encrypted]
+        );
+
+        return FormatResponseJson::success(
+            ['download_url' => $url],
+            'success'
+        );
     }
 
     public function downloadCatalog($file)
@@ -153,50 +133,60 @@ class ProductController extends Controller
         try {
             $fileName = Crypt::decryptString($file);
 
-            $existing_brocure = productBrocure::where('file_name', $fileName)->first();
-            if (!$existing_brocure) {
-                throw new \Exception("Brosur tidak ditemukan.");
-            }
+            $brocure = productBrocure::where('file_name', $fileName)->firstOrFail();
 
-            $file_path = public_path($existing_brocure->brocure_file);
-            if (!file_exists($file_path)) {
+            $filePath = public_path($brocure->brocure_file);
+            if (!file_exists($filePath)) {
                 throw new \Exception("File brosur tidak ada di server.");
             }
 
-            $countBrocure = LogUserDownload::where('type_download', 'brocure')->count();
-            $countPricelist = LogUserDownload::where('type_download', 'pricelist')->count();
-            event(new DownloadNotification("Brosur baru diunduh!", $countBrocure, $countPricelist));
+            // 🔔 NOTIFIKASI (FIX & VALID)
+            $admin = User::first();
 
-            return response()->download($file_path);
+            $admin->notify(new AdminGeneralNotification([
+                'title'   => 'Brochure Downloaded',
+                'message' => 'Ada user download brochure',
+                'url'     => '/admin/downloads',
+                'popup'   => true,
+                'icon'    => 'download',
+            ]));
+            return response()->download($filePath);
+
         } catch (\Throwable $th) {
             return FormatResponseJson::error(null, $th->getMessage(), 404);
         }
     }
+
 
     public function downloadPriceList($file)
     {
         try {
             $fileName = Crypt::decryptString($file);
 
-            $existing_price_list = productPriceList::where('file_name', $fileName)->first();
-            if (!$existing_price_list) {
-                throw new \Exception("Pricelist tidak ditemukan.");
-            }
+            $priceList = productPriceList::where('file_name', $fileName)->firstOrFail();
 
-            $file_path = public_path($existing_price_list->price_list_file);
-            if (!file_exists($file_path)) {
+            $filePath = public_path($priceList->price_list_file);
+            if (!file_exists($filePath)) {
                 throw new \Exception("File pricelist tidak ada di server.");
             }
 
-            $countBrocure = LogUserDownload::where('type_download', 'brocure')->count();
-            $countPricelist = LogUserDownload::where('type_download', 'pricelist')->count();
-            event(new DownloadNotification("Pricelist baru diunduh!", $countBrocure, $countPricelist));
+            // 🔔 NOTIFIKASI
+            $admin = User::first();
+            $admin->notify(new AdminGeneralNotification([
+                'title'   => 'Pricelist Downloaded',
+                'message' => 'Ada user download pricelist',
+                'url'     => '/admin/downloads',
+                'popup'   => true,
+                'icon'    => 'download',
+            ]));
 
-            return response()->download($file_path);
+            return response()->download($filePath);
+
         } catch (\Throwable $th) {
             return FormatResponseJson::error(null, $th->getMessage(), 404);
         }
     }
+
     public function sendEmailDownloaded(Request $request)
     {
         try {

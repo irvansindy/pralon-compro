@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\EmailTemplateController as AdminEmailTemplateCont
 use App\Http\Controllers\Admin\EmailMessageController as EmailMessageController;
 use App\Http\Controllers\Admin\SubcriptionController as AdminSubcriptionController;
 use App\Http\Controllers\Admin\AnalyticsController as AnalyticsController;
+use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\TestController;
 
 use App\Helpers\FormatResponseJson;
@@ -99,6 +100,7 @@ Route::get('/subscribe/verify/{token}', [SubcriptionController::class, 'verify']
 // Route::post('/fetch-visitor-dashboard', [DashboardController::class,'broadcastVisitors'])->name('fetch-visitor-dashboard');
 // analytics
 Route::get('/analytics', [AnalyticsController::class,'index'])->name('analytics');
+Broadcast::routes(['middleware' => ['auth']]);
 Route::middleware(['auth'])->group(function () {
     Route::get('/security-logs', [SecurityLogController::class, 'index'])->name('security-logs');
     Route::get('/security-logs-data', [SecurityLogController::class, 'getLogs'])->name('security-logs-data');
@@ -119,19 +121,7 @@ Route::middleware(['auth'])->group(function () {
     // dashboard
     Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard');
     Route::get('/fetch-dashboard', [DashboardController::class,'fetch'])->name('fetch-dashboard');
-    // notify
-    Route::get('/admin/notifications', function () {
-        $notifications = DB::table('notifications')->latest()
-        ->where('is_read', 0)
-        ->take(10)->get();
-        // return response()->json($notifications);
-        return FormatResponseJson::success($notifications, 'Notifications fetched successfully');
-    });
-    Route::post('admin/notifications/read-all', function () {
-        DB::table('notifications')->where('is_read', 0)->update(['is_read' => 1]);
-        return FormatResponseJson::success(true, 'All notification readed');
-    });
-    
+
     // menu setting
     Route::get('/menu-setting', [MenuController::class,'index'])->name('menu-setting');
     Route::get('/fetch-menu', [MenuController::class,'fetchMenu'])->name('fetch-menu');
@@ -151,7 +141,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('fetch-master-product-by-id', [AdminProductController::class,'fetchProductById'])->name('fetch-master-product-by-id');
     Route::get('fetch-brocure-product-by-id', [AdminProductController::class,'fetchBrocureByProductId'])->name('fetch-brocure-product-by-id');
     Route::get('fetch-pricelist-product-by-id', [AdminProductController::class,'fetchPriceListByProductId'])->name('fetch-pricelist-product-by-id');
-    
+
     Route::get('/history-download', [HistoryDownloadProductBrocurePricelistController::class,'index'])->name('history-download');
     Route::get('/fetch-history-download-brocure', [HistoryDownloadProductBrocurePricelistController::class,'fetchHistoryDownloadBrocure'])->name('fetch-history-download-brocure');
     Route::get('/fetch-history-download-pricelist', [HistoryDownloadProductBrocurePricelistController::class,'fetchHistoryDownloadPricelist'])->name('fetch-history-download-pricelist');
@@ -174,7 +164,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('fetch-testimonial-home-page', [AdminHomePageController::class,'fetchTestimonials'])->name('fetch-testimonial-home-page');
     Route::get('fetch-testimonial-home-page-by-id', [AdminHomePageController::class,'fetchTestimonialById'])->name('fetch-testimonial-home-page-by-id');
     Route::get('fetch-news-home-page', [AdminHomePageController::class,'fetchNews'])->name('fetch-news-home-page');
-    
+
     Route::post('submit-header-home-page', [AdminHomePageController::class,'createOrUpdateHeader'])->name('submit-header-home-page');
     Route::post('save-order-product-home-page', [AdminHomePageController::class,'reOrderProduct'])->name('save-order-product-home-page');
     Route::post('submit-about-us-home-page', [AdminHomePageController::class,'createOrUpdateAboutUs'])->name('submit-about-us-home-page');
@@ -223,6 +213,16 @@ Route::middleware(['auth'])->group(function () {
     // user-subcription
     Route::get('user-subcription', [AdminSubcriptionController::class,'index'])->name('user-subcription');
     Route::get('fetch-user-subcription', [AdminSubcriptionController::class,'fetchSubcriptions'])->name('fetch-user-subcription');
+
+    // notification
+    Route::middleware(['auth'])->prefix('admin')->group(function () {
+        Route::get('/notifications', [NotificationController::class, 'index']);
+        Route::get('/notifications/unread-count', [NotificationController::class, 'unreadCount']);
+        Route::post('/notifications/{id}/read', [NotificationController::class,'markAsRead'])->name('admin.notifications.mark-as-read');
+        Route::post('/notifications/mark-all-read', [NotificationController::class,'markAllAsRead'])->name('admin.notifications.mark-all-read');
+        Route::get('/notifications/{id}', [NotificationController::class, 'show'])->name('admin.notifications.show');
+    });
+
 });
 
 // Auth::routes();

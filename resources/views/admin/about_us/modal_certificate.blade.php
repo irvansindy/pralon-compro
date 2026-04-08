@@ -9,15 +9,19 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form enctype="multipart/form-data" method="post" action="{{ route('store-certificate-about-us') }}" class="krajee-example-form" id="form_certificate_about_us">
+                <form enctype="multipart/form-data" method="post" action="{{ route('store-certificate-about-us') }}"
+                    class="krajee-example-form" id="form_certificate_about_us">
                     @csrf
                     <div class="file-loading">
-                        <input id="input-multiple-file" name="input-multiple-file[]" multiple type="file" accept="image/*" data-show-upload="true" data-show-caption="true">
+                        <input id="input-multiple-file" name="input-multiple-file[]" multiple type="file"
+                            accept="image/*" data-show-upload="true" data-show-caption="true">
                     </div>
                     <hr>
                     <div class="text-center">
-                        <button type="button" class="btn btn-lg btn-success btn-submit-sertificate"><i class="fa fa-upload"></i> Submit</button>
-                        <button type="reset" class="btn btn-lg btn-secondary btn-reset-sertificate"><i class="fa fa-refresh"></i> Reset</button>
+                        <button type="button" class="btn btn-lg btn-success btn-submit-sertificate"><i
+                                class="fa fa-upload"></i> Submit</button>
+                        <button type="reset" class="btn btn-lg btn-secondary btn-reset-sertificate"><i
+                                class="fa fa-refresh"></i> Reset</button>
                     </div>
                 </form>
             </div>

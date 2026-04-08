@@ -1,5 +1,6 @@
 {{-- <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script> --}}
 <script src="{{ asset('assets/js/cdn/pusher.js') }}"></script>
+
 <script>
     $(document).ready(function () {
         Pusher.logToConsole = false;

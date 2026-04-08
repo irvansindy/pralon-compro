@@ -2,7 +2,9 @@
     $(document).ready(function() {
         function submitDownload(formData, modalId, successMessage) {
             $.ajax({
-                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
                 url: '{{ route('log-user') }}',
                 type: 'post',
                 data: formData,
@@ -12,16 +14,18 @@
                     $(modalId).modal('hide');
                     toastr.info(
                         `<p style="font-size: 16px; color: white;">${successMessage}</p>`,
-                        '<p style="font-size: 16px; font-weight: bold; color: white;">Sukses</p>',
-                        { timeOut: 10000 }
+                        '<p style="font-size: 16px; font-weight: bold; color: white;">Sukses</p>', {
+                            timeOut: 10000
+                        }
                     );
                 },
                 error: function(xhr) {
                     let response_error = JSON.parse(xhr.responseText);
                     toastr.error(
                         `<p style="font-size:16px; color:white;">${response_error.meta.message}</p>`,
-                        '<p style="font-size:16px; font-weight:bold; color:white;">Error</p>',
-                        { timeOut: 5000 }
+                        '<p style="font-size:16px; font-weight:bold; color:white;">Error</p>', {
+                            timeOut: 5000
+                        }
                     );
                 }
             });
@@ -35,7 +39,7 @@
             $('#submit_download_brocure').attr('data-product_id', id)
             $('#submit_download_brocure').attr('data-product_brocure', brocure)
         })
-        
+
         $(document).on('click', '#btn_download_pricelist', function(e) {
             e.preventDefault()
             let id = $(this).data('id')

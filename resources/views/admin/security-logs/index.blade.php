@@ -5,7 +5,41 @@
 @section('content')
     <div class="container mt-4">
         <h2 class="mb-3">🛡️ Blocked Requests Log</h2>
-        <button id="btnTestAlert" class="btn btn-danger mb-3">🚨 Test Security Alert</button>
+        {{-- <button id="btnTestAlert" class="btn btn-danger mb-3">🚨 Test Security Alert</button> --}}
+        <div id="export" class="float-right">
+            <div class="btn-group dropleft">
+                {{-- dropdown-toggle --}}
+                <button type="button" class="btn btn-info" id="btn-filter-request-block-log" data-toggle="dropdown">
+                    <i class="fas fa-filter"></i>
+                </button>
+
+                <div class="dropdown-menu">
+                    <form class="px-4 py-3 form-filter-request-block-log">
+                        <div class="form-group">
+                            <label for="start_date">Start Date</label>
+                            <input type="date" class="form-control" name="start_date" id="start_date" value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="end_date">End Date</label>
+                            <input type="date" class="form-control" name="end_date" id="end_date" placeholder="" value="">
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <div class="d-flex justify-content-between">
+                            <button type="button" class="btn btn-danger" id="export_to_pdf">
+                                <i class="fas fa-file-pdf"></i>
+                            </button>
+                            <button type="button" class="btn btn-success" id="export_to_excel">
+                                <i class="fas fa-file-excel"></i>
+                            </button>
+                            <button type="button" class="btn btn-primary" id="search_data_table">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <table id="logTable" class="table table-bordered" width="100%">
             <thead>
                 <tr>
@@ -33,15 +67,14 @@
             $('#logTable').DataTable({
                 processing: true,
                 ajax: {
-                    'url': '{{ route("security-logs-data") }}',
+                    'url': '{{ route('security-logs-data') }}',
                     'type': 'GET',
 
                 },
-                columns: [
-                    {
+                columns: [{
                         "data": "time",
                         "defaultContent": "<i>Not set</i>",
-                        "render": function (data, type, row) {
+                        "render": function(data, type, row) {
                             let timeValue = data || row.created_at;
                             if (!timeValue) return "<i>Not set</i>";
 
@@ -92,9 +125,9 @@
                     {
                         "data": "user_agent",
                         "defaultContent": "<i>Not set</i>",
-                        "render": function (data, type, row) {
+                        "render": function(data, type, row) {
                             if (!data) return "<i>No User-Agent</i>";
-                            
+
                             return `
                                 <b>Browser:</b> ${data.browser || 'N/A'}<br>
                                 <b>OS:</b> ${data.os || 'N/A'}<br>
@@ -114,7 +147,7 @@
                         "data": "extra.info",
                         "defaultContent": "<i>Not set</i>"
                     },
-                    
+
                 ],
             })
 
@@ -125,14 +158,32 @@
                     },
                     url: "{{ route('security-test-alert') }}",
                     method: "POST",
-                    success: function (response) {
-                        toastr.success('Test alert berhasil dikirim ke super-admin!', 'Success', {timeOut: 3000});
+                    success: function(response) {
+                        toastr.success('Test alert berhasil dikirim ke super-admin!',
+                            'Success', {
+                                timeOut: 3000
+                            });
                     },
-                    error: function (xhr) {
-                        toastr.error('Gagal mengirim test alert.', 'Error', {timeOut: 3000});
+                    error: function(xhr) {
+                        toastr.error('Gagal mengirim test alert.', 'Error', {
+                            timeOut: 3000
+                        });
                     }
                 });
             });
+
+            $(document).on('click', '#btn-filter-request-block-log', function(e) {
+                e.preventDefault()
+                $('.form-filter-request-block-log')[0].reset()
+                let start_date = $('#start_date').val()
+                let end_date = $('#end_date').val()
+            })
+
+            $(document).on('click', '#export_to_pdf', function(e) {
+                e.preventDefault()
+                let start_date = $('#start_date').val()
+                let end_date = $('#end_date').val()
+            })
         });
 
         const pusher = new Pusher('{{ env('PUSHER_APP_KEY') }}', {
@@ -163,68 +214,4 @@
             `);
         });
     </script>
-@endpush
-
-@section('content')
-<div class="container mt-4">
-    <h2>🛡️ Security Logs</h2>
-    <table id="securityLogTable" class="table table-striped table-bordered">
-        <thead>
-            <tr>
-                <th>Time</th>
-                <th>Type</th>
-                <th>IP</th>
-                <th>User Agent</th>
-                <th>URL</th>
-                <th>Extra</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{-- Data will be loaded via AJAX --}}
-        </tbody>
-    </table>
-</div>
-@endsection
-
-@push('scripts')
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-<link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
-<script src="https://js.pusher.com/7.2/pusher.min.js"></script>
-<script>
-$(document).ready(function() {
-    let table = $('#securityLogTable').DataTable({
-        ajax: '{{ route('security-logs-data') }}',
-        columns: [
-            { data: 'time' },
-            { data: 'type' },
-            { data: 'ip' },
-            { data: 'user_agent' },
-            { data: 'url' },
-            { data: 'extra' }
-        ],
-        order: [[0, 'desc']]
-    });
-
-    // Pusher Realtime
-    const pusher = new Pusher('{{ env('PUSHER_APP_KEY') }}', {
-        cluster: '{{ env('PUSHER_APP_CLUSTER') }}',
-        encrypted: true,
-        authEndpoint: '/broadcasting/auth',
-        auth: {
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        }
-    });
-
-    const channel = pusher.subscribe('private-super-admin.alerts');
-    channel.bind('security.alert', function(data) {
-        toastr.error(`🚨 ${data.type} dari IP ${data.ip}`, 'Ancaman Keamanan', { timeOut: 10000 });
-        // Reload table data
-        table.ajax.reload(null, false);
-    });
-});
-</script>
 @endpush

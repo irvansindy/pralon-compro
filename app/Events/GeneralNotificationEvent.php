@@ -22,10 +22,9 @@ class GeneralNotificationEvent implements ShouldBroadcastNow
     {
         return new Channel('admin-notification');
     }
-
     public function broadcastAs()
     {
-        return 'new-notification';
+        return 'general.notification';
     }
     public function broadcastWith()
     {

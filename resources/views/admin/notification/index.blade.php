@@ -1,4 +1,4 @@
-@extends('layouts.admin.app', ['title' => 'All Subcription'])
+@extends('layouts.admin.app', ['title' => 'All Notifications'])
 @section('content')
     <div class="container-fluid">
         <!-- Page Heading -->
@@ -33,7 +33,7 @@
                             </tr>
                         </tfoot>
                         <tbody>
-                            
+
                         </tbody>
                     </table>
                 </div>

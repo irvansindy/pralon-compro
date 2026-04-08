@@ -103,7 +103,7 @@ class SecurityLogController extends Controller
     /**
      * Ambil IP publik valid (even behind proxy)
      */
-    
+
     public function testAlert()
     {
         // 🌐 Ambil IP publik valid
@@ -162,9 +162,9 @@ class SecurityLogController extends Controller
     public function fetchGeoLocation()
     {
         try {
-            
+
             $ip_location = geoip()->getLocation('103.19.110.137');
-            
+
             return FormatResponseJson::success($ip_location, 'GeoIP location fetched successfully.');
         } catch (\Exception $e) {
             return FormatResponseJson::error(null, $e->getMessage(), 400);

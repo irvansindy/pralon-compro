@@ -11,7 +11,7 @@
 
         gtag('config', 'G-ZH68M5HXQ3');
     </script> --}}
-    
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -28,8 +28,11 @@
 
     <!-- Custom fonts for this template-->
     {{-- <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"> --}}
-    <link href="{{ asset('assets/admin_pages/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link href="{{ asset('assets/admin_pages/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet"
+        type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
     <!-- Custom styles for this template-->
     <link href="{{ asset('assets/admin_pages/css/sb-admin-2.min.css') }}" rel="stylesheet">
     <!-- Custom styles for this page -->
@@ -43,6 +46,7 @@
     <!-- jvectormap -->
     {{-- <link href="https://cdn.jsdelivr.net/npm/jvectormap@1.2.2/jquery-jvectormap.css" rel="stylesheet"> --}}
     <link href="{{ asset('assets/css/cdn/jvectormap.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     {{-- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" /> --}}
     <link rel="stylesheet" href="{{ asset('assets/css/cdn/leaflet.css') }}" />
 
@@ -51,17 +55,21 @@
         #clear-notifications {
             transition: color 0.3s ease-in-out;
         }
+
         #clear-notifications:hover {
             color: red !important;
             cursor: pointer;
         }
+
         #link-to-history-download {
             transition: color 0.3s ease-in-out;
         }
+
         #link-to-history-download:hover {
             color: #4e73df !important;
             cursor: pointer;
         }
+
         /* map */
         #world-map {
             width: 100%;
@@ -73,7 +81,7 @@
             border: 1px solid #e0e0e0;
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
         }
 
         .map-left {
@@ -109,6 +117,7 @@
             text-transform: uppercase;
             opacity: 0.8;
         }
+
         /* end map */
     </style>
 </head>
@@ -134,6 +143,9 @@
                 <!-- Begin Page Content -->
                 @yield('content')
                 <!-- /.container-fluid -->
+                <audio id="notificationSound">
+                    <source src="{{ asset('assets/sounds/videoplayback.m4a') }}" type="audio/mpeg">
+                </audio>
 
             </div>
             <!-- End of Main Content -->
@@ -192,10 +204,10 @@
 
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('assets/admin_pages/js/sb-admin-2.min.js') }}"></script>
-    
+
     <!-- Page level plugins -->
     <script src="{{ asset('assets/admin_pages/vendor/chart.js/Chart.min.js') }}"></script>
-    
+
     <!-- Page level custom scripts -->
     <script src="{{ asset('assets/admin_pages/js/demo/chart-area-demo.js') }}"></script>
     <script src="{{ asset('assets/admin_pages/js/demo/chart-pie-demo.js') }}"></script>
@@ -205,26 +217,31 @@
     <script src="{{ asset('assets/admin_pages/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 
     <!-- sweet alert 2 -->
-    {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
     <script src="{{ asset('assets/js/cdn/sweetalert.js') }}"></script>
     <!-- select 2 -->
-    {{-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> --}}
     <script src="{{ asset('assets/js/cdn/select2.js') }}"></script>
     <!-- summernote -->
-    {{-- <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-bs4.min.js"></script> --}}
     <script src="{{ asset('assets/js/cdn/summernote.js') }}"></script>
-    {{-- <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script> --}}
     <script src="{{ asset('assets/js/cdn/leaflet.js') }}"></script>
     <!-- Pusher JS -->
-    {{-- <script src="https://js.pusher.com/7.2/pusher.min.js"></script> --}}
-    <script src="{{ asset('assets/js/cdn/pusher.js') }}"></script>
-    <!-- Laravel Echo -->
-    {{-- <script src="https://cdn.jsdelivr.net/npm/laravel-echo@1.15.0/dist/echo.iife.js"></script> --}}
-    <script src="{{ asset('assets/js/cdn/laravel_echo.js') }}"></script>
+    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/laravel-echo@1.15.0/dist/echo.iife.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
+        window.AUTH_USER_ID = {{ auth()->id() }};
+
+        window.Echo = new Echo({
+            broadcaster: 'pusher',
+            key: '{{ config('broadcasting.connections.pusher.key') }}',
+            cluster: '{{ config('broadcasting.connections.pusher.options.cluster') }}',
+            forceTLS: true,
+            authEndpoint: '/broadcasting/auth',
+            csrfToken: '{{ csrf_token() }}'
+        });
+
         const date = new Date();
         let year = date.getFullYear();
-        document.getElementById("copyright").innerHTML = '<span>Copyright &copy; Sindy '+year+'</span>';
+        document.getElementById("copyright").innerHTML = '<span>Copyright &copy; Sindy ' + year + '</span>';
         $(window).on('keydown', function(e) {
             if (e.key === 'Enter' && $(e.target).is('input')) {
                 e.preventDefault();
@@ -232,24 +249,28 @@
             }
         });
         // Disable klik kanan
-        $(document).on('contextmenu', function (e) {
-            e.preventDefault();
-        });
+        // $(document).on('contextmenu', function(e) {
+        //     e.preventDefault();
+        // });
 
         // Disable shortcut inspect
-        $(document).on('keydown', function (e) {
-            if (
-                e.keyCode === 123 || // F12
-                (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) || // Ctrl+Shift+I/J/C
-                (e.ctrlKey && e.keyCode === 85) // Ctrl+U
-            ) {
-                e.preventDefault();
-            }
-        });
+        // $(document).on('keydown', function(e) {
+        //     if (
+        //         e.keyCode === 123 || // F12
+        //         (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) ||
+        //         // Ctrl+Shift+I/J/C
+        //         (e.ctrlKey && e.keyCode === 85) // Ctrl+U
+        //     ) {
+        //         e.preventDefault();
+        //     }
+        // });
+        // const ctx = document.getElementById("myAreaChart");
+        // if (!ctx) return;
     </script>
     @stack('js')
-    @include('layouts.admin.notify_js')
-    @include('layouts.admin.alert_security_js')
+    {{-- @include('layouts.admin.notify_js') --}}
+    <script src="{{ asset('assets/js/admin-notification.js') }}"></script>
+    {{-- @include('layouts.admin.alert_security_js') --}}
     @include('layouts.admin.global_js')
 
 </body>
